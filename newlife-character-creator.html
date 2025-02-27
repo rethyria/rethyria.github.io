@@ -1,0 +1,2016 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Newlife Character Creator</title>
+    <style>
+        :root {
+            --primary: #3498db;
+            --primary-disabled: #3498db7d;
+            --secondary: #2c3e50;
+            --secondary-disabled: #2c3e507d;
+            --success: #27ae60;
+            --danger: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --border: #bdc3c7;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1, h2, h3 {
+            color: var(--secondary);
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: -10px;
+        }
+        
+        .tab-container {
+            margin-bottom: 20px;
+        }
+        
+        .tab-buttons {
+            display: flex;
+            margin-bottom: 15px;
+        }
+        
+        .tab-button {
+            padding: 10px 20px;
+            background-color: var(--light);
+            border: 1px solid var(--border);
+            cursor: pointer;
+            flex-grow: 1;
+            text-align: center;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+        .tab-button:first-child {
+            border-radius: 4px 0 0 4px;
+        }
+        
+        .tab-button:last-child {
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .tab-button.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+
+        .form-group-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            column-gap: 20px;
+            row-gap: 0;
+        }
+
+        .form-group {
+            margin-bottom: 5px;
+        }
+
+        .row-divider {
+            grid-column: 1 / -1;
+            height: 1px;
+            background-color: var(--border);
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="number"],
+        .form-group select,
+        .form-group textarea {
+            width: 98%;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        input[type="text"],
+        select,
+        textarea {
+            width: 100% !important;
+            padding: 8px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        
+        .traits-section {
+            margin-top: 20px;
+            grid-column: 1 / -1;
+            width: 100%;
+        }
+        
+        .traits-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+        }
+        
+        .trait-card {
+            background-color: var(--light);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 5px 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+        
+        .trait-card:hover {
+            background-color: #d6eaf8;
+        }
+        
+        .trait-card.selected {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .trait-card.disabled {
+            background-color: var(--secondary-disabled);
+            color: rgba(255, 255, 255, 0.5); /* For text color */
+            cursor: not-allowed;
+            text-decoration: line-through;
+        }
+        
+        .trait-card .tooltip {
+            visibility: hidden;
+            width: 200px;
+            background-color: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 5px;
+            border-radius: 4px;
+            position: fixed; /* Change from absolute to fixed */
+            z-index: 100;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.8rem;
+            pointer-events: none; /* Prevents the tooltip from interfering with hover */
+        }
+        
+        .trait-card:hover .tooltip {
+            visibility: visible;
+            opacity: 1 !important;
+        }
+        
+        .selected-traits {
+            margin-top: 10px;
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            min-height: 40px;
+            display: contents;
+        }
+        
+        .selected-trait {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 3px;
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+        
+        .selected-trait .remove {
+            margin-left: 5px;
+            cursor: pointer;
+        }
+        
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            grid-column: 1 / -1;
+        }
+        
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+        button.primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        button.primary:hover {
+            background-color: #2980b9;
+        }
+        
+        button.secondary {
+            background-color: var(--light);
+            color: var(--dark);
+        }
+        
+        button.secondary:hover {
+            background-color: #bdc3c7;
+        }
+        
+        .output {
+            margin-top: 20px;
+        }
+        
+        textarea {
+            width: 100%;
+            min-height: 300px;
+            font-family: monospace;
+            white-space: pre;
+            resize: vertical;
+        }
+
+        #back-button {
+            margin-top: 10px;
+        }
+
+        .copy-button {
+            margin-top: 10px;
+            background-color: var(--success);
+            color: white;
+            float: right;
+        }
+        
+        .copy-button:hover {
+            background-color: #219653;
+        }
+        .download-button {
+            margin-top: 10px;
+            margin-left: 10px; /* Add some spacing from the copy button */
+            margin-right: 10px; /* Add some spacing from the copy button */
+            background-color: var(--secondary);
+            color: white;
+            float: right;
+        }
+
+        .download-button:hover {
+            background-color: #1a2530; /* Darker version of your secondary color */
+        }
+
+        .field-info {
+            margin-top: 2px;
+            margin-left: 2px;
+            margin-bottom: 2px;
+            font-size: 0.8rem;
+            color: #7f8c8d;
+        }
+        
+        .collapsible {
+            background-color: var(--light);
+            cursor: pointer;
+            padding: 10px;
+            width: 100%;
+            text-align: left;
+            border: none;
+            outline: none;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        
+        .collapsible:after {
+            content: '\002B';
+            color: var(--dark);
+            font-weight: bold;
+            float: right;
+        }
+        
+        .active-collapse:after {
+            content: "\2212";
+        }
+        
+        .collapsible-content {
+            padding: 0 10px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.2s ease-out;
+            background-color: white;
+            border-radius: 0 0 4px 4px;
+        }
+
+        #custom-race-fields {
+            grid-column: 1 / -1;
+        }
+
+        .header-container {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--primary);
+        }
+        
+        .version-dropdown {
+            position: absolute;
+            top: 0;
+            right: 0;
+            z-index: 10;
+        }
+
+        .version-dropdown select {
+            font-size: 0.8rem;
+            padding: 3px 6px;
+            border-radius: 4px;
+            border: 1px solid var(--border);
+            background-color: #2c3e50; /* Dark background to match your theme */
+            color: white; /* White text for dark theme */
+            cursor: pointer;
+        }
+
+        /* For mobile responsiveness */
+        @media (max-width: 1024px) {
+            .form-group-container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        @media (max-width: 768px) {
+            .form-group-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header-container">
+            <h1>Newlife Character Creator</h1>
+            <div class="version-dropdown">
+                <select id="version-select">
+                    <option value="0.8.10">Version: 0.8.10</option>
+                    <option value="0.8.9">Version: 0.8.9</option>
+                    <option value="0.0.0">Version: 0.0.0</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="tab-container">
+            <div class="tab-buttons">
+                <div class="tab-button active" data-tab="tab-create">Create Character</div>
+                <div class="tab-button" data-tab="tab-output">View YAML Output</div>
+            </div>
+            
+            <div class="tab-content active" id="tab-create">
+                <div class="form-group-container">             
+                    <div class="form-group">
+                        <label for="character-enabled">Enabled:</label>
+                        <select id="character-enabled">
+                            <option value="TRUE">TRUE</option>
+                            <option value="FALSE">FALSE</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="namelist-id">Namelist ID:</label>
+                        <select id="namelist-id">
+                            <option value="">Random (based on race)</option>
+                            <option value="general">general</option>
+                            <option value="scottish">scottish</option>
+                            <option value="irish">irish</option>
+                            <option value="arabic">arabic</option>
+                            <option value="turkish">turkish</option>
+                            <option value="nigerian">nigerian</option>
+                            <option value="swahili">swahili</option>
+                            <option value="indian">indian</option>
+                            <option value="chinese">chinese</option>
+                            <option value="japanese">japanese</option>
+                        </select>
+                    </div>
+                           
+                    <div class="form-group">
+                        <label for="character-priority">Priority:</label>
+                        <input type="number" id="character-priority" value="0">
+                    </div>
+
+                    <div class="row-divider"></div>
+
+                    <div class="form-group">
+                        <label for="character-type">Character Sex:</label>
+                        <select id="character-type">
+                            <option value="MALE">Male</option>
+                            <option value="FEMALE">Female</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="character-name">Name:</label>
+                        <input type="text" id="character-name" placeholder="Enter character name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="character-age">Age:</label>
+                        <select id="character-age">
+                            <option value="LATE_TEENS">LATE_TEENS</option>
+                            <option value="EARLY_TWENTIES">EARLY_TWENTIES</option>
+                            <option value="TWENTIES" selected>TWENTIES</option>
+                            <option value="THIRTIES">THIRTIES</option>
+                            <option value="FORTIES">FORTIES</option>
+                            <option value="FIFTIES">FIFTIES</option>
+                            <option value="OLD">OLD</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="character-race">Race:</label>
+                        <select id="character-race">
+                            <option value="">Random (based on game settings)</option>
+                            <option value="black">black</option>
+                            <option value="white">white</option>
+                            <option value="east asian">east asian</option>
+                            <option value="south asian">south asian</option>
+                            <option value="middle-eastern">middle-eastern</option>
+                            <option value="custom">custom (enter below)</option>
+                        </select>
+                    </div>
+                                    
+                    <div class="form-group male-only">
+                        <label for="male-figure">Body Type:</label>
+                        <select id="male-figure">
+                            <option value="">Random (influenced by age)</option>
+                            <option value="AVERAGE">AVERAGE</option>
+                            <option value="SKINNY">SKINNY</option>
+                            <option value="TONED">TONED</option>
+                            <option value="MUSCULAR">MUSCULAR</option>
+                            <option value="THICKSET">THICKSET</option>
+                            <option value="PAUNCHY">PAUNCHY</option>
+                            <option value="FAT">FAT</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group female-only" style="display:none">
+                        <label for="female-figure">Body Type:</label>
+                        <select id="female-figure">
+                            <option value="">Random</option>
+                            <option value="TONED">TONED</option>
+                            <option value="SLIM">SLIM</option>
+                            <option value="WOMANLY">WOMANLY</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="hairstyle">Hairstyle:</label>
+                        <select id="hairstyle">
+                            <option value="">Random (influenced by clothing style)</option>
+                            <optgroup label="Men's Styles">
+                                <option value="BALD">BALD</option>
+                                <option value="SHORT_HAIR">SHORT_HAIR</option>
+                                <option value="SHOULDER_LENGTH_MENS_HAIR">SHOULDER_LENGTH_MENS_HAIR</option>
+                                <option value="MAN_BUN">MAN_BUN</option>
+                                <option value="RECEDING">RECEDING</option>
+                            </optgroup>
+                            <optgroup label="Women's Styles">
+                                <option value="SHORT_BOB">SHORT_BOB</option>
+                                <option value="PIXIE_CUT">PIXIE_CUT</option>
+                                <option value="BUN">BUN</option>
+                                <option value="SHOULDER_BOB">SHOULDER_BOB</option>
+                                <option value="SHOULDER_STRAIGHT">SHOULDER_STRAIGHT</option>
+                                <option value="WAVY_SHOULDER_LENGTH">WAVY_SHOULDER_LENGTH</option>
+                                <option value="PONYTAIL">PONYTAIL</option>
+                                <option value="PIGTAILS">PIGTAILS</option>
+                                <option value="LONG_PONYTAIL">LONG_PONYTAIL</option>
+                                <option value="LONG_HAIR">LONG_HAIR</option>
+                                <option value="WAVY_LONG">WAVY_LONG</option>
+                            </optgroup>
+                            <optgroup label="Unisex Styles">
+                                <option value="SHAVEN_HEADED">SHAVEN_HEADED</option>
+                                <option value="MULLET">MULLET</option>
+                                <option value="AFRO">AFRO</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                    
+                    <div id="custom-race-fields" style="display:none">
+                        <div class="form-group">
+                            <label for="custom-race">Custom Race Description:</label>
+                            <input type="text" id="custom-race" placeholder="e.g. elven">
+                            <div class="field-info">Should fit into "he's a/an [race] man" or "she's a/an [race] woman"</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="eye-colour">Eye Colour (required for custom race):</label>
+                            <input type="text" id="eye-colour" placeholder="e.g. blue">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="hair-colour">Hair Colour (required for custom race):</label>
+                            <input type="text" id="hair-colour" placeholder="e.g. black">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="skin-colour">Skin Colour (required for custom race):</label>
+                            <input type="text" id="skin-colour" placeholder="e.g. tan">
+                        </div>
+                    </div>
+
+                    <div class="row-divider"></div>
+
+
+                    <div class="form-group">
+                        <label for="character-personality">Personality:</label>
+                        <select id="character-personality">
+                            <option value="JERK">JERK</option>
+                            <option value="SELFISH">SELFISH</option>
+                            <option value="AVERAGE">AVERAGE</option>
+                            <option value="ROMANTIC">ROMANTIC</option>
+                            <option value="CARING">CARING</option>
+                        </select>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="career">Career:</label>
+                        <select id="career">
+                            <option value="">Random</option>
+                            <option value="UNEMPLOYED">UNEMPLOYED</option>
+                            <option value="BUSINESS">BUSINESS</option>
+                            <option value="ACCOUNTANT">ACCOUNTANT</option>
+                            <option value="CIVIL_SERVANT">CIVIL_SERVANT</option>
+                            <option value="WAREHOUSE">WAREHOUSE</option>
+                            <option value="LIBRARY">LIBRARY</option>
+                            <option value="SUPERMARKET_STAFF">SUPERMARKET_STAFF</option>
+                            <option value="BARSTAFF">BARSTAFF</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group"></div>
+
+                    <div class="form-group">
+                        <label for="friend-effect">Friend Effect:</label>
+                        <select id="friend-effect">
+                            <option value="">Random (influenced by traits and personality)</option>
+                            <option value="NEEDY_FRIEND">NEEDY_FRIEND</option>
+                            <option value="PARTY_FRIEND">PARTY_FRIEND</option>
+                            <option value="CALMING_FRIEND">CALMING_FRIEND</option>
+                            <option value="DANCE_NUT">DANCE_NUT</option>
+                            <option value="GENEROUS_FRIEND">GENEROUS_FRIEND</option>
+                            <option value="FASHION_GURU">FASHION_GURU</option>
+                            <option value="MOOCHER">MOOCHER</option>
+                            <option value="EXPLOITATIVE_FRIEND">EXPLOITATIVE_FRIEND</option>
+                            <option value="WITTY_FRIEND">WITTY_FRIEND</option>
+                            <option value="MISANTHROPIC_FRIEND">MISANTHROPIC_FRIEND</option>
+                            <option class="female-effect" value="SCAREDY_CAT">SCAREDY_CAT</option>
+                            <option class="female-effect" value="NAIVE_FRIEND">NAIVE_FRIEND</option>
+                            <option class="female-effect" value="VULNERABLE_FRIEND">VULNERABLE_FRIEND</option>
+                            <option class="female-effect" value="IMPULSIVE_FRIEND">IMPULSIVE_FRIEND</option>
+                            <option class="female-effect" value="GRACEFUL_FRIEND">GRACEFUL_FRIEND</option>
+                            <option class="female-effect" value="WORLDLY_FRIEND">WORLDLY_FRIEND</option>
+                            <option class="female-effect" value="CRAZY_DRUNK_FRIEND">CRAZY_DRUNK_FRIEND</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="partner-effect">Partner Effect:</label>
+                        <select id="partner-effect">
+                            <option value="">Random (influenced by personality)</option>
+                            <option value="CARING_PARTNER">CARING_PARTNER</option>
+                            <option value="FASCINATING_PARTNER">FASCINATING_PARTNER</option>
+                            <option value="PEDANTIC_PARTNER">PEDANTIC_PARTNER</option>
+                            <option value="EXPLOITATIVE_PARTNER">EXPLOITATIVE_PARTNER</option>
+                            <option value="ANGRY_PARTNER">ANGRY_PARTNER</option>
+                            <option value="COLD_PARTNER">COLD_PARTNER</option>
+                            <option value="PLEASANT_PARTNER">PLEASANT_PARTNER</option>
+                            <option value="AMBITIOUS_PARTNER">AMBITIOUS_PARTNER</option>
+                            <option value="FEEBLE_PARTNER">FEEBLE_PARTNER</option>
+                            <option class="male-effect" value="CHAUVINISTIC_PARTNER">CHAUVINISTIC_PARTNER</option>
+                        </select>
+                    </div>                               
+                    
+                    <div class="form-group">
+                        <label for="boss-partner-effect">Boss Partner Effect:</label>
+                        <select id="boss-partner-effect">
+                            <option value="">Random (influenced by personality)</option>
+                            <option value="BOSS_PARTNER_SLAVEDRIVER">BOSS_PARTNER_SLAVEDRIVER</option>
+                            <option value="BOSS_PARTNER_UNPROFESSIONAL">BOSS_PARTNER_UNPROFESSIONAL</option>
+                            <option value="BOSS_PARTNER_SUPPORTIVE">BOSS_PARTNER_SUPPORTIVE</option>
+                            <option value="BOSS_PARTNER_GENEROUS">BOSS_PARTNER_GENEROUS</option>
+                        </select>
+                        <div class="field-info">Only used if the NPC is the boss in a career track (see traits)</div>
+                    </div>
+
+                    <div class="row-divider female-only" style="display:none"></div> 
+                    
+                    <div class="form-group female-only" style="display:none">
+                        <label for="breast-size">Breast Size:</label>
+                        <select id="breast-size">
+                            <option value="">Random</option>
+                            <option value="SMALL">SMALL</option>
+                            <option value="MEDIUM_SMALL">MEDIUM_SMALL</option>
+                            <option value="MEDIUM_LARGE">MEDIUM_LARGE</option>
+                            <option value="LARGE">LARGE</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group female-only" style="display:none">
+                        <label for="female-virgin">Virgin:</label>
+                        <select id="female-virgin">
+                            <option value="">Random (based on character type)</option>
+                            <option value="TRUE">TRUE</option>
+                            <option value="FALSE">FALSE</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group female-only" style="display:none">
+                        <label for="female-lesbian-virgin">Lesbian Virgin:</label>
+                        <select id="female-lesbian-virgin">
+                            <option value="">Random (influenced by character type)</option>
+                            <option value="TRUE">TRUE</option>
+                            <option value="FALSE">FALSE</option>
+                        </select>
+                    </div>
+                    <div class="form-group female-only" style="display:none">
+                        <label for="clothing-style">Clothing Style:</label>
+                        <select id="clothing-style">
+                            <option value="CUTE">CUTE</option>
+                            <option value="PROVOCATIVE">PROVOCATIVE</option>
+                            <option value="ELEGANT">ELEGANT</option>
+                            <option value="CHEERFUL">CHEERFUL</option>
+                            <option value="SCRUFFY">SCRUFFY</option>
+                            <option value="WHOLESOME">WHOLESOME</option>
+                            <option value="BUSINESSLIKE">BUSINESSLIKE</option>
+                            <option value="NONE">NONE (Not recommended)</option>
+                        </select>
+                    </div>
+
+                    
+                    <div class="form-group female-only" style="display:none">
+                        <label for="character-type-female">Character Type:</label>
+                        <select id="character-type-female">
+                            <option value="PARTY_GIRL">PARTY_GIRL</option>
+                            <option value="INNOCENT">INNOCENT</option>
+                            <option value="SOPHISTICATED">SOPHISTICATED</option>
+                        </select>
+                        <div class="field-info">Affects how the NPC behaves</div>
+                    </div>
+
+                    <div class="row-divider"></div>
+                        
+                    <div class="form-group">
+                        <label for="allow-additional-traits">Allow Additional Traits:</label>
+                        <select id="allow-additional-traits">
+                            <option value="TRUE">TRUE</option>
+                            <option value="FALSE">FALSE</option>
+                        </select>
+                        <div class="field-info">If TRUE, the game may auto-add additional non-conflicting traits</div>
+                    </div>
+                    
+                    <div class="traits-section">
+                        <button type="button" class="collapsible">Traits</button>
+                        <div class="collapsible-content">
+                            <div class="form-group" id="trait-filter-container">
+                                <input type="text" id="trait-filter" placeholder="Filter traits...">
+                            </div>
+                            <div id="traits-container" class="traits-container">
+                                <!-- Traits will be populated by JavaScript -->
+                            </div>
+                            <p>Selected Traits:</p>
+                            <div id="selected-traits" class="selected-traits">
+                                <!-- Selected traits will appear here -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="traits-section">
+                        <button type="button" class="collapsible">Blocked Traits</button>
+                        <div class="collapsible-content">
+                            <div class="form-group" id="blocked-trait-filter-container">
+                                <input type="text" id="blocked-trait-filter" placeholder="Filter blocked traits...">
+                            </div>
+                            <div id="blocked-traits-container" class="traits-container">
+                                <!-- Traits will be populated by JavaScript -->
+                            </div>
+                            <p>Selected Blocked Traits:</p>
+                            <div id="selected-blocked-traits" class="selected-traits">
+                                <!-- Selected blocked traits will appear here -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="buttons">
+                        <button type="button" id="reset-button" class="secondary">Reset</button>
+                        <button type="button" id="generate-button" class="primary">Generate YAML</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="tab-output">
+                <textarea id="yaml-output" readonly></textarea>
+                <button type="button" id="back-button" class="secondary">Back to Editor</button>
+                <button type="button" id="copy-button" class="copy-button">Copy to Clipboard</button>
+                <button type="button" id="download-button" class="download-button">Download YML File</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Trait data with descriptions and opposites
+        const maleTraits = {
+            // Physical traits
+            "THICK_COCK": {
+                version: "0.8.9",
+                description: "The main 'big dick' trait, frequently referenced in sex scenes",
+                opposites: ["SMALL_COCK"]
+            },
+            "SMALL_COCK": {
+                version: "0.8.9",
+                description: "The character has a small penis",
+                opposites: ["THICK_COCK"]
+            },
+            "BIG_COCK_HEAD": {
+                version: "0.8.9",
+                description: "Another trait for well-endowed men",
+                opposites: []
+            },
+            "BIG_BALLS": {
+                version: "0.8.9",
+                description: "Increases fertility and is referenced in sex scenes",
+                opposites: []
+            },
+            
+            // Sexual preference traits
+            "HATES_CONDOMS": {
+                version: "0.8.9",
+                description: "The NPC will usually refuse to wear a condom",
+                opposites: ["CONSCIENTIOUS"]
+            },
+            "CONSCIENTIOUS": {
+                version: "0.8.9",
+                description: "Prefers to use condoms and is more likely to put one on without asking",
+                opposites: ["HATES_CONDOMS", "IMPREGNATOR"]
+            },
+            "VIGOROUS_LOVER": {
+                version: "0.8.9",
+                description: "More enthusiastic during sex and can use the 'rough' pace",
+                opposites: []
+            },
+            "MAGIC_FINGERS": {
+                version: "0.8.9",
+                description: "NPC equivalent of the PC's Clever Hands trait",
+                opposites: ["INEPT_LOVER"]
+            },
+            "TALENTED_TONGUE": {
+                version: "0.8.9",
+                description: "Makes the NPC great at performing cunnilingus",
+                opposites: ["INEPT_LOVER"]
+            },
+            "INEPT_LOVER": {
+                version: "0.8.9",
+                description: "Makes the NPC bad in bed",
+                opposites: ["MAGIC_FINGERS", "TALENTED_TONGUE", "LIKES_GOING_DOWN", "LONG_LASTING"]
+            },
+            "QUICKSHOT": {
+                version: "0.8.9",
+                description: "Makes the NPC finish quicker when having sex",
+                opposites: ["LONG_LASTING"]
+            },
+            "LONG_LASTING": {
+                version: "0.8.9",
+                description: "Makes the NPC usually take longer when having sex",
+                opposites: ["QUICKSHOT", "INEPT_LOVER"]
+            },
+            
+            // Appearance traits
+            "HANDSOME": {
+                version: "0.8.9",
+                description: "Significantly increases the NPC's attractiveness",
+                opposites: ["UGLY"]
+            },
+            "UGLY": {
+                version: "0.8.9",
+                description: "Significantly reduces the NPC's attractiveness",
+                opposites: ["HANDSOME"]
+            },
+            
+            // Preference traits
+            "LIKES_CUTE": {
+                version: "0.8.9",
+                description: "Prefers cute characters, getting an attraction bonus based on cuteness",
+                opposites: ["LIKES_SEXY"]
+            },
+            "LIKES_SEXY": {
+                version: "0.8.9",
+                description: "Prefers naughty characters, and finds cute ones annoying",
+                opposites: ["LIKES_CUTE", "TRADITIONAL"]
+            },
+            "LIKES_ELEGANT": {
+                version: "0.8.9",
+                description: "Prefers elegant characters, getting an attraction bonus based on elegance",
+                opposites: ["LIKES_CASUAL"]
+            },
+            "LIKES_CASUAL": {
+                version: "0.8.9",
+                description: "More attracted to casual girls, less so to elegant ones",
+                opposites: ["LIKES_ELEGANT"]
+            },
+            
+            // Personality traits
+            "DULL": {
+                version: "0.8.9",
+                description: "He's boring to spend time with and you won't enjoy talking to him",
+                opposites: ["INTERESTING"]
+            },
+            "INTERESTING": {
+                version: "0.8.9",
+                description: "Your character will like spending time with him",
+                opposites: ["DULL"]
+            },
+            "SLEAZY": {
+                version: "0.8.9",
+                description: "Sleazy NPCs are a lot more sexual in talk and habits",
+                opposites: ["CHARMING", "TRADITIONAL"]
+            },
+            "CRUDE": {
+                version: "0.8.9",
+                description: "Affects NPC's talk - they swear more and annoy refined girls",
+                opposites: ["CHARMING"]
+            },
+            "CHARMING": {
+                version: "0.8.9",
+                description: "Charming men can pretend to be romantic even when they aren't in love",
+                opposites: ["TACITURN", "CRUDE", "SLEAZY"]
+            },
+            "BOASTFUL": {
+                version: "0.8.9",
+                description: "Likes to boast about himself, can be annoying unless also interesting",
+                opposites: ["TACITURN"]
+            },
+            "TACITURN": {
+                version: "0.8.9",
+                description: "The silent type, disables several talking options",
+                opposites: ["BOASTFUL", "CHARMING"]
+            },
+            
+            // Breast preference traits
+            "LIKES_BIG_TITS": {
+                version: "0.8.9",
+                description: "More attracted to girls with large breasts",
+                opposites: ["LIKES_MED_TITS", "LIKES_SMALL_TITS"]
+            },
+            "LIKES_MED_TITS": {
+                version: "0.8.9",
+                description: "Prefers medium-sized breasts",
+                opposites: ["LIKES_BIG_TITS", "LIKES_SMALL_TITS"]
+            },
+            "LIKES_SMALL_TITS": {
+                version: "0.8.9",
+                description: "Prefers smaller breasts",
+                opposites: ["LIKES_BIG_TITS", "LIKES_MED_TITS"]
+            },
+            
+            // Emotional traits
+            "COLD_HEARTED": {
+                version: "0.8.9",
+                description: "Prevents the character from ever gaining love points",
+                opposites: []
+            },
+            "MISANTHROPE": {
+                version: "0.8.9",
+                description: "Caps liking points at a fairly low value",
+                opposites: []
+            },
+            
+            // Sexual traits
+            "TASTY_SPERM": {
+                version: "0.8.9",
+                description: "Makes his ejaculate taste pleasant",
+                opposites: ["NASTY_SPERM"]
+            },
+            "NASTY_SPERM": {
+                version: "0.8.9",
+                description: "Makes it very unpleasant if he finishes in your mouth",
+                opposites: ["TASTY_SPERM"]
+            },
+            "IMPREGNATOR": {
+                version: "0.8.9",
+                description: "Tries to get girls pregnant by underhand means",
+                opposites: ["LIKES_ORAL", "CONSCIENTIOUS"]
+            },
+            
+            // Relationship traits
+            "TRADITIONAL": {
+                version: "0.8.9",
+                description: "Will ask the PC to commit to being a housewife when married",
+                opposites: ["SLEAZY", "LIKES_SEXY", "LIKES_TO_SHARE"]
+            },
+            "CHEATER": {
+                version: "0.8.9",
+                description: "Much more likely to cheat on you in a relationship",
+                opposites: []
+            },
+            "WANTS_KIDS": {
+                version: "0.8.9",
+                description: "Wants to have children and will probably be a good dad",
+                opposites: ["DOESNT_WANT_KIDS"]
+            },
+            "DOESNT_WANT_KIDS": {
+                version: "0.8.9",
+                description: "Doesn't want children and will not be happy if player gets pregnant",
+                opposites: ["WANTS_KIDS"]
+            },
+            
+            // Sex preference traits
+            "LIKES_ORAL": {
+                version: "0.8.9",
+                description: "Enjoys oral sex more than average and is more likely to initiate it",
+                opposites: ["IMPREGNATOR", "LIKES_ANAL", "PREFERS_SEX"]
+            },
+            "PREFERS_SEX": {
+                version: "0.8.9",
+                description: "Not so keen on oral sex and similar activities",
+                opposites: ["LIKES_ORAL", "LIKES_ANAL"]
+            },
+            "LIKES_ANAL": {
+                version: "0.8.9",
+                description: "Enjoys anal sex more and is more likely to initiate it",
+                opposites: ["IMPREGNATOR", "PREFERS_SEX", "LIKES_ORAL"]
+            },
+            "LIKES_GOING_DOWN": {
+                version: "0.8.9",
+                description: "The NPC enjoys giving cunnilingus and may initiate it",
+                opposites: ["INEPT_LOVER"]
+            },
+            
+            // Hobby traits
+            "GOOD_DANCER": {
+                version: "0.8.9",
+                description: "Better at dancing and can appear at the dance competition",
+                opposites: ["BAD_DANCER"]
+            },
+            "BAD_DANCER": {
+                version: "0.8.9",
+                description: "Hates dancing and is terrible at it",
+                opposites: ["GOOD_DANCER"]
+            },
+            "FASHIONABLE": {
+                version: "0.8.9",
+                description: "Dresses in more fashionable clothes",
+                opposites: []
+            },
+            
+            // Relationship dynamic traits
+            "DOORMAT": {
+                version: "0.8.9",
+                description: "Don't like the PC cheating but won't break up over it",
+                opposites: ["LIKES_TO_SHARE"]
+            },
+            "LIKES_TO_SHARE": {
+                version: "0.8.9",
+                description: "Finds it a turn-on if their partner sleeps with other men",
+                opposites: ["DOORMAT", "TRADITIONAL"]
+            },
+            "LIKES_COOKING": {
+                version: "0.8.9",
+                description: "Likes to cook and is good at it",
+                opposites: []
+            },
+            
+            // Special NPC traits
+            "REPAIRMAN": {
+                version: "0.8.9",
+                description: "Special NPC: can show up as the repairman if appliances break",
+                opposites: ["LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD"]
+            },
+            "LOWLIFE": {
+                version: "0.8.9",
+                description: "Special NPC: can appear in certain events but never otherwise",
+                opposites: ["REPAIRMAN", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD"]
+            },
+            "SALES_BOSS": {
+                version: "0.8.9",
+                description: "Special NPC: replaces the usual boss for the sales career",
+                opposites: ["REPAIRMAN", "LOWLIFE", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD"]
+            },
+            "OFFICE_BOSS": {
+                version: "0.8.9",
+                description: "Special NPC: replaces the usual boss for the office career",
+                opposites: ["REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD"]
+            },
+            "OFFICE_HUNK": {
+                version: "0.8.9",
+                description: "Special NPC: handsome colleague for the office career",
+                opposites: ["REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD"]
+            },
+            "SLEAZY_OFFICE_WORKER": {
+                version: "0.8.9",
+                description: "Special NPC: jerk that can appear in the office party",
+                opposites: ["REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD"]
+            },
+            "GYM_JERK": {
+                version: "0.8.9",
+                description: "Special NPC: jerk that can lead the player-character into changing-room hanky-panky",
+                opposites: ["REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD"]
+            },
+            "BOYFRIENDS_JERK_FRIEND": {
+                version: "0.8.9",
+                description: "Special NPC: used for the jerk-friend storyline",
+                opposites: ["REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD"]
+            },
+            "PROSTITUTION_CLIENT": {
+                version: "0.8.9",
+                description: "Special NPC: may try to pay you for sex",
+                opposites: ["REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD"]
+            },
+            "DANCE_JUDGE": {
+                version: "0.8.9",
+                description: "Special NPC: judge for the dance competition",
+                opposites: ["REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD"]
+            },
+            "DANCE_TEACHER": {
+                version: "0.8.9",
+                description: "Special NPC: teacher for dance classes",
+                opposites: ["REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD"]
+            },
+            "DANCE_STUDENT": {
+                version: "0.8.9",
+                description: "Special NPC: student in dance classes",
+                opposites: ["REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD"]
+            },
+            "COOKING_TEACHER": {
+                version: "0.8.9",
+                description: "Special NPC: teacher for cooking classes",
+                opposites: ["REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD"]
+            },
+            "PORN_ACTOR": {
+                version: "0.8.9",
+                description: "Special NPC: can appear as a co-star in porn videos",
+                opposites: ["REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD"]
+            },
+            "EVIL_HYPNOTIST": {
+                version: "0.8.9",
+                description: "Special NPC: evil hypnotist character",
+                opposites: ["REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD"]
+            },
+            "GOOD_HYPNOTIST": {
+                version: "0.8.9",
+                description: "Special NPC: good hypnotist character",
+                opposites: ["REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD"]
+            },
+            "HYPNOTIST": {
+                version: "0.8.9",
+                description: "Can appear in hypnosis-related scenes",
+                opposites: []
+            },
+            "SLEAZY_LANDLORD": {
+                version: "0.8.9",
+                description: "Special NPC: PC's sleazy landlord",
+                opposites: ["REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SILVER_SPOON_LANDLORD"]
+            },
+            "SILVER_SPOON_LANDLORD": {
+                version: "0.8.9",
+                description: "Special NPC: 'silver-spoon' landlord from a wealthy family",
+                opposites: ["REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD"]
+            },
+            "PLEASANT_HOME_LANDLORD": {
+                version: "0.8.9",
+                description: "Assigns a landlord character to the pleasant neighbourhood",
+                opposites: []
+            },
+            "CHEAP_HOME_LANDLORD": {
+                version: "0.8.9",
+                description: "Assigns a landlord character to the cheap neighbourhood",
+                opposites: []
+            },
+            
+            // Hidden traits
+            "NO_BEFRIEND": {
+                version: "0.8.9",
+                description: "Hidden trait: NPCs with this trait can never be befriended",
+                opposites: []
+            },
+            "INFERTILE": {
+                version: "0.8.9",
+                description: "Hidden trait: men with this trait will never get you pregnant",
+                opposites: []
+            },
+            "UNLOVABLE": {
+                version: "0.8.9",
+                description: "Hidden trait: the PC will never fall in love with this NPC",
+                opposites: []
+            },
+            "ODDLY_UNATTRACTIVE": {
+                version: "0.8.9",
+                description: "Hidden trait: caps PC's starting attraction to a low level",
+                opposites: []
+            },
+            "CUNNING": {
+                version: "0.8.9",
+                description: "The PC's partner will never discover cheating with this NPC",
+                opposites: []
+            },
+            "TESTING_TRAIT": {
+                version: "0.0.0",
+                description: "Used for testing of custom scenes",
+                opposites: []
+            }
+        };
+
+        const femaleTraits = {
+            // Appearance traits
+            "BEAUTIFUL": {
+                version: "0.8.9",
+                description: "Makes her more attractive",
+                opposites: ["PLAIN"]
+            },
+            "PLAIN": {
+                version: "0.8.9",
+                description: "Makes her less attractive",
+                opposites: ["BEAUTIFUL"]
+            },
+            
+            // Sexual traits
+            "HATES_CONDOMS": {
+                version: "0.8.9",
+                description: "The NPC prefers unprotected sex when she's with a man",
+                opposites: []
+            },
+            "VIGOROUS_LOVER": {
+                version: "0.8.9",
+                description: "The NPC is a very passionate lover",
+                opposites: []
+            },
+            "MAGIC_FINGERS": {
+                version: "0.8.9",
+                description: "Very good at using her hands during intimate moments",
+                opposites: ["INEPT_LOVER"]
+            },
+            "TALENTED_TONGUE": {
+                version: "0.8.9",
+                description: "Makes the NPC great at performing oral sex",
+                opposites: ["INEPT_LOVER"]
+            },
+            "INEPT_LOVER": {
+                version: "0.8.9",
+                description: "Makes the NPC bad in bed",
+                opposites: ["MAGIC_FINGERS", "TALENTED_TONGUE"]
+            },
+            
+            // Preference traits
+            "LIKES_CUTE": {
+                version: "0.8.9",
+                description: "More attracted to cute characters",
+                opposites: ["LIKES_SEXY"]
+            },
+            "LIKES_SEXY": {
+                version: "0.8.9",
+                description: "Prefers naughty characters, finds cute ones annoying",
+                opposites: ["LIKES_CUTE"]
+            },
+            "LIKES_ELEGANT": {
+                version: "0.8.9",
+                description: "Prefers elegant characters",
+                opposites: ["LIKES_CASUAL"]
+            },
+            "LIKES_CASUAL": {
+                version: "0.8.9",
+                description: "More attracted to casual girls, less to elegant ones",
+                opposites: ["LIKES_ELEGANT"]
+            },
+            
+            // Personality traits
+            "DULL": {
+                version: "0.8.9",
+                description: "She's boring to spend time with",
+                opposites: ["INTERESTING"]
+            },
+            "INTERESTING": {
+                version: "0.8.9",
+                description: "Your character will like spending time with her",
+                opposites: ["DULL"]
+            },
+            "BOASTFUL": {
+                version: "0.8.9",
+                description: "Likes to boast about herself",
+                opposites: []
+            },
+            
+            // Breast preference traits
+            "LIKES_BIG_TITS": {
+                version: "0.8.9",
+                description: "More attracted to girls with large breasts",
+                opposites: ["LIKES_MED_TITS", "LIKES_SMALL_TITS"]
+            },
+            "LIKES_MED_TITS": {
+                version: "0.8.9",
+                description: "Prefers medium-sized breasts",
+                opposites: ["LIKES_BIG_TITS", "LIKES_SMALL_TITS"]
+            },
+            "LIKES_SMALL_TITS": {
+                version: "0.8.9",
+                description: "Prefers smaller breasts",
+                opposites: ["LIKES_BIG_TITS", "LIKES_MED_TITS"]
+            },
+            
+            // Emotional traits
+            "COLD_HEARTED": {
+                version: "0.8.9",
+                description: "Prevents gaining love points",
+                opposites: []
+            },
+            "MISANTHROPE": {
+                version: "0.8.9",
+                description: "Caps liking points at a low value",
+                opposites: []
+            },
+            
+            // Parenting traits
+            "WANTS_KIDS": {
+                version: "0.8.9",
+                description: "Wants to have children",
+                opposites: ["DOESNT_WANT_KIDS"]
+            },
+            "DOESNT_WANT_KIDS": {
+                version: "0.8.9",
+                description: "Doesn't want children",
+                opposites: ["WANTS_KIDS"]
+            },
+            "MILKY": {
+                version: "0.8.9",
+                description: "The character will always lactate",
+                opposites: []
+            },
+            
+            // Sex preference traits
+            "LIKES_ORAL": {
+                version: "0.8.9",
+                description: "Enjoys oral sex more than average",
+                opposites: ["PREFERS_SEX"]
+            },
+            "PREFERS_SEX": {
+                version: "0.8.9",
+                description: "Not so keen on oral sex and similar activities",
+                opposites: ["LIKES_ORAL", "LIKES_ANAL"]
+            },
+            "LIKES_ANAL": {
+                version: "0.8.9",
+                description: "Enjoys anal sex more",
+                opposites: ["PREFERS_SEX", "LIKES_ORAL"]
+            },
+            "LIKES_GOING_DOWN": {
+                version: "0.8.9",
+                description: "The NPC enjoys giving oral sex",
+                opposites: []
+            },
+            
+            // Activity traits
+            "GOOD_DANCER": {
+                version: "0.8.9",
+                description: "Better at dancing",
+                opposites: ["BAD_DANCER"]
+            },
+            "BAD_DANCER": {
+                version: "0.8.9",
+                description: "Hates dancing and is terrible at it",
+                opposites: ["GOOD_DANCER"]
+            },
+            
+            // Relationship traits
+            "DOORMAT": {
+                version: "0.8.9",
+                description: "Don't like cheating but won't break up over it",
+                opposites: ["LIKES_TO_SHARE"]
+            },
+            "LIKES_TO_SHARE": {
+                version: "0.8.9",
+                description: "Finds it a turn-on if their partner sleeps with others",
+                opposites: ["DOORMAT"]
+            },
+            "LIKES_COOKING": {
+                version: "0.8.9",
+                description: "Likes to cook and is good at it",
+                opposites: []
+            },
+            "CHEATER": {
+                version: "0.8.9",
+                description: "More likely to cheat in relationships",
+                opposites: []
+            },
+            "HYPNOTIST": {
+                version: "0.8.9",
+                description: "Can appear in hypnosis-related scenes",
+                opposites: []
+            },
+            
+            // Special NPC traits
+            "INNOCENT_SALES_COLLEAGUE": {
+                version: "0.8.9",
+                description: "Special NPC: appears as your colleague at work",
+                opposites: ["OFFICE_RIVAL", "FLIRTY_NIGHTCLUB_LESBIAN", "POSH_NIGHTCLUB_LESBIAN"]
+            },
+            "OFFICE_RIVAL": {
+                version: "0.8.9",
+                description: "Special NPC: PC's rival in the office career",
+                opposites: ["INNOCENT_SALES_COLLEAGUE", "FLIRTY_NIGHTCLUB_LESBIAN", "POSH_NIGHTCLUB_LESBIAN"]
+            },
+            "FLIRTY_NIGHTCLUB_LESBIAN": {
+                version: "0.8.9",
+                description: "Special NPC: lesbian the PC can dance with at the club",
+                opposites: ["INNOCENT_SALES_COLLEAGUE", "OFFICE_RIVAL", "POSH_NIGHTCLUB_LESBIAN"]
+            },
+            "POSH_NIGHTCLUB_LESBIAN": {
+                version: "0.8.9",
+                description: "Special NPC: lesbian the PC can dance with at the club",
+                opposites: ["INNOCENT_SALES_COLLEAGUE", "OFFICE_RIVAL", "FLIRTY_NIGHTCLUB_LESBIAN"]
+            },
+            
+            // Hidden traits
+            "NO_BEFRIEND": {
+                version: "0.8.9",
+                description: "Hidden trait: NPCs can never be befriended",
+                opposites: []
+            },
+            "UNLOVABLE": {
+                version: "0.8.9",
+                description: "Hidden trait: PC will never fall in love with this NPC",
+                opposites: []
+            },
+            "ODDLY_UNATTRACTIVE": {
+                version: "0.8.9",
+                description: "Hidden trait: caps PC's starting attraction to a low level",
+                opposites: []
+            },
+            "CUNNING": {
+                version: "0.8.9",
+                description: "PC's partner won't discover cheating with this NPC",
+                opposites: []
+            },
+            "DONT_TAKE_PILL": {
+                version: "0.8.9",
+                description: "NPC will never go on the pill",
+                opposites: []
+            },
+            "TESTING_TRAIT": {
+                version: "0.0.0",
+                description: "Used for testing of custom scenes",
+                opposites: []
+            }
+        };
+
+        // DOM elements
+        const version = document.getElementById('version-select');
+        const characterType = document.getElementById('character-type');
+        const traitsContainer = document.getElementById('traits-container');
+        const selectedTraitsContainer = document.getElementById('selected-traits');
+        const blockedTraitsContainer = document.getElementById('blocked-traits-container');
+        const selectedBlockedTraitsContainer = document.getElementById('selected-blocked-traits');
+        const generateButton = document.getElementById('generate-button');
+        const resetButton = document.getElementById('reset-button');
+        const yamlOutput = document.getElementById('yaml-output');
+        const copyButton = document.getElementById('copy-button');
+        const downloadButton = document.getElementById('download-button');
+        const backButton = document.getElementById('back-button');
+        const traitFilter = document.getElementById('trait-filter');
+        const blockedTraitFilter = document.getElementById('blocked-trait-filter');
+
+        // Version handler
+        version.addEventListener('change', updateTraitsForCharacterType);
+        
+        // Tab handling
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const tabId = button.getAttribute('data-tab');
+                
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+                
+                button.classList.add('active');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+        
+        // Character type change handler
+        characterType.addEventListener('change', updateTraitsForCharacterType);
+        
+        // Race selector
+        const raceSelect = document.getElementById('character-race');
+        const customRaceFields = document.getElementById('custom-race-fields');
+        
+        raceSelect.addEventListener('change', () => {
+            if (raceSelect.value === 'custom') {
+                customRaceFields.style.display = 'block';
+            } else {
+                customRaceFields.style.display = 'none';
+            }
+        });
+        
+        // Collapsible sections
+        const coll = document.getElementsByClassName("collapsible");
+        
+        for (let i = 0; i < coll.length; i++) {
+            coll[i].addEventListener("click", function() {
+                this.classList.toggle("active-collapse");
+                const content = this.nextElementSibling;
+                if (content.style.maxHeight) {
+                    content.style.maxHeight = null;
+                } else {
+                    //content.style.maxHeight = content.scrollHeight + "px";
+                    content.style.maxHeight = "fit-content";
+                }
+            });
+        }
+
+        // Parse version string into components
+        function parseVersion(versionString) {
+            // Split by dots and convert to numbers
+            return versionString.split('.').map(Number);
+        }
+
+        // Compare two versions
+        function compareVersions(version1, version2) {
+            const v1 = parseVersion(version1);
+            const v2 = parseVersion(version2);
+            
+            // Compare major version
+            if (v1[0] !== v2[0]) return v1[0] - v2[0];
+            
+            // Compare minor version
+            if (v1[1] !== v2[1]) return v1[1] - v2[1];
+            
+            // Compare patch version
+            if (v1[2] !== v2[2]) return v1[2] - v2[2];
+            
+            // Versions are equal
+            return 0;
+        }
+
+        // Selected traits and blocked traits
+        let selectedTraits = [];
+        let selectedBlockedTraits = [];
+        
+        // Update UI based on character type
+        function updateTraitsForCharacterType() {
+            const isMale = characterType.value === 'MALE';
+            const femaleOnlyElements = document.querySelectorAll('.female-only');
+            const maleOnlyElements = document.querySelectorAll('.male-only');
+            const femaleEffects = document.querySelectorAll('.female-effect');
+            const maleEffects = document.querySelectorAll('.male-effect');
+            
+            femaleOnlyElements.forEach(el => {
+                el.style.display = isMale ? 'none' : 'block';
+            });
+            
+            maleOnlyElements.forEach(el => {
+                el.style.display = isMale ? 'block' : 'none';
+            });
+            
+            // Hide/show gender-specific partner effects
+            femaleEffects.forEach(option => {
+                option.style.display = isMale ? 'none' : 'block';
+            });
+            
+            maleEffects.forEach(option => {
+                option.style.display = isMale ? 'block' : 'none';
+            });
+            
+            // Clear and repopulate traits
+            traitsContainer.innerHTML = '';
+            blockedTraitsContainer.innerHTML = '';
+            selectedTraits = [];
+            selectedBlockedTraits = [];
+            selectedTraitsContainer.innerHTML = '';
+            selectedBlockedTraitsContainer.innerHTML = '';
+            
+            const traits = isMale ? maleTraits : femaleTraits;
+            
+            for (const [trait, info] of Object.entries(traits)) {
+
+                console.log("version:", info.version, " vs ", version.value, " is ", compareVersions(info.version, version.value) );
+                if (compareVersions(info.version, version.value) > 0) continue;
+                
+
+                // Create trait card for selection
+                const traitCard = document.createElement('div');
+                traitCard.className = 'trait-card';
+                traitCard.textContent = trait;
+                traitCard.setAttribute('data-trait', trait);
+                
+                // Add tooltip
+                const tooltip = document.createElement('span');
+                tooltip.className = 'tooltip';
+                tooltip.textContent = info.description;
+                traitCard.appendChild(tooltip);
+
+                // Add mouseenter event listener for tooltip positioning
+                traitCard.addEventListener('mouseenter', function(e) {
+                    // Get the position of the trait card - FIXED: using traitCard instead of card
+                    const rect = traitCard.getBoundingClientRect();
+                    
+                    // Position the tooltip above the card
+                    tooltip.style.left = rect.left + (rect.width / 2) - (tooltip.offsetWidth / 2) + 'px';
+                    tooltip.style.top = rect.top - tooltip.offsetHeight - 5 + 'px';
+                    
+                    // Make sure tooltip stays in the viewport
+                    const tooltipRect = tooltip.getBoundingClientRect();
+                    
+                    // Check if tooltip is going beyond left edge
+                    if (tooltipRect.left < 0) {
+                        tooltip.style.left = '5px';
+                    }
+                    
+                    // Check if tooltip is going beyond right edge
+                    if (tooltipRect.right > window.innerWidth) {
+                        tooltip.style.left = (window.innerWidth - tooltipRect.width - 5) + 'px';
+                    }
+                });
+                
+                traitCard.addEventListener('click', () => {
+                    if (traitCard.classList.contains('disabled')) return;
+                    
+                    if (traitCard.classList.contains('selected')) {
+                        // Remove from selected
+                        traitCard.classList.remove('selected');
+                        selectedTraits = selectedTraits.filter(t => t !== trait);
+                        updateSelectedTraits();
+                        updateTraitAvailability();
+                    } else {
+                        // Add to selected
+                        traitCard.classList.add('selected');
+                        selectedTraits.push(trait);
+                        updateSelectedTraits();
+                        updateTraitAvailability();
+                    }
+                });
+                
+                traitsContainer.appendChild(traitCard);
+                
+                // Create blocked trait card
+                const blockedTraitCard = document.createElement('div');
+                blockedTraitCard.className = 'trait-card';
+                blockedTraitCard.textContent = trait;
+                blockedTraitCard.setAttribute('data-trait', trait);
+                
+                // Add tooltip
+                const blockedTooltip = document.createElement('span');
+                blockedTooltip.className = 'tooltip';
+                blockedTooltip.textContent = info.description;
+                blockedTraitCard.appendChild(blockedTooltip);
+                
+                // Add mouseenter event listener for tooltip positioning - ADDED
+                blockedTraitCard.addEventListener('mouseenter', function(e) {
+                    // Get the position of the blocked trait card
+                    const rect = blockedTraitCard.getBoundingClientRect();
+                    
+                    // Position the tooltip above the card
+                    blockedTooltip.style.left = rect.left + (rect.width / 2) - (blockedTooltip.offsetWidth / 2) + 'px';
+                    blockedTooltip.style.top = rect.top - blockedTooltip.offsetHeight - 5 + 'px';
+                    
+                    // Make sure tooltip stays in the viewport
+                    const tooltipRect = blockedTooltip.getBoundingClientRect();
+                    
+                    // Check if tooltip is going beyond left edge
+                    if (tooltipRect.left < 0) {
+                        blockedTooltip.style.left = '5px';
+                    }
+                    
+                    // Check if tooltip is going beyond right edge
+                    if (tooltipRect.right > window.innerWidth) {
+                        blockedTooltip.style.left = (window.innerWidth - tooltipRect.width - 5) + 'px';
+                    }
+                });
+                
+                blockedTraitCard.addEventListener('click', () => {
+                    if (blockedTraitCard.classList.contains('disabled')) return;
+                    
+                    if (blockedTraitCard.classList.contains('selected')) {
+                        // Remove from selected blocked
+                        blockedTraitCard.classList.remove('selected');
+                        selectedBlockedTraits = selectedBlockedTraits.filter(t => t !== trait);
+                        updateSelectedBlockedTraits();
+                    } else {
+                        // Add to selected blocked
+                        blockedTraitCard.classList.add('selected');
+                        selectedBlockedTraits.push(trait);
+                        updateSelectedBlockedTraits();
+                    }
+                });
+                
+                blockedTraitsContainer.appendChild(blockedTraitCard);
+            }
+            
+            updateTraitAvailability();
+        }
+        
+        // Filter traits
+        traitFilter.addEventListener('input', filterTraits);
+        blockedTraitFilter.addEventListener('input', filterBlockedTraits);
+        
+        function filterTraits() {
+            const filter = traitFilter.value.toUpperCase();
+            const traitCards = traitsContainer.querySelectorAll('.trait-card');
+            
+            traitCards.forEach(card => {
+                const trait = card.getAttribute('data-trait');
+                if (trait.toUpperCase().indexOf(filter) > -1) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+        
+        function filterBlockedTraits() {
+            const filter = blockedTraitFilter.value.toUpperCase();
+            const traitCards = blockedTraitsContainer.querySelectorAll('.trait-card');
+            
+            traitCards.forEach(card => {
+                const trait = card.getAttribute('data-trait');
+                if (trait.toUpperCase().indexOf(filter) > -1) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+        
+        // Update the display of selected traits
+        function updateSelectedTraits() {
+            selectedTraitsContainer.innerHTML = '';
+            
+            selectedTraits.forEach(trait => {
+                const traitElement = document.createElement('div');
+                traitElement.className = 'selected-trait';
+                traitElement.innerHTML = `${trait} <span class="remove">×</span>`;
+                
+                traitElement.querySelector('.remove').addEventListener('click', () => {
+                    selectedTraits = selectedTraits.filter(t => t !== trait);
+                    updateSelectedTraits();
+                    
+                    // Also deselect in the traits container
+                    const traitCard = traitsContainer.querySelector(`[data-trait="${trait}"]`);
+                    if (traitCard) {
+                        traitCard.classList.remove('selected');
+                    }
+                    
+                    updateTraitAvailability();
+                    updateBlockedTraitAvailability();
+                });
+                
+                selectedTraitsContainer.appendChild(traitElement);
+            });
+
+            
+            updateTraitAvailability();
+            updateBlockedTraitAvailability();
+        }
+        
+        // Update the display of selected blocked traits
+        function updateSelectedBlockedTraits() {
+            selectedBlockedTraitsContainer.innerHTML = '';
+            
+            selectedBlockedTraits.forEach(trait => {
+                const traitElement = document.createElement('div');
+                traitElement.className = 'selected-trait';
+                traitElement.innerHTML = `${trait} <span class="remove">×</span>`;
+                
+                traitElement.querySelector('.remove').addEventListener('click', () => {
+                    selectedBlockedTraits = selectedBlockedTraits.filter(t => t !== trait);
+                    updateSelectedBlockedTraits();
+                    
+                    // Also deselect in the blocked traits container
+                    const traitCard = blockedTraitsContainer.querySelector(`[data-trait="${trait}"]`);
+                    if (traitCard) {
+                        traitCard.classList.remove('selected');
+                    }
+
+                    updateTraitAvailability();
+                    updateBlockedTraitAvailability();
+                });
+                
+                selectedBlockedTraitsContainer.appendChild(traitElement);
+            });
+            
+            updateTraitAvailability();
+            updateBlockedTraitAvailability();
+        }
+        
+        // Disable traits that are opposed to selected ones
+        function updateTraitAvailability() {
+            const isMale = characterType.value === 'MALE';
+            const traits = isMale ? maleTraits : femaleTraits;
+            
+            // Get all trait cards
+            const traitCards = traitsContainer.querySelectorAll('.trait-card');
+            
+            // First, enable all trait cards
+            traitCards.forEach(card => {
+                card.classList.remove('disabled');
+            });
+            
+            // Then disable those that are opposed to selected traits
+            selectedTraits.forEach(selectedTrait => {
+                const opposites = traits[selectedTrait].opposites;
+                
+                opposites.forEach(opposite => {
+                    const oppositeCard = traitsContainer.querySelector(`[data-trait="${opposite}"]`);
+                    if (oppositeCard) {
+                        oppositeCard.classList.add('disabled');
+                    }
+                });
+            });
+
+            // Also disable traits that are already blocked
+            selectedBlockedTraits.forEach(blockedTrait => {
+                const traitCard = traitsContainer.querySelector(`[data-trait="${blockedTrait}"]`);
+                if (traitCard) {
+                    traitCard.classList.add('disabled');
+                }
+            });
+        }
+
+        // Disable traits in the blocked traits container that are already selected
+        function updateBlockedTraitAvailability() {
+            // Get all blocked trait cards
+            const blockedTraitCards = blockedTraitsContainer.querySelectorAll('.trait-card');
+            
+            // First, enable all blocked trait cards
+            blockedTraitCards.forEach(card => {
+                card.classList.remove('disabled');
+            });
+            
+            // Then disable those that are already selected
+            selectedTraits.forEach(selectedTrait => {
+                const blockedTraitCard = blockedTraitsContainer.querySelector(`[data-trait="${selectedTrait}"]`);
+                if (blockedTraitCard) {
+                    blockedTraitCard.classList.add('disabled');
+                }
+            });
+        }
+
+        function capitalize(string) {
+            if (!string) return '';
+            return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+        }
+        
+        // Generate YAML
+        generateButton.addEventListener('click', generateYAML);
+
+        function generateYAML() {
+            const isMale = characterType.value === 'MALE';
+            let yaml = '';
+            
+            yaml += '---\n';
+            yaml += `type: ${characterType.value}\n`;
+            yaml += `enabled: ${document.getElementById('character-enabled').value}\n`;
+            
+            const priority = document.getElementById('character-priority').value;
+            yaml += `priority: ${priority}\n`;
+            
+            const name = capitalize(document.getElementById('character-name').value);
+            // Always include the field, even if empty
+            yaml += `name: ${name}\n`;
+            
+            if (!isMale) {
+                const characterTypeFemale = document.getElementById('character-type-female').value;
+                yaml += `character type: ${characterTypeFemale}\n`;
+                
+                const clothingStyle = document.getElementById('clothing-style').value;
+                yaml += `clothing style: ${clothingStyle}\n`;
+            }
+            
+            const age = document.getElementById('character-age').value;
+            yaml += `age: ${age}\n`;
+            
+            const namelistId = document.getElementById('namelist-id').value;
+            // Always include the field, even if empty
+            yaml += `nameListId: ${namelistId}\n`;
+            
+            let race = document.getElementById('character-race').value;
+            if (race === 'custom') {
+                race = document.getElementById('custom-race').value;
+            }
+            // Always include race, even if empty
+            yaml += `race: ${race}\n`;
+            
+            if (race === 'custom' || document.getElementById('character-race').value === 'custom') {
+                const eyeColour = document.getElementById('eye-colour').value;
+                const hairColour = document.getElementById('hair-colour').value;
+                const skinColour = document.getElementById('skin-colour').value;
+                
+                // Always include these fields, even if empty
+                yaml += `eye colour: ${eyeColour}\n`;
+                yaml += `hair colour: ${hairColour}\n`;
+                yaml += `skin colour: ${skinColour}\n`;
+            }
+            
+            const bodyTypeId = isMale ? 'male-figure' : 'female-figure';
+            const bodyType = document.getElementById(bodyTypeId).value;
+            // Always include figure, even if empty
+            yaml += `figure: ${bodyType}\n`;
+            
+            const personality = document.getElementById('character-personality').value;
+            // Always include personality, even if empty
+            yaml += `personality: ${personality}\n`;
+            
+            if (!isMale) {
+                const breastSize = document.getElementById('breast-size').value;
+                // Always include breasts, even if empty
+                yaml += `breasts: ${breastSize}\n`;
+                
+                const virgin = document.getElementById('female-virgin').value;
+                // Always include virgin, even if empty
+                yaml += `virgin: ${virgin}\n`;
+                
+                const lesbianVirgin = document.getElementById('female-lesbian-virgin').value;
+                // Always include lesbian virgin, even if empty
+                yaml += `lesbian virgin: ${lesbianVirgin}\n`;
+            }
+            
+            if (selectedTraits.length > 0) {
+                yaml += 'traits:\n';
+                selectedTraits.forEach(trait => {
+                    yaml += ` - ${trait}\n`;
+                });
+            } else {
+                // Include empty traits section
+                yaml += 'traits:\n';
+            }
+            
+            const allowAdditionalTraits = document.getElementById('allow-additional-traits').value;
+            yaml += `allow additional traits: ${allowAdditionalTraits}\n`;
+            
+            if (selectedBlockedTraits.length > 0) {
+                yaml += 'blocked traits:\n';
+                selectedBlockedTraits.forEach(trait => {
+                    yaml += ` - ${trait}\n`;
+                });
+            } else {
+                // Include empty blocked traits section
+                yaml += 'blocked traits:\n';
+            }
+            
+            const hairstyle = document.getElementById('hairstyle').value;
+            // Always include hairstyle, even if empty
+            yaml += `hairstyle: ${hairstyle}\n`;
+            
+            const friendEffect = document.getElementById('friend-effect').value;
+            // Always include friend effect, even if empty
+            yaml += `friend effect: ${friendEffect}\n`;
+            
+            const partnerEffect = document.getElementById('partner-effect').value;
+            // Always include partner effect, even if empty
+            yaml += `partner effect: ${partnerEffect}\n`;
+            
+            const bossPartnerEffect = document.getElementById('boss-partner-effect').value;
+            // Always include boss partner effect, even if empty
+            yaml += `boss partner effect: ${bossPartnerEffect}\n`;
+            
+            const career = document.getElementById('career').value;
+            // Always include career, even if empty
+            yaml += `career: ${career}\n`;
+            
+            yamlOutput.value = yaml;
+            
+            // Switch to output tab
+            document.querySelector('[data-tab="tab-output"]').click();
+        }
+        
+        // Copy to clipboard
+        copyButton.addEventListener('click', () => {
+            yamlOutput.select();
+            document.execCommand('copy');
+            copyButton.textContent = 'Copied!';
+            
+            setTimeout(() => {
+                copyButton.textContent = 'Copy to Clipboard';
+            }, 2000);
+        });
+
+        // Download yaml
+        downloadButton.addEventListener('click', () => {
+            // Create a Blob with the content
+            const blob = new Blob([yamlOutput.value], { type: 'application/x-yaml' });
+            
+            // Create a URL for the Blob
+            const url = URL.createObjectURL(blob);
+
+            // Create a temporary anchor element
+            const a = document.createElement('a');
+            const name = document.getElementById('character-name').value;
+            if (name == '') name = "newlife-character"
+
+            a.href = url;
+            a.download = name + '.yml'; // Set the filename
+            
+            // Append to the body, click it, and remove it
+            document.body.appendChild(a);
+            a.click();
+            
+            // Clean up
+            setTimeout(() => {
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }, 0);
+        });
+        
+        // Back to editor
+        backButton.addEventListener('click', () => {
+            document.querySelector('[data-tab="tab-create"]').click();
+        });
+        
+        // Reset form
+        resetButton.addEventListener('click', () => {
+            if (confirm('Are you sure you want to reset the form? All your selections will be lost.')) {
+                document.getElementById('character-enabled').value = 'TRUE';
+                document.getElementById('character-priority').value = '0';
+                document.getElementById('character-name').value = '';
+                document.getElementById('character-type-female').value = 'PARTY_GIRL';
+                document.getElementById('clothing-style').value = 'CUTE';
+                document.getElementById('character-age').value = 'TWENTIES';
+                document.getElementById('namelist-id').value = '';
+                document.getElementById('character-race').value = '';
+                document.getElementById('custom-race').value = '';
+                document.getElementById('eye-colour').value = '';
+                document.getElementById('hair-colour').value = '';
+                document.getElementById('skin-colour').value = '';
+                document.getElementById('male-figure').value = '';
+                document.getElementById('female-figure').value = '';
+                document.getElementById('character-personality').value = '';
+                document.getElementById('breast-size').value = '';
+                document.getElementById('female-virgin').value = '';
+                document.getElementById('female-lesbian-virgin').value = '';
+                document.getElementById('hairstyle').value = '';
+                document.getElementById('friend-effect').value = '';
+                document.getElementById('partner-effect').value = '';
+                document.getElementById('boss-partner-effect').value = '';
+                document.getElementById('career').value = '';
+                document.getElementById('allow-additional-traits').value = 'TRUE';
+                
+                selectedTraits = [];
+                selectedBlockedTraits = [];
+                customRaceFields.style.display = 'none';
+                
+                // Reset trait cards
+                const traitCards = document.querySelectorAll('.trait-card');
+                traitCards.forEach(card => {
+                    card.classList.remove('selected');
+                    card.classList.remove('disabled');
+                });
+                
+                updateSelectedTraits();
+                updateSelectedBlockedTraits();
+                updateTraitsForCharacterType();
+            }
+        });
+        
+        // Initialize the form
+        updateTraitsForCharacterType();
+        
+        // Open trait section by default
+        document.getElementsByClassName("collapsible")[0].click();
+
+        // Get all trait cards
+        const traitCards = document.querySelectorAll('.trait-card');
+    </script>
+</body>
+</html>
