@@ -1,1 +1,1 @@
-# newlife-cahracter-creator
+# newlife-character-creator
