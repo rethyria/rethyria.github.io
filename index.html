@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Digital Space</title>
+    <style>
+    :root {
+        --primary-blue: #5cb8ff;
+        --primary-pink: #ff6888;
+        --secondary-blue: #0c84e4;
+        --secondary-pink: #ff3a6f;
+        --dark-bg: #10151e;
+        --medium-bg: #181e29;
+        --light-bg: #232736;
+        --text-color: #e0e0e0;
+        --accent-white: rgba(255, 255, 255, 0.85);
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Nunito', sans-serif;
+        line-height: 1.6;
+        color: var(--text-color);
+        background-color: var(--dark-bg);
+        background-image: 
+            linear-gradient(45deg, rgba(92, 184, 255, 0.02) 25%, transparent 25%),
+            linear-gradient(-45deg, rgba(255, 104, 136, 0.02) 25%, transparent 25%);
+        background-size: 60px 60px;
+        background-attachment: fixed;
+        overflow-x: hidden;
+    }
+
+    header {
+        padding: 6rem 1rem 4rem;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .title-container {
+        position: relative;
+        margin-bottom: 2.5rem;
+        padding: 2rem;
+        z-index: 2;
+    }
+
+    .title-container::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 320px;
+        height: 320px;
+        background: radial-gradient(circle, 
+            rgba(92, 184, 255, 0.1) 0%, 
+            rgba(255, 104, 136, 0.1) 50%, 
+            transparent 70%);
+        border-radius: 50%;
+        z-index: -1;
+    }
+
+    .title-container::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 180px;
+        height: 180px;
+        background: radial-gradient(circle, 
+            rgba(255, 255, 255, 0.03) 0%, 
+            transparent 70%);
+        border-radius: 50%;
+        z-index: -1;
+    }
+
+    .header-line {
+        position: absolute;
+        bottom: 30px;
+        left: 0;
+        width: 100%;
+        height: 1px;
+        background: linear-gradient(90deg, 
+            transparent 0%, 
+            rgba(92, 184, 255, 0.3) 20%, 
+            rgba(255, 104, 136, 0.3) 80%, 
+            transparent 100%);
+    }
+
+    .header-accents {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    .accent {
+        position: absolute;
+        opacity: 0.5;
+    }
+
+    .accent-1 {
+        top: 20px;
+        left: 15%;
+        width: 30px;
+        height: 2px;
+        background: var(--primary-blue);
+        transform: rotate(45deg);
+    }
+
+    .accent-2 {
+        top: 40px;
+        left: calc(15% + 15px);
+        width: 15px;
+        height: 2px;
+        background: var(--primary-pink);
+        transform: rotate(-30deg);
+    }
+
+    .accent-3 {
+        top: 30px;
+        right: 18%;
+        width: 25px;
+        height: 2px;
+        background: var(--primary-pink);
+        transform: rotate(-45deg);
+    }
+
+    .accent-4 {
+        top: 50px;
+        right: calc(18% + 10px);
+        width: 18px;
+        height: 2px;
+        background: var(--primary-blue);
+        transform: rotate(30deg);
+    }
+
+    .header-circle {
+        position: absolute;
+        border-radius: 50%;
+        border: 1px solid;
+        opacity: 0.15;
+    }
+
+    .circle-1 {
+        top: 70px;
+        left: 20%;
+        width: 15px;
+        height: 15px;
+        border-color: var(--primary-blue);
+    }
+
+    .circle-2 {
+        bottom: 50px;
+        right: 22%;
+        width: 12px;
+        height: 12px;
+        border-color: var(--primary-pink);
+    }
+
+    h1 {
+        font-size: 3.8rem;
+        font-weight: 800;
+        letter-spacing: 1px;
+        color: var(--accent-white);
+        margin-bottom: 0.5rem;
+        position: relative;
+        display: inline-block;
+        text-shadow: 0 0 15px rgba(255, 255, 255, 0.15), 
+                    0 0 30px rgba(92, 184, 255, 0.1),
+                    0 0 30px rgba(255, 104, 136, 0.1);
+        background: linear-gradient(90deg, 
+            var(--accent-white) 0%, 
+            var(--primary-blue) 25%, 
+            var(--accent-white) 50%, 
+            var(--primary-pink) 75%, 
+            var(--accent-white) 100%);
+        background-size: 200% auto;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: shine 8s linear infinite;
+    }
+
+    @keyframes shine {
+        0% { background-position: 0% center; }
+        100% { background-position: 200% center; }
+    }
+
+    h1::after {
+        content: "";
+        position: absolute;
+        bottom: -8px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 140px;
+        height: 2px;
+        background: linear-gradient(90deg, 
+            transparent 0%,
+            var(--primary-blue) 30%, 
+            var(--primary-pink) 70%,
+            transparent 100%);
+        border-radius: 2px;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1.5rem;
+        position: relative;
+        z-index: 1;
+    }
+
+    .subtitle {
+        font-size: 1.2rem;
+        color: var(--primary-blue);
+        font-weight: 400;
+        opacity: 0.9;
+        margin-top: 1.5rem;
+        position: relative;
+        transition: color 0.5s ease;
+        animation: colorshift 8s infinite alternate;
+    }
+
+    @keyframes colorshift {
+        0%, 100% { color: var(--primary-blue); }
+        50% { color: var(--primary-pink); }
+    }
+
+    .links-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 2rem;
+        margin: 0 0 4rem;
+    }
+
+    /* Card flipping with 3D effect */
+    .link-card {
+        background-color: var(--medium-bg);
+        border-radius: 8px;
+        position: relative;
+        color: var(--text-color);
+        display: block;
+        cursor: pointer;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        height: 350px;
+        perspective: 1000px; /* Add perspective for 3D effect */
+        margin-bottom: 20px;
+        transform: translateZ(0); /* Force hardware acceleration */
+        transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); /* Smooth out-back effect */
+        will-change: transform; /* Optimize animation performance */
+    }
+
+    .card-inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        transition: transform 0.8s;
+        transform-style: preserve-3d;
+    }
+
+    .link-card.flipped .card-inner {
+        transform: rotateY(180deg);
+    }
+
+    .card-front, .card-back {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        -webkit-backface-visibility: hidden; /* Safari */
+        backface-visibility: hidden;
+        border-radius: 8px;
+    }
+
+    .card-front {
+        background-color: var(--medium-bg);
+        overflow: hidden;
+    }
+
+    .card-back {
+        background-color: var(--light-bg);
+        transform: rotateY(180deg);
+        display: flex;
+        flex-direction: column;
+        padding: 1.5rem;
+        overflow-y: auto;
+    }
+
+    .card-front::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(120deg, 
+            rgba(92, 184, 255, 0.05), 
+            rgba(255, 104, 136, 0.05));
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        z-index: 0;
+    }
+
+    .card-front::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 8px;
+        padding: 1.5px;
+        background: linear-gradient(120deg, var(--primary-blue), var(--primary-pink));
+        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        opacity: 0;
+        transition: opacity 0.4s ease;
+    }
+
+    .link-card:hover .card-front::before {
+        opacity: 1;
+    }
+
+    .link-card:hover .card-front::after {
+        opacity: 1;
+    }
+
+    .card-back {
+        background-color: var(--light-bg);
+        transform: rotateY(180deg);
+        display: flex;
+        flex-direction: column;
+        padding: 1.5rem;
+        z-index: 1;
+    }
+
+    .card-back::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 8px;
+        padding: 1.5px;
+        background: linear-gradient(120deg, var(--primary-pink), var(--primary-blue));
+        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        z-index: -1;
+    }
+
+    .back-title {
+        font-size: 1.4rem;
+        color: var(--accent-white);
+        font-weight: 600;
+        margin-bottom: 1rem;
+        text-align: center;
+        position: relative;
+        z-index: 1;
+    }
+
+    .links-container {
+        overflow-y: auto;
+        flex-grow: 1;
+        margin: 0 -0.5rem;
+        padding: 0 0.5rem;
+        position: relative;
+        z-index: 1;
+        /* Custom scrollbar */
+        scrollbar-width: thin;
+        scrollbar-color: var(--primary-pink) var(--medium-bg);
+    }
+
+    .links-container::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .links-container::-webkit-scrollbar-track {
+        background: var(--medium-bg);
+        border-radius: 3px;
+    }
+
+    .links-container::-webkit-scrollbar-thumb {
+        background-color: var(--primary-pink);
+        border-radius: 3px;
+        border: 2px solid var(--medium-bg);
+    }
+
+    .link {
+        display: block;
+        color: var(--text-color);
+        text-decoration: none;
+        padding: 0.6rem 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        transition: all 0.3s ease;
+        position: relative;
+    }
+
+    .link:last-child {
+        border-bottom: none;
+    }
+
+    .link::before {
+        content: "›";
+        color: var(--primary-blue);
+        margin-right: 0.5rem;
+        transition: transform 0.3s ease, color 0.3s ease;
+        display: inline-block;
+    }
+
+    .link:hover {
+        color: var(--accent-white);
+        transform: translateX(3px);
+    }
+
+    .link:hover::before {
+        color: var(--primary-pink);
+        transform: translateX(2px);
+    }
+
+    .flip-back {
+        position: absolute;
+        bottom: 1rem;
+        left: 0;
+        right: 0;
+        text-align: center;
+        color: var(--primary-blue);
+        background: none;
+        border: none;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: color 0.3s ease;
+        z-index: 1;
+        padding: 0.5rem;
+    }
+
+    .flip-back:hover {
+        color: var(--primary-pink);
+    }
+
+    .link-card:hover {
+        background-color: var(--light-bg);
+        box-shadow: 0 8px 25px rgba(12, 132, 228, 0.1), 0 8px 25px rgba(255, 58, 111, 0.1);
+    }
+
+    .link-card:hover::before {
+        opacity: 1;
+    }
+
+    .link-card:hover::after {
+        opacity: 1;
+    }
+
+    .card-icon {
+        height: 160px;
+        background-color: var(--light-bg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3.5rem;
+        position: relative;
+        overflow: hidden;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        transition: all 0.3s ease;
+    }
+
+    .card-icon::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, 
+            rgba(92, 184, 255, 0.1) 0%, 
+            rgba(92, 184, 255, 0) 50%, 
+            rgba(255, 104, 136, 0) 50%, 
+            rgba(255, 104, 136, 0.1) 100%);
+        opacity: 0;
+        transition: opacity 0.5s ease;
+    }
+
+    .card-icon i {
+        background: linear-gradient(90deg, var(--primary-blue), var(--primary-pink));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+        opacity: 0.85;
+    }
+
+    .link-card:hover .card-icon {
+        background-color: var(--dark-bg);
+    }
+
+    .link-card:hover .card-icon::before {
+        opacity: 1;
+    }
+
+    .link-card:hover .card-icon i {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+
+    .card-content {
+        padding: 1.8rem;
+        position: relative;
+        z-index: 1;
+    }
+
+    .card-title {
+        font-size: 1.4rem;
+        margin-bottom: 0.8rem;
+        color: var(--accent-white);
+        font-weight: 600;
+        position: relative;
+        display: inline-block;
+    }
+
+    .card-description {
+        color: var(--text-color);
+        margin-bottom: 1.8rem;
+        font-size: 0.95rem;
+        line-height: 1.7;
+        opacity: 0.8;
+    }
+
+    .card-link {
+        display: inline-flex;
+        align-items: center;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        position: relative;
+        font-size: 0.95rem;
+        color: var(--primary-pink);
+    }
+
+    .card-link::after {
+        content: "→";
+        margin-left: 6px;
+        transition: transform 0.3s ease;
+        display: inline-block;
+    }
+
+    .link-card:hover .card-link {
+        color: var(--primary-blue);
+    }
+
+    .link-card:hover .card-link::after {
+        transform: translateX(4px);
+    }
+
+    .bg-glow {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(80px);
+        opacity: 0.15;
+        z-index: 0;
+    }
+
+    .glow-1 {
+        top: 15%;
+        left: 5%;
+        width: 300px;
+        height: 300px;
+        background: var(--primary-blue);
+        opacity: 0.25;
+        animation: float 20s infinite ease-in-out;
+    }
+
+    .glow-2 {
+        bottom: 10%;
+        right: 5%;
+        width: 400px;
+        height: 400px;
+        background: var(--primary-pink);
+        opacity: 0.25;
+        animation: float 25s infinite ease-in-out reverse;
+    }
+
+    .glow-3 {
+        top: 40%;
+        right: 15%;
+        width: 200px;
+        height: 200px;
+        background: var(--secondary-blue);
+        opacity: 0.15;
+        animation: float 18s infinite ease-in-out;
+    }
+
+    .glow-4 {
+        bottom: 30%;
+        left: 15%;
+        width: 250px;
+        height: 250px;
+        background: var(--secondary-pink);
+        opacity: 0.15;
+        animation: float 22s infinite ease-in-out reverse;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translate(0, 0); }
+        25% { transform: translate(5%, 5%); }
+        50% { transform: translate(0, 10%); }
+        75% { transform: translate(-5%, 5%); }
+    }
+
+    footer {
+        padding: 3rem 0 2rem;
+        text-align: center;
+        position: relative;
+        z-index: 1;
+    }
+
+    .footer-text {
+        display: inline-block;
+        color: var(--accent-white);
+        font-size: 0.9rem;
+        opacity: 0.7;
+        position: relative;
+    }
+
+    .footer-text::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: -30px;
+        width: 20px;
+        height: 1px;
+        background: var(--primary-blue);
+    }
+
+    .footer-text::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        right: -30px;
+        width: 20px;
+        height: 1px;
+        background: var(--primary-pink);
+    }
+
+    @media (max-width: 768px) {
+        .links-grid {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+        }
+
+        .bg-glow {
+            opacity: 0.1;
+        }
+    }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/js/all.min.js"></script>
+</head>
+<body>
+    <div class="bg-glow glow-1"></div>
+    <div class="bg-glow glow-2"></div>
+    <div class="bg-glow glow-3"></div>
+    <div class="bg-glow glow-4"></div>
+
+    <header>
+    <div class="container">
+        <div class="title-container">
+            <h1>RETHYRIA</h1>
+            <div class="subtitle">my random box of things and stuff</div>
+        </div>
+    </div>
+    </header>
+
+    <main class="container">
+    <div class="links-grid">
+        <div class="link-card">
+            <div class="card-inner">
+                <div class="card-front">
+                    <div class="card-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">About Me</h3>
+                        <p class="card-description">Collection of digital art, illustrations and design projects I've created over time.</p>
+                    </div>
+                </div>
+                <div class="card-back">
+                    <h3 class="back-title">Artwork Links</h3>
+                    <div class="links-container">
+                        <a href="#" class="link">Digital Paintings</a>
+                        <a href="#" class="link">Concept Art</a>
+                        <a href="#" class="link">Character Designs</a>
+                        <a href="#" class="link">3D Models</a>
+                        <a href="#" class="link">Pixel Art</a>
+                        <a href="#" class="link">Illustrations</a>
+                        <a href="#" class="link">Animations</a>
+                        <a href="#" class="link">Wallpapers</a>
+                        <a href="#" class="link">Art Tutorials</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="link-card">
+            <div class="card-inner">
+                <div class="card-front">
+                    <div class="card-icon">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">My Games</h3>
+                        <p class="card-description">Game projects, reviews and other gaming-related content I've worked on.</p>
+                    </div>
+                </div>
+                <div class="card-back">
+                    <h3 class="back-title">Gaming Links</h3>
+                    <div class="links-container">
+                        <a href="#" class="link">Browser Games</a>
+                        <a href="#" class="link">Game Reviews</a>
+                        <a href="#" class="link">Game Mods</a>
+                        <a href="#" class="link">Gaming Guides</a>
+                        <a href="#" class="link">Game Assets</a>
+                        <a href="#" class="link">Game Soundtracks</a>
+                        <a href="#" class="link">Game Streams</a>
+                        <a href="#" class="link">Game Development Blog</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="link-card">
+            <div class="card-inner">
+                <div class="card-front">
+                    <div class="card-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">My Projects</h3>
+                        <p class="card-description">Coding experiments, web applications and other technical creations.</p>
+                    </div>
+                </div>
+                <div class="card-back">
+                    <h3 class="back-title">Project Links</h3>
+                    <div class="links-container">
+                        <a href="#" class="link">Web Development</a>
+                        <a href="#" class="link">JavaScript Apps</a>
+                        <a href="#" class="link">API Projects</a>
+                        <a href="#" class="link">Open Source</a>
+                        <a href="#" class="link">Game Development</a>
+                        <a href="#" class="link">Mobile Apps</a>
+                        <a href="#" class="link">Data Visualizations</a>
+                        <a href="#" class="link">Experiments</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="link-card">
+            <div class="card-inner">
+                <div class="card-front">
+                    <div class="card-icon">
+                        <i class="fas fa-headphones-alt"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">My Tools</h3>
+                        <p class="card-description">Songs, playlists and audio projects that inspire me or that I've created.</p>
+                    </div>
+                </div>
+                <div class="card-back">
+                    <h3 class="back-title">Music Links</h3>
+                    <div class="links-container">
+                        <a href="#" class="link">Original Tracks</a>
+                        <a href="#" class="link">Favorite Playlists</a>
+                        <a href="#" class="link">Music Videos</a>
+                        <a href="#" class="link">Podcast Episodes</a>
+                        <a href="#" class="link">Sound Design</a>
+                        <a href="#" class="link">Live Performances</a>
+                        <a href="#" class="link">Instrumental Tracks</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="link-card">
+            <div class="card-inner">
+                <div class="card-front">
+                    <div class="card-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">My Writing</h3>
+                        <p class="card-description">Stories, articles and written pieces exploring various ideas and topics.</p>
+                    </div>
+                </div>
+                <div class="card-back">
+                    <h3 class="back-title">Writing Links</h3>
+                    <div class="links-container">
+                        <a href="#" class="link">Short Stories</a>
+                        <a href="#" class="link">Blog Posts</a>
+                        <a href="#" class="link">Essays</a>
+                        <a href="#" class="link">Poetry</a>
+                        <a href="#" class="link">Technical Articles</a>
+                        <a href="#" class="link">Reviews</a>
+                        <a href="#" class="link">Tutorials</a>
+                        <a href="#" class="link">Fan Fiction</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="link-card">
+            <div class="card-inner">
+                <div class="card-front">
+                    <div class="card-icon">
+                        <i class="fas fa-link"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">My Resources</h3>
+                        <p class="card-description">Useful links, tools and resources I've collected and want to share.</p>
+                    </div>
+                </div>
+                <div class="card-back">
+                    <h3 class="back-title">Resource Links</h3>
+                    <div class="links-container">
+                        <a href="#" class="link">Design Resources</a>
+                        <a href="#" class="link">Coding Tools</a>
+                        <a href="#" class="link">Learning Platforms</a>
+                        <a href="#" class="link">Useful APIs</a>
+                        <a href="#" class="link">Free Assets</a>
+                        <a href="#" class="link">Productivity Tools</a>
+                        <a href="#" class="link">Reference Materials</a>
+                        <a href="#" class="link">Favorite Websites</a>
+                    </div>
+                </div>
+            </div>
+        </div>        
+    </div>
+    </main>
+
+    <footer>
+    <div class="container">
+        <div class="footer-text">Created 2025</div>
+    </div>
+    </footer>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const cards = document.querySelectorAll('.link-card');
+        
+        cards.forEach(card => {
+            // Handle card flipping
+            card.addEventListener('click', function(e) {
+                // Don't flip if clicking on links or flip-back button
+                if (e.target.classList.contains('flip-back') ||
+                    e.target.closest('.flip-back')) {
+                    
+                    // Only handle the back button click to flip back
+                    if (e.target.classList.contains('flip-back') || e.target.closest('.flip-back')) {
+                        e.preventDefault();
+                        this.classList.remove('flipped');
+                    }
+                    return;
+                }
+                
+                // Toggle the flipped class
+                this.classList.toggle('flipped');
+            });
+            
+            // Handle hover animations only when not flipped
+            card.addEventListener('mouseenter', function() {
+                if (!this.classList.contains('flipped')) {
+                    // Generate random transform values
+                    const randomY = -Math.floor(Math.random() * 12 + 5); 
+                    const randomRotate = Math.random() > 0.5 ? 
+                        Math.random() * 1.5 - 2.5 : // Negative rotation (between -1 and -2.5)
+                        Math.random() * 1.5 + 1;  // Positive rotation (between 1 and 2.5)
+                    const randomX = Math.floor(Math.random() * 8 - 4); // Random value between -4 and 4
+                    
+                    // Apply the random transform to the whole card with subtle delay
+                    requestAnimationFrame(() => {
+                        this.style.transform = `translate3d(${randomX}px, ${randomY}px, 0) rotate(${randomRotate}deg)`;
+                    });
+                }
+            });
+            
+            // Reset hover effect on mouseleave with smooth transition
+            card.addEventListener('mouseleave', function() {
+                if (!this.classList.contains('flipped')) {
+                    this.style.transform = 'translateZ(0)';
+                }
+            });
+            
+            // Add event listener for the back button
+            const backButton = card.querySelector('.flip-back');
+            if (backButton) {
+                backButton.addEventListener('click', e => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    card.classList.remove('flipped');
+                });
+            }
+        });
+    });
+    </script>
+</body>
+</html>
