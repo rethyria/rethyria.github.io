@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="color-scheme" content="dark">
-    <title>Rethyria</title>
+    <title>My Digital Space</title>
     <style>
     :root {
         --primary-blue: #5cb8ff;
@@ -954,6 +954,9 @@
         cards.forEach(card => {
             // Get the card inner element
             const cardInner = card.querySelector('.card-inner');
+
+            // Initial state setup
+            updatePointerEvents(card);
             
             // Handle card flipping
             card.addEventListener('click', function(e) {
@@ -995,7 +998,19 @@
                     // Reset transform when flipping back to the front
                     cardInner.style.transform = '';
                 }
+
+                // Use setTimeout to wait for the 'flipped' class to be toggled
+                setTimeout(() => updatePointerEvents(this), 50);
             });
+
+            function updatePointerEvents(card) {
+                const backSide = card.querySelector('.card-back');
+                if (card.classList.contains('flipped')) {
+                    backSide.style.pointerEvents = 'auto';
+                } else {
+                    backSide.style.pointerEvents = 'none';
+                }
+            }
             
             // Handle hover animations only when not flipped
             card.addEventListener('mouseenter', function() {
@@ -1020,6 +1035,14 @@
                     this.style.transform = 'translateZ(0)';
                 }
             });
+
+            // Add event listeners to prevent propagation on links
+            const links = card.querySelectorAll('.link');
+            links.forEach(link => {
+                link.addEventListener('click', e => {
+                    e.stopPropagation();
+                });
+            });
             
             // Add event listener for the back button
             const backButton = card.querySelector('.flip-back');
@@ -1030,6 +1053,34 @@
                     card.classList.remove('flipped');
                 });
             }
+        });
+
+        // Prevent scroll events from being captured by hidden containers
+        const linksContainers = document.querySelectorAll('.links-container');
+
+        // Add wheel event listeners to all links containers
+        linksContainers.forEach(container => {
+        container.addEventListener('wheel', function(e) {
+            // Get the parent card
+            const card = this.closest('.link-card');
+            
+            // If the card is not flipped, prevent the scroll event
+            if (!card.classList.contains('flipped')) {
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+            }
+        }, { passive: false }); // passive: false is important to allow preventDefault
+        
+        // Also handle touch events for mobile
+        container.addEventListener('touchmove', function(e) {
+            const card = this.closest('.link-card');
+            if (!card.classList.contains('flipped')) {
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+            }
+        }, { passive: false });
         });
 
         
