@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="color-scheme" content="dark">
-    <title>My Digital Space</title>
+    <title>Rethyria</title>
     <style>
     :root {
         --primary-blue: #5cb8ff;
@@ -22,6 +22,17 @@
         margin: 0;
         padding: 0;
         box-sizing: border-box;
+    }
+
+    .test-animation {
+        width: 50px;
+        height: 50px;
+        background-color: red;
+        position: fixed; 
+        top: 50%;
+        left: 50%;
+        z-index: 9999;
+        animation: float 5s infinite ease-in-out;
     }
 
     body {
@@ -238,6 +249,47 @@
         50% { color: var(--primary-pink); }
     }
 
+    @keyframes bordershift {
+        0% { background: linear-gradient(0deg, var(--primary-blue), var(--primary-pink)); }
+        2.78% { background: linear-gradient(10deg, var(--primary-blue), var(--primary-pink)); }
+        5.56% { background: linear-gradient(20deg, var(--primary-blue), var(--primary-pink)); }
+        8.33% { background: linear-gradient(30deg, var(--primary-blue), var(--primary-pink)); }
+        11.11% { background: linear-gradient(40deg, var(--primary-blue), var(--primary-pink)); }
+        13.89% { background: linear-gradient(50deg, var(--primary-blue), var(--primary-pink)); }
+        16.67% { background: linear-gradient(60deg, var(--primary-blue), var(--primary-pink)); }
+        19.44% { background: linear-gradient(70deg, var(--primary-blue), var(--primary-pink)); }
+        22.22% { background: linear-gradient(80deg, var(--primary-blue), var(--primary-pink)); }
+        25% { background: linear-gradient(90deg, var(--primary-blue), var(--primary-pink)); }
+        27.78% { background: linear-gradient(100deg, var(--primary-blue), var(--primary-pink)); }
+        30.56% { background: linear-gradient(110deg, var(--primary-blue), var(--primary-pink)); }
+        33.33% { background: linear-gradient(120deg, var(--primary-blue), var(--primary-pink)); }
+        36.11% { background: linear-gradient(130deg, var(--primary-blue), var(--primary-pink)); }
+        38.89% { background: linear-gradient(140deg, var(--primary-blue), var(--primary-pink)); }
+        41.67% { background: linear-gradient(150deg, var(--primary-blue), var(--primary-pink)); }
+        44.44% { background: linear-gradient(160deg, var(--primary-blue), var(--primary-pink)); }
+        47.22% { background: linear-gradient(170deg, var(--primary-blue), var(--primary-pink)); }
+        50% { background: linear-gradient(180deg, var(--primary-blue), var(--primary-pink)); }
+        52.78% { background: linear-gradient(190deg, var(--primary-blue), var(--primary-pink)); }
+        55.56% { background: linear-gradient(200deg, var(--primary-blue), var(--primary-pink)); }
+        58.33% { background: linear-gradient(210deg, var(--primary-blue), var(--primary-pink)); }
+        61.11% { background: linear-gradient(220deg, var(--primary-blue), var(--primary-pink)); }
+        63.89% { background: linear-gradient(230deg, var(--primary-blue), var(--primary-pink)); }
+        66.67% { background: linear-gradient(240deg, var(--primary-blue), var(--primary-pink)); }
+        69.44% { background: linear-gradient(250deg, var(--primary-blue), var(--primary-pink)); }
+        72.22% { background: linear-gradient(260deg, var(--primary-blue), var(--primary-pink)); }
+        75% { background: linear-gradient(270deg, var(--primary-blue), var(--primary-pink)); }
+        77.78% { background: linear-gradient(280deg, var(--primary-blue), var(--primary-pink)); }
+        80.56% { background: linear-gradient(290deg, var(--primary-blue), var(--primary-pink)); }
+        83.33% { background: linear-gradient(300deg, var(--primary-blue), var(--primary-pink)); }
+        86.11% { background: linear-gradient(310deg, var(--primary-blue), var(--primary-pink)); }
+        88.89% { background: linear-gradient(320deg, var(--primary-blue), var(--primary-pink)); }
+        91.67% { background: linear-gradient(330deg, var(--primary-blue), var(--primary-pink)); }
+        94.44% { background: linear-gradient(340deg, var(--primary-blue), var(--primary-pink)); }
+        97.22% { background: linear-gradient(350deg, var(--primary-blue), var(--primary-pink)); }
+        100% { background: linear-gradient(360deg, var(--primary-blue), var(--primary-pink)); }
+    }
+    
+
     .links-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -271,8 +323,34 @@
         transform-style: preserve-3d;
     }
 
-    .link-card.flipped .card-inner {
-        transform: rotateY(180deg);
+    .link-card.flipping, .link-card.flipped {
+        background-color: transparent;
+        border: none;
+        box-shadow: none;
+    }
+
+    .link-card:hover:not(.flipped) {
+        background-color: transparent;
+    }
+
+    .link-card:hover:not(.flipped)::before {
+        opacity: 1;
+    }
+
+    .link-card:hover:not(.flipped)::after {
+        opacity: 1;
+    }
+
+    /* Hover effect for flipped cards - focus on card-back */
+    .link-card.flipped:hover .card-back {
+        background-color: var(--medium-bg);
+    }
+
+    /* Optional: Add a subtle glow effect to the back of flipped cards on hover */
+    .link-card.flipped:hover .card-back::after {
+        opacity: 1;
+        box-shadow: 0 0 20px rgba(255, 104, 136, 0.2);
+        animation-play-state: running;
     }
 
     .card-front, .card-back {
@@ -289,6 +367,10 @@
         overflow: hidden;
     }
 
+    .card-front:hover {
+        box-shadow: 0 8px 25px rgba(12, 132, 228, 0.1), 0 8px 25px rgba(255, 58, 111, 0.1);
+    }
+
     .card-back {
         background-color: var(--light-bg);
         transform: rotateY(180deg);
@@ -296,6 +378,8 @@
         flex-direction: column;
         padding: 1.5rem;
         overflow-y: auto;
+        z-index: 1;
+        box-shadow: 0 8px 25px rgba(12, 132, 228, 0.1), 0 8px 25px rgba(255, 58, 111, 0.1);
     }
 
     .card-front::before {
@@ -323,6 +407,8 @@
         mask-composite: exclude;
         opacity: 0;
         transition: opacity 0.4s ease;
+        animation: bordershift 6s linear infinite;
+        animation-play-state: paused;
     }
 
     .link-card:hover .card-front::before {
@@ -331,15 +417,7 @@
 
     .link-card:hover .card-front::after {
         opacity: 1;
-    }
-
-    .card-back {
-        background-color: var(--light-bg);
-        transform: rotateY(180deg);
-        display: flex;
-        flex-direction: column;
-        padding: 1.5rem;
-        z-index: 1;
+        animation-play-state: running;
     }
 
     .card-back::after {
@@ -354,6 +432,8 @@
         -webkit-mask-composite: xor;
         mask-composite: exclude;
         z-index: -1;
+        animation: bordershift 6s linear infinite;
+        animation-play-state: paused;
     }
 
     .back-title {
@@ -446,8 +526,8 @@
     }
 
     .link-card:hover {
-        background-color: var(--light-bg);
-        box-shadow: 0 8px 25px rgba(12, 132, 228, 0.1), 0 8px 25px rgba(255, 58, 111, 0.1);
+        background-color: transparent;
+        border: none;
     }
 
     .link-card:hover::before {
@@ -565,6 +645,15 @@
         z-index: 0;
     }
 
+    @keyframes wanderAround {
+        0% { transform: translate(0, 0); }
+        20% { transform: translate(30vw, 10vh); }
+        40% { transform: translate(15vw, 30vh); }
+        60% { transform: translate(-20vw, 15vh); }
+        80% { transform: translate(-10vw, -20vh); }
+        100% { transform: translate(0, 0); }
+    }
+
     .glow-1 {
         top: 15%;
         left: 5%;
@@ -572,7 +661,7 @@
         height: 300px;
         background: var(--primary-blue);
         opacity: 0.25;
-        animation: float 20s infinite ease-in-out;
+        animation: wanderAround 120s infinite ease-in-out;
     }
 
     .glow-2 {
@@ -582,7 +671,7 @@
         height: 400px;
         background: var(--primary-pink);
         opacity: 0.25;
-        animation: float 25s infinite ease-in-out reverse;
+        animation: wanderAround 150s infinite ease-in-out reverse;
     }
 
     .glow-3 {
@@ -592,7 +681,7 @@
         height: 200px;
         background: var(--secondary-blue);
         opacity: 0.15;
-        animation: float 18s infinite ease-in-out;
+        animation: wanderAround 180s infinite ease-in-out;
     }
 
     .glow-4 {
@@ -602,7 +691,7 @@
         height: 250px;
         background: var(--secondary-pink);
         opacity: 0.15;
-        animation: float 22s infinite ease-in-out reverse;
+        animation: wanderAround 140s infinite ease-in-out reverse;
     }
 
     @keyframes float {
@@ -674,7 +763,7 @@
     <div class="container">
         <div class="title-container">
             <h1>RETHYRIA</h1>
-            <div class="subtitle">my random box of things and stuff</div>
+            <div class="subtitle">welcome to my random box of things and stuff</div>
         </div>
     </div>
     </header>
@@ -854,8 +943,18 @@
     <script>
     document.addEventListener('DOMContentLoaded', () => {
         const cards = document.querySelectorAll('.link-card');
+        const cardTimeouts = new Map();
+        
+        // Define possible horizontal flip directions
+        const flipDirections = [
+            'rotateY(180deg)',  // Flip left-to-right
+            'rotateY(-180deg)'  // Flip right-to-left
+        ];
         
         cards.forEach(card => {
+            // Get the card inner element
+            const cardInner = card.querySelector('.card-inner');
+            
             // Handle card flipping
             card.addEventListener('click', function(e) {
                 // Don't flip if clicking on links or flip-back button
@@ -866,12 +965,36 @@
                     if (e.target.classList.contains('flip-back') || e.target.closest('.flip-back')) {
                         e.preventDefault();
                         this.classList.remove('flipped');
+                        // Reset transform when flipping back
+                        cardInner.style.transform = '';
                     }
                     return;
                 }
                 
+                // Clear any existing timeout for this card
+                if (cardTimeouts.has(this)) {
+                    clearTimeout(cardTimeouts.get(this));
+                }
+                
+                this.classList.add('flipping');
+                
+                // Set and store the new timeout
+                const timeout = setTimeout(() => {
+                    this.classList.remove('flipping');
+                }, 800);
+                cardTimeouts.set(this, timeout);
+                
                 // Toggle the flipped class
-                this.classList.toggle('flipped');
+                const isFlipping = this.classList.toggle('flipped');
+                
+                if (isFlipping) {
+                    // Choose a random horizontal flip direction
+                    const randomDirection = flipDirections[Math.floor(Math.random() * flipDirections.length)];
+                    cardInner.style.transform = randomDirection;
+                } else {
+                    // Reset transform when flipping back to the front
+                    cardInner.style.transform = '';
+                }
             });
             
             // Handle hover animations only when not flipped
@@ -908,6 +1031,174 @@
                 });
             }
         });
+
+        
+        // Select all background glow elements
+        const glowElements = document.querySelectorAll('.bg-glow');
+        
+        // Configuration for the floating animation
+        const config = {
+            maxSpeed: 0.05,           // Maximum speed (percentage of viewport per frame)
+            changeDirectionChance: 0.003, // Chance to change direction each frame
+            maxDistance: 10,          // Maximum distance from starting position (in viewport %)
+            frameRate: 60             // Target frame rate
+        };
+        
+        // Create a container for the glow elements that won't affect scrolling
+        const glowContainer = document.createElement('div');
+        glowContainer.style.position = 'fixed';
+        glowContainer.style.top = '0';
+        glowContainer.style.left = '0';
+        glowContainer.style.width = '100%';
+        glowContainer.style.height = '100%';
+        glowContainer.style.pointerEvents = 'none'; // Let clicks pass through
+        glowContainer.style.zIndex = '0'; // Set appropriate z-index
+        glowContainer.className = 'glow-container';
+        
+        // Store the state for each glow element
+        const glowStates = [];
+        
+        // Initialize each glow element
+        glowElements.forEach((element, index) => {
+            // Get the computed style to use as starting position
+            const style = window.getComputedStyle(element);
+            
+            // Convert all positions to percentages relative to viewport
+            let startLeftPct, startTopPct;
+            
+            // Parse position values
+            if (style.left.includes('%')) {
+                startLeftPct = parseFloat(style.left);
+            } else if (style.left) {
+                startLeftPct = (parseFloat(style.left) / window.innerWidth) * 100;
+            } else if (style.right.includes('%')) {
+                startLeftPct = 100 - parseFloat(style.right);
+            } else if (style.right) {
+                startLeftPct = 100 - (parseFloat(style.right) / window.innerWidth) * 100;
+            } else {
+                startLeftPct = 0;
+            }
+            
+            if (style.top.includes('%')) {
+                startTopPct = parseFloat(style.top);
+            } else if (style.top) {
+                startTopPct = (parseFloat(style.top) / window.innerHeight) * 100;
+            } else if (style.bottom.includes('%')) {
+                startTopPct = 100 - parseFloat(style.bottom);
+            } else if (style.bottom) {
+                startTopPct = 100 - (parseFloat(style.bottom) / window.innerHeight) * 100;
+            } else {
+                startTopPct = 0;
+            }
+            
+            // Move to container and set position to percentages
+            glowContainer.appendChild(element);
+            element.style.position = 'absolute';
+            element.style.left = `${startLeftPct}%`;
+            element.style.top = `${startTopPct}%`;
+            
+            // Make sure right and bottom are cleared to avoid conflicts
+            element.style.right = '';
+            element.style.bottom = '';
+            
+            // Store the element's state using percentage values
+            glowStates.push({
+                element,
+                startX: startLeftPct,
+                startY: startTopPct,
+                x: startLeftPct,
+                y: startTopPct,
+                vx: getRandomSpeed(config.maxSpeed),
+                vy: getRandomSpeed(config.maxSpeed),
+                // Add some randomness to each element
+                maxDistance: config.maxDistance * (0.8 + Math.random() * 0.4),
+                changeDirectionChance: config.changeDirectionChance * (0.8 + Math.random() * 0.4)
+            });
+        });
+        
+        // Add the container to the body
+        document.body.appendChild(glowContainer);
+        
+        // Animation function
+        function animateGlows() {
+            glowStates.forEach(state => {
+                // Randomly change direction occasionally
+                if (Math.random() < state.changeDirectionChance) {
+                    state.vx = getRandomSpeed(config.maxSpeed);
+                    state.vy = getRandomSpeed(config.maxSpeed);
+                }
+                
+                // Calculate new position
+                let newX = state.x + state.vx;
+                let newY = state.y + state.vy;
+                
+                // Check if new position would exceed maximum distance from start
+                const distanceFromStart = Math.sqrt(
+                    Math.pow(newX - state.startX, 2) + 
+                    Math.pow(newY - state.startY, 2)
+                );
+                
+                // If exceeding max distance, gradually steer back toward the starting position
+                if (distanceFromStart > state.maxDistance) {
+                    // Vector from current to start
+                    const dx = state.startX - state.x;
+                    const dy = state.startY - state.y;
+                    
+                    // Normalize and apply small correction
+                    const length = Math.sqrt(dx * dx + dy * dy);
+                    state.vx += (dx / length) * 0.01;
+                    state.vy += (dy / length) * 0.01;
+                    
+                    // Limit velocity
+                    const speed = Math.sqrt(state.vx * state.vx + state.vy * state.vy);
+                    if (speed > config.maxSpeed) {
+                        state.vx = (state.vx / speed) * config.maxSpeed;
+                        state.vy = (state.vy / speed) * config.maxSpeed;
+                    }
+                }
+                
+                // Update position
+                state.x += state.vx;
+                state.y += state.vy;
+                
+                // Ensure the element stays within viewport bounds
+                // Get element size in viewport percentage
+                const width = (parseFloat(window.getComputedStyle(state.element).width) / window.innerWidth) * 100;
+                const height = (parseFloat(window.getComputedStyle(state.element).height) / window.innerHeight) * 100;
+                
+                // Constrain to viewport boundaries (including element size)
+                if (state.x < 0) {
+                    state.x = 0;
+                    state.vx = Math.abs(state.vx);
+                } else if (state.x > (100 - width)) {
+                    state.x = 100 - width;
+                    state.vx = -Math.abs(state.vx);
+                }
+                
+                if (state.y < 0) {
+                    state.y = 0;
+                    state.vy = Math.abs(state.vy);
+                } else if (state.y > (100 - height)) {
+                    state.y = 100 - height;
+                    state.vy = -Math.abs(state.vy);
+                }
+                
+                // Apply new position
+                state.element.style.left = `${state.x}%`;
+                state.element.style.top = `${state.y}%`;
+            });
+            
+            // Continue animation
+            requestAnimationFrame(animateGlows);
+        }
+        
+        // Helper function to get random speed
+        function getRandomSpeed(max) {
+            return (Math.random() * max * 2) - max;
+        }
+        
+        // Start the animation
+        animateGlows();
     });
     </script>
 </body>
