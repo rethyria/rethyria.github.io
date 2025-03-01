@@ -180,11 +180,11 @@
         
         .trait-card .tooltip {
             visibility: hidden;
-            width: 200px;
+            max-width: 300px;
             background-color: var(--dark);
             color: white;
             text-align: center;
-            padding: 5px;
+            padding: 10px;
             border-radius: 4px;
             position: fixed; /* Change from absolute to fixed */
             z-index: 100;
@@ -192,6 +192,7 @@
             transition: opacity 0.3s;
             font-size: 0.8rem;
             pointer-events: none; /* Prevents the tooltip from interfering with hover */
+            white-space: pre-line;
         }
         
         .trait-card:hover .tooltip {
@@ -757,398 +758,398 @@
             // Physical traits
             "THICK_COCK": {
                 version: "0.8.9",
-                description: "The main 'big dick' trait, frequently referenced in sex scenes",
+                description: "The main \"big dick\" trait, frequently referenced in sex scenes and liked by pcs who love well endowed men.",
                 opposites: ["SMALL_COCK"]
             },
             "SMALL_COCK": {
                 version: "0.8.9",
-                description: "The character has a small penis",
+                description: "This trait means he has a small dick that less-pleasant PCs can mock him for and those who prefer larger men might be disappointed by.",
                 opposites: ["THICK_COCK"]
             },
             "BIG_COCK_HEAD": {
                 version: "0.8.9",
-                description: "Another trait for well-endowed men",
+                description: "Another trait for well-endowed men.",
                 opposites: []
             },
             "BIG_BALLS": {
                 version: "0.8.9",
-                description: "Increases fertility and is referenced in sex scenes",
+                description: "Increases fertility and is referenced in sex scenes.",
                 opposites: []
             },
             
             // Sexual preference traits
             "HATES_CONDOMS": {
                 version: "0.8.9",
-                description: "The NPC will usually refuse to wear a condom",
+                description: "The NPC will usually refuse to wear a condom and will be annoyed at players who request them.\n\nCan appear on almost any npc, but more common on jerk, selfish, impregnator and less likely for caring men and those who don't want kids.",
                 opposites: ["CONSCIENTIOUS"]
             },
             "CONSCIENTIOUS": {
                 version: "0.8.9",
-                description: "Prefers to use condoms and is more likely to put one on without asking",
+                description: "Prefers to use condoms and is much more likely to put one on without the pc asking. Will also respect her more for asking. More likely for men with nicer personalities or who don't want kids.",
                 opposites: ["HATES_CONDOMS", "IMPREGNATOR"]
             },
             "VIGOROUS_LOVER": {
                 version: "0.8.9",
-                description: "More enthusiastic during sex and can use the 'rough' pace",
+                description: "The man is much more enthusiastic during sex and can use the 'rough' pace even if he's a nice guy who likes the pc, although his favourite pace is passionate.\n\nGenerally a good match for pcs with the passionate lover trait. At the moment this is equally likely for all npcs, although that might change in the future.",
                 opposites: []
             },
             "MAGIC_FINGERS": {
                 version: "0.8.9",
-                description: "NPC equivalent of the PC's Clever Hands trait",
+                description: "NPC equivalent of the PC's Clever Hands trait. Has somewhat limited effects - it's mostly only relevant when he's touching your pussy without clothing in the way.",
                 opposites: ["INEPT_LOVER"]
             },
             "TALENTED_TONGUE": {
                 version: "0.8.9",
-                description: "Makes the NPC great at performing cunnilingus",
+                description: "Makes the NPC great at performing cunnilingus.",
                 opposites: ["INEPT_LOVER"]
             },
             "INEPT_LOVER": {
                 version: "0.8.9",
-                description: "Makes the NPC bad in bed",
+                description: "Makes the NPC bad in bed.",
                 opposites: ["MAGIC_FINGERS", "TALENTED_TONGUE", "LIKES_GOING_DOWN", "LONG_LASTING"]
             },
             "QUICKSHOT": {
                 version: "0.8.9",
-                description: "Makes the NPC finish quicker when having sex",
+                description: "Makes the NPC finish quicker when having sex.",
                 opposites: ["LONG_LASTING"]
             },
             "LONG_LASTING": {
                 version: "0.8.9",
-                description: "Makes the NPC usually take longer when having sex",
+                description: "Makes the NPC usually take longer when having sex.",
                 opposites: ["QUICKSHOT", "INEPT_LOVER"]
             },
             
             // Appearance traits
             "HANDSOME": {
                 version: "0.8.9",
-                description: "Significantly increases the NPC's attractiveness",
+                description: "Significantly increases the NPC's attractiveness.",
                 opposites: ["UGLY"]
             },
             "UGLY": {
                 version: "0.8.9",
-                description: "Significantly reduces the NPC's attractiveness",
+                description: "Significantly reduces the NPC's attractiveness. This describes his face - it's possible for an ugly man to have a sexy body.",
                 opposites: ["HANDSOME"]
             },
             
             // Preference traits
             "LIKES_CUTE": {
                 version: "0.8.9",
-                description: "Prefers cute characters, getting an attraction bonus based on cuteness",
+                description: "He prefers cute characters, getting an attraction bonus based on your cuteness, and a penalty if you look naughty. Also finds it cute when shy girls have trouble holding up a conversation.",
                 opposites: ["LIKES_SEXY"]
             },
             "LIKES_SEXY": {
                 version: "0.8.9",
-                description: "Prefers naughty characters, and finds cute ones annoying",
+                description: "Prefers naughty characters, and finds cute ones annoying.",
                 opposites: ["LIKES_CUTE", "TRADITIONAL"]
             },
             "LIKES_ELEGANT": {
                 version: "0.8.9",
-                description: "Prefers elegant characters, getting an attraction bonus based on elegance",
+                description: "Prefers elegant characters, getting an attraction bonus based on elegance and penalty if you look casual.",
                 opposites: ["LIKES_CASUAL"]
             },
             "LIKES_CASUAL": {
                 version: "0.8.9",
-                description: "More attracted to casual girls, less so to elegant ones",
+                description: "More attracted to casual girls, less so to elegant ones.",
                 opposites: ["LIKES_ELEGANT"]
             },
             
             // Personality traits
             "DULL": {
                 version: "0.8.9",
-                description: "He's boring to spend time with and you won't enjoy talking to him",
-                opposites: ["INTERESTING"]
+                description: "He's boring to spend time with and you won't enjoy talking to him. Unless he's rocking your socks in bed, your character will usually dislike a dull npc and this means it'll be especially hard to become non-sexual friends with one.\n\nNormal NPCs will never be both dull and fashionable, but you can create custom ones with both traits.",
+                opposites: ["INTERESTING", "OFFICE_HUNK"]
             },
             "INTERESTING": {
                 version: "0.8.9",
-                description: "Your character will like spending time with him",
+                description: "Your character will like spending time with him.",
                 opposites: ["DULL"]
             },
             "SLEAZY": {
                 version: "0.8.9",
-                description: "Sleazy NPCs are a lot more sexual in talk and habits",
+                description: "Also normally never shows up on romantic men, although this is ok for a custom NPC. Sleazy NPCs are a lot more sexual in talk and habits.",
                 opposites: ["CHARMING", "TRADITIONAL"]
             },
             "CRUDE": {
                 version: "0.8.9",
-                description: "Affects NPC's talk - they swear more and annoy refined girls",
+                description: "Like Sleazy, this never shows up on romantic NPCs unless you set it for a custom one. Crude mostly affects NPC's talk - they swear much more and annoy refined girls. However, crude men also don't hide how they feel. If they dislike you or are jerks, then they won't be able to fake being nice when they're trying to get you into bed.",
                 opposites: ["CHARMING"]
             },
             "CHARMING": {
                 version: "0.8.9",
-                description: "Charming men can pretend to be romantic even when they aren't in love",
-                opposites: ["TACITURN", "CRUDE", "SLEAZY"]
+                description: "Charming men can pretend to be romantic even when they aren't in love, and romantic girls will tend to like them a lot.",
+                opposites: ["TACITURN", "CRUDE", "SLEAZY", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "PROSTITUTION_CLIENT", "SLEAZY_LANDLORD"]
             },
             "BOASTFUL": {
                 version: "0.8.9",
-                description: "Likes to boast about himself, can be annoying unless also interesting",
+                description: "Likes to boast a lot about himself, which can make him annoying unless he's also interesting. Because he's so self-absorbed, he won't mind when a shy girl can't carry her end of the conversation.",
                 opposites: ["TACITURN"]
             },
             "TACITURN": {
                 version: "0.8.9",
-                description: "The silent type, disables several talking options",
+                description: "This trait never appears randomly in the game but the npc Horse has it. It's used to show he's the silent type, and disables several talking options.",
                 opposites: ["BOASTFUL", "CHARMING"]
             },
             
             // Breast preference traits
             "LIKES_BIG_TITS": {
                 version: "0.8.9",
-                description: "More attracted to girls with large breasts",
+                description: "More attracted to girls with large or medium-large breasts and less to girls with smaller ones. \n\nNPCs with a breast liking trait will sometimes get special content if they like/dislike the pc's breasts. NPCs without any of these three traits get a small bonus to attraction towards every breast size and will never especially like or dislike the player's bosom.",
                 opposites: ["LIKES_MED_TITS", "LIKES_SMALL_TITS"]
             },
             "LIKES_MED_TITS": {
                 version: "0.8.9",
-                description: "Prefers medium-sized breasts",
+                description: "More attracted to girls with medium-large or medium-small breasts and less to girls with large or small ones. \n\nNPCs with a breast liking trait will sometimes get special content if they like/dislike the pc's breasts. NPCs without any of these three traits get a small bonus to attraction towards every breast size and will never especially like or dislike the player's bosom.",
                 opposites: ["LIKES_BIG_TITS", "LIKES_SMALL_TITS"]
             },
             "LIKES_SMALL_TITS": {
                 version: "0.8.9",
-                description: "Prefers smaller breasts",
+                description: "More attracted to girls with small breasts and less to girls with larger ones. \n\nNPCs with a breast liking trait will sometimes get special content if they like/dislike the pc's breasts. NPCs without any of these three traits get a small bonus to attraction towards every breast size and will never especially like or dislike the player's bosom.",
                 opposites: ["LIKES_BIG_TITS", "LIKES_MED_TITS"]
             },
             
             // Emotional traits
             "COLD_HEARTED": {
                 version: "0.8.9",
-                description: "Prevents the character from ever gaining love points",
+                description: "Normally restricted to SELFISH NPCs but can be added to other custom ones. Prevents the character from ever gaining love points in any way. Love will always be fixed at 0 for this character.",
                 opposites: []
             },
             "MISANTHROPE": {
                 version: "0.8.9",
-                description: "Caps liking points at a fairly low value",
+                description: "Normally restricted to JERK NPCs but can be added to other custom ones. Caps liking points at a fairly low value. It is impossible for a misanthrope to ever think better of you than as an ok person.",
                 opposites: []
             },
             
             // Sexual traits
             "TASTY_SPERM": {
                 version: "0.8.9",
-                description: "Makes his ejaculate taste pleasant",
+                description: "Makes his cum taste pleasant.",
                 opposites: ["NASTY_SPERM"]
             },
             "NASTY_SPERM": {
                 version: "0.8.9",
-                description: "Makes it very unpleasant if he finishes in your mouth",
+                description: "Makes it very unpleasant if he finishes in your mouth. Following a player request early in development, this trait is rare among NPCs who don't have one of the 'bad' personality types.",
                 opposites: ["TASTY_SPERM"]
             },
             "IMPREGNATOR": {
                 version: "0.8.9",
-                description: "Tries to get girls pregnant by underhand means",
+                description: "An 'evil' trait that means he tries to get girls pregnant by underhand means. His behaviour after depends a bit on other traits. For example, if he also doesn't want kids then he'll try to knock girls up and then run out on them. \n\nThese NPCs will also try to sabotage your contraception. Normally only appears on jerks",
                 opposites: ["LIKES_ANAL", "LIKES_ORAL", "CONSCIENTIOUS"]
             },
             
             // Relationship traits
             "TRADITIONAL": {
                 version: "0.8.9",
-                description: "Will ask the PC to commit to being a housewife when married",
-                opposites: ["SLEAZY", "LIKES_SEXY", "LIKES_TO_SHARE"]
+                description: "Will normally only appear on Jerks as it's an explicitly chauvinistic trait, but can be manually assigned to others. These men will ask the PC to commit to being a housewife when they get married, and they're always ok with her staying a virgin until marriage.",
+                opposites: ["SLEAZY", "LIKES_SEXY", "LIKES_TO_SHARE", "SLEAZY_OFFICE_WORKER", "PROSTITUTION_CLIENT", "SLEAZY_LANDLORD"]
             },
             "CHEATER": {
                 version: "0.8.9",
-                description: "Much more likely to cheat on you in a relationship",
+                description: "This trait makes it much more likely for him to cheat on you in a relationship and he might do so even if you haven't done anything to make him feel you're a bad wife.\n\nAs of 0.4.23 the cheating content only appears when you're living together, so you'll need to get married first.\n\nDoesn't appear by default on Caring or Romantic NPCs.",
                 opposites: []
             },
             "WANTS_KIDS": {
                 version: "0.8.9",
-                description: "Wants to have children and will probably be a good dad",
+                description: "The NPC wants to have children and will probably be a good dad. he'll react positively to the pc getting pregnant with his kid. Most common for romantic NPCs.",
                 opposites: ["DOESNT_WANT_KIDS"]
             },
             "DOESNT_WANT_KIDS": {
                 version: "0.8.9",
-                description: "Doesn't want children and will not be happy if player gets pregnant",
+                description: "The NPC doesn't want children and will not be happy if the player gets pregnant with his child. Or with someone else's.",
                 opposites: ["WANTS_KIDS"]
             },
             
             // Sex preference traits
             "LIKES_ORAL": {
                 version: "0.8.9",
-                description: "Enjoys oral sex more than average and is more likely to initiate it",
+                description: "Enjoys oral sex more than the average npc and is more likely to initiate it.",
                 opposites: ["IMPREGNATOR", "LIKES_ANAL", "PREFERS_SEX"]
             },
             "PREFERS_SEX": {
                 version: "0.8.9",
-                description: "Not so keen on oral sex and similar activities",
+                description: "Is not so keen on oral sex and similar activities as an alternative to full sex, although he doesn't outright hate it and you can still bring him off this way.\n\nThis mainly affects the \"oral\" scene which covers titjobs and masturbation as well. He's ok with this sort of thing as part of foreplay (i.e. in normal makeout scenes).\n\nThese npcs are much more likely to stop oral partway and return to normal makeouts.",
                 opposites: ["LIKES_ORAL", "LIKES_ANAL"]
             },
             "LIKES_ANAL": {
                 version: "0.8.9",
-                description: "Enjoys anal sex more and is more likely to initiate it",
+                description: "Enjoys anal sex more and is more likely to initiate it.\n\nThis trait will be removed from custom NPCs when they are loaded if anal sex is disabled in the game options.",
                 opposites: ["IMPREGNATOR", "PREFERS_SEX", "LIKES_ORAL"]
             },
             "LIKES_GOING_DOWN": {
                 version: "0.8.9",
-                description: "The NPC enjoys giving cunnilingus and may initiate it",
+                description: "The NPC enjoys giving cunnilingus more and will sometimes initiate it without the PC asking.",
                 opposites: ["INEPT_LOVER"]
             },
             
             // Hobby traits
             "GOOD_DANCER": {
                 version: "0.8.9",
-                description: "Better at dancing and can appear at the dance competition",
+                description: "He is better at dancing and can appear at the dance competition. All dance class NPCs have this trait but it's rare among other ones.",
                 opposites: ["BAD_DANCER"]
             },
             "BAD_DANCER": {
                 version: "0.8.9",
-                description: "Hates dancing and is terrible at it",
-                opposites: ["GOOD_DANCER"]
+                description: "He hates dancing and is terrible at it.",
+                opposites: ["GOOD_DANCER", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT"]
             },
             "FASHIONABLE": {
                 version: "0.8.9",
-                description: "Dresses in more fashionable clothes",
+                description: "Dresses in more fashionable clothes and enjoys it more if you try to befriend him by taking him clothes shopping.\n\nNormal NPCs will never have both this trait and dull, but custom ones can.",
                 opposites: []
             },
             
             // Relationship dynamic traits
             "DOORMAT": {
                 version: "0.8.9",
-                description: "Don't like the PC cheating but won't break up over it",
+                description: "NPCs with this trait don't like the PC cheating on them but they'll just complain about it without actually breaking up with her.",
                 opposites: ["LIKES_TO_SHARE"]
             },
             "LIKES_TO_SHARE": {
                 version: "0.8.9",
-                description: "Finds it a turn-on if their partner sleeps with other men",
+                description: "These NPCs find it a turn-on if their partner sleeps with other men. Note that most NPCs have neither this trait nor doormat. An NPC with neither will be upset if the PC cheats on them and may break up with her.",
                 opposites: ["DOORMAT", "TRADITIONAL"]
             },
             "LIKES_COOKING": {
                 version: "0.8.9",
-                description: "Likes to cook and is good at it",
+                description: "Likes to cook and is good at it. These NPCs can appear as students in the cooking class as long as they aren't set to have no random appearances.",
                 opposites: []
             },
             
             // Special NPC traits
             "REPAIRMAN": {
                 version: "0.8.9",
-                description: "Special NPC: can show up as the repairman if appliances break",
-                opposites: ["LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD"]
+                description: "Allows the NPC to show up as the repairman if one of your appliances breaks. There can be more than one repairman and if so then one will be picked randomly when needed.\n\nIf you don't create a custom repairman then the game will add exactly one. Non-custom NPC repairmen always have the Magic Fingers trait (because they're \"good with their hands\") but are otherwise the same as other NPCs and can show up in the nightclub and similar places before appearing to make repairs.\n\nOther than letting him show up in the relevant scene, the repairman trait has no effects whatsoever.",
+                opposites: ["LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD", "PLEASANT_HOME_LANDLORD", "CHEAP_HOME_LANDLORD"]
             },
             "LOWLIFE": {
                 version: "0.8.9",
-                description: "Special NPC: can appear in certain events but never otherwise",
-                opposites: ["REPAIRMAN", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD"]
+                description: "These characters can appear in a certain event. Unlike repairmen, they will never appear otherwise - you'll never see them in the club for example.\n\nThe appropriate scene assumes that lowlives are Jerks who lack the Charming trait. Creating a custom lowlife who doesn't fit this definition is not recommended as it could lead to odd behaviour - switching between asshole and nice-guy attitudes depending on whether the scene in question includes support for other personality types. However, such NPCs are valid and will load, even if they act strangely in-game.\n\nNewlife will ensure there are at least 3 lowlives, even if you don't create any. Default lowlives are always jerks of one of the 2 younger age categories without the Charming or Fashionable traits. Both custom and default lowlives cannot be befriended and will not show up in scenes unless specifically set to appear.",
+                opposites: ["REPAIRMAN", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD", "PLEASANT_HOME_LANDLORD", "CHEAP_HOME_LANDLORD"]
             },
             "SALES_BOSS": {
                 version: "0.8.9",
-                description: "Special NPC: replaces the usual boss for the sales career",
-                opposites: ["REPAIRMAN", "LOWLIFE", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD"]
+                description: "This custom NPC will replace the usual boss for the sales career. There can only be one sales boss in a game. The sales boss will not be randomly picked for scenes like the nightclub. It is possible for a boss to become dateable through events though.\n\nIf you don't create a boss, one will be generated by the game.",
+                opposites: ["REPAIRMAN", "LOWLIFE", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD", "PLEASANT_HOME_LANDLORD", "CHEAP_HOME_LANDLORD"]
             },
             "OFFICE_BOSS": {
                 version: "0.8.9",
-                description: "Special NPC: replaces the usual boss for the office career",
-                opposites: ["REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD"]
+                description: "Similar to the sales boss, but for the office career. The default sales boss is always selfish or a jerk, so picking a different personality may result in odd behaviour during his special scenes.",
+                opposites: ["REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD", "PLEASANT_HOME_LANDLORD", "CHEAP_HOME_LANDLORD"]
             },
             "OFFICE_HUNK": {
                 version: "0.8.9",
-                description: "Special NPC: handsome colleague for the office career",
-                opposites: ["REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD"]
+                description: "A handsome colleague for the office career.\n\nWill always be given a CARING personality and the HANDSOME trait, overriding any values set here.\n\nWill also never be dull although he is not guaranteed to be INTERESTING.",
+                opposites: ["DULL","REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD", "PLEASANT_HOME_LANDLORD", "CHEAP_HOME_LANDLORD"]
             },
             "SLEAZY_OFFICE_WORKER": {
                 version: "0.8.9",
-                description: "Special NPC: jerk that can appear in the office party",
-                opposites: ["REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD"]
+                description: "A jerk NPC that can appear in the office party. There are always 2 of these, normally the same age as each other but this is not enforced if they are both custom NPCs.\n\nThe game will ensure that these characters are sleazy jerks, overriding any conflicting values.",
+                opposites: ["CHARMING", "TRADITIONAL", "REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD", "PLEASANT_HOME_LANDLORD", "CHEAP_HOME_LANDLORD"]
             },
             "GYM_JERK": {
                 version: "0.8.9",
-                description: "Special NPC: jerk that can lead the player-character into changing-room hanky-panky",
-                opposites: ["REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD"]
+                description: "This custom NPC can appear normally in nightclubs etc and is also the jerk that can lead the player-character into changing-room hanky-panky.\n\nThere are a lot of special requirements for this NPC, and the game will override the relevant values if they aren't set. Specifically, he must have the Jerk personality, the Sleazy, Cold-hearted and Misanthrope traits and either Toned, Thickset or Muscular body type.\n\nThere can only be one gym jerk in a game, so if you create several then only the highest priority one will be used.",
+                opposites: ["CHARMING", "REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD", "PLEASANT_HOME_LANDLORD", "CHEAP_HOME_LANDLORD"]
             },
             "BOYFRIENDS_JERK_FRIEND": {
                 version: "0.8.9",
-                description: "Special NPC: used for the jerk-friend storyline",
-                opposites: ["REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD"]
+                description: "This NPC will be used for the jerk-friend storyline. They won't be present at the start but will be created if the NPC is needed.\n\nThe jerk-friend NPC has a lot of fixed traits that will override any conflicting ones set here.",
+                opposites: ["REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD", "PLEASANT_HOME_LANDLORD", "CHEAP_HOME_LANDLORD"]
             },
             "PROSTITUTION_CLIENT": {
                 version: "0.8.9",
-                description: "Special NPC: may try to pay you for sex",
-                opposites: ["REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD"]
+                description: "This one may try to pay you for sex. He won't appear in the club or similar random encounters. This NPC is always SLEAZY (the game will add it if you don't).\n\nIf his age is left blank then he'll tend to be an older man, but if it's set then the game will use whatever you put in there.",
+                opposites: ["CHARMING", "TRADITIONAL", "REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD", "PLEASANT_HOME_LANDLORD", "CHEAP_HOME_LANDLORD"]
             },
             "DANCE_JUDGE": {
                 version: "0.8.9",
-                description: "Special NPC: judge for the dance competition",
-                opposites: ["REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD"]
+                description: "The judge for the dance competition. This NPC can appear randomly but will always be chosen to judge dance contests.\n\nAlways has the GOOD_DANCER trait (this will be added when the NPC is loaded if you don't set it here). Default judges will be older men, but you can override this by setting a younger age.",
+                opposites: ["BAD_DANCER", "REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD", "PLEASANT_HOME_LANDLORD", "CHEAP_HOME_LANDLORD"]
             },
             "DANCE_TEACHER": {
                 version: "0.8.9",
-                description: "Special NPC: teacher for dance classes",
-                opposites: ["REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD"]
+                description: "Always has GOOD_DANCER, FASHIONABLE and the TONED body type: these will be set automatically and will override any conflicting values that you set. The teacher is hidden until you take a dance class and meet him for the first time.",
+                opposites: ["BAD_DANCER", "REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD", "PLEASANT_HOME_LANDLORD", "CHEAP_HOME_LANDLORD"]
             },
             "DANCE_STUDENT": {
                 version: "0.8.9",
-                description: "Special NPC: student in dance classes",
-                opposites: ["REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD"]
+                description: "Always have the GOOD_DANCER trait. Will be hidden until you take a dance class. You can create multiple students and all will be loaded every time with no limits - very large numbers might cause issues in the game so don't go nuts. The minimum is 3. The game will create students up to that number if there are fewer custom ones.\n\nAll dance students will appear and be met in the first dance class. Thereafter the normal dance class event includes two, chosen at random. Like the dance teacher, students can appear in random events like the club, but only after meeting them in the first class.",
+                opposites: ["BAD_DANCER", "REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD", "PLEASANT_HOME_LANDLORD", "CHEAP_HOME_LANDLORD"]
             },
             "COOKING_TEACHER": {
                 version: "0.8.9",
-                description: "Special NPC: teacher for cooking classes",
-                opposites: ["REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD"]
+                description: "This NPC can teach cooking classes. Should always have the LIKES_COOKING trait - the game will add this if it isn't set.",
+                opposites: ["REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD", "PLEASANT_HOME_LANDLORD", "CHEAP_HOME_LANDLORD"]
             },
             "PORN_ACTOR": {
                 version: "0.8.9",
-                description: "Special NPC: can appear as a co-star in porn videos",
-                opposites: ["REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD"]
+                description: "This NPC can appear as a co-star if the PC ends up performing in a porn video. There's no other restriction on these NPCs but the game will prevent them from appearing in scenes other than their own special ones.",
+                opposites: ["REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD", "PLEASANT_HOME_LANDLORD", "CHEAP_HOME_LANDLORD"]
             },
             "EVIL_HYPNOTIST": {
                 version: "0.8.9",
-                description: "Special NPC: evil hypnotist character",
-                opposites: ["REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD"]
+                description: "Must have Jerk personality. Will be set to no-random-appearances until the PC has been hypnotised by him at least once.",
+                opposites: ["REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD", "PLEASANT_HOME_LANDLORD", "CHEAP_HOME_LANDLORD"]
             },
             "GOOD_HYPNOTIST": {
                 version: "0.8.9",
-                description: "Special NPC: good hypnotist character",
-                opposites: ["REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD"]
+                description: "Should have Average, Romantic or Caring personality. Will be set to no-random-appearances until the PC has been hypnotised by him at least once.",
+                opposites: ["REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD", "PLEASANT_HOME_LANDLORD", "CHEAP_HOME_LANDLORD"]
             },
             "HYPNOTIST": {
                 version: "0.8.9",
-                description: "Can appear in hypnosis-related scenes",
+                description: "Allows the NPC to appear in hypnosis-related scenes that aren't restricted to a special NPC. Only rarely used in main content. Does not mark the NPC as a special NPC.",
                 opposites: []
             },
             "SLEAZY_LANDLORD": {
                 version: "0.8.9",
-                description: "Special NPC: PC's sleazy landlord",
-                opposites: ["REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SILVER_SPOON_LANDLORD"]
+                description: "This is the PC's sleazy landlord, the game will ensure he is a SLEAZY jerk, overriding conflicting values if you set them.",
+                opposites: ["CHARMING", "TRADITIONAL", "REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SILVER_SPOON_LANDLORD"]
             },
             "SILVER_SPOON_LANDLORD": {
                 version: "0.8.9",
-                description: "Special NPC: 'silver-spoon' landlord from a wealthy family",
+                description: "This is the 'silver-spoon' landlord who comes from a wealthy family. This NPC will always have the ROMANTIC personality (the game will override any alternative choices).\n\nThis NPC will not normally be generated older than TWENTIES, but if you set a custom one to older then it will be limited to THIRTIES instead.",
                 opposites: ["REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD"]
             },
             "PLEASANT_HOME_LANDLORD": {
                 version: "0.8.9",
-                description: "Assigns a landlord character to the pleasant neighbourhood",
-                opposites: []
+                description: "If set, it will assign him to be the landlord for the pleasant neighbourhood.\n\nA landlord with just one neighbourhood trait will be guaranteed to become landlord for that home, with the other landlord taking the second.\n\nA landlord with both pleasant and cheap neighbourhood traits will be landlord for both (and the other landlord will not appear in the game).\n\nIf neither landlord has any neighbourhood traits then they'll get one each, chosen randomly.",
+                opposites: ["REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST"]
             },
             "CHEAP_HOME_LANDLORD": {
                 version: "0.8.9",
-                description: "Assigns a landlord character to the cheap neighbourhood",
-                opposites: []
+                description: "Assigns a landlord character to the CHEAP neighbourhood where the PC has her first home at the start of the game.",
+                opposites: ["REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST"]
             },
             
             // Hidden traits
             "NO_BEFRIEND": {
                 version: "0.8.9",
-                description: "Hidden trait: NPCs with this trait can never be befriended",
+                description: "A hidden trait that's usually used to limit special NPCs. Most hidden traits would cause problems on custom NPCs but this one would be ok so I've allowed it. NPCs with this trait can never be befriended. They can still become your boyfriend though.",
                 opposites: []
             },
             "INFERTILE": {
                 version: "0.8.9",
-                description: "Hidden trait: men with this trait will never get you pregnant",
+                description: "A hidden trait that is only used for custom NPCs. Men with this trait will never get you pregnant. It doesn't change in-game text. There'll still be \"pregnancy risk\" dialogue and so on: presumably neither you nor him know about his infertility.",
                 opposites: []
             },
             "UNLOVABLE": {
                 version: "0.8.9",
-                description: "Hidden trait: the PC will never fall in love with this NPC",
+                description: "A hidden trait that is only used for custom NPCs. The PC will never fall in love with this NPC.",
                 opposites: []
             },
             "ODDLY_UNATTRACTIVE": {
                 version: "0.8.9",
-                description: "Hidden trait: caps PC's starting attraction to a low level",
+                description: "A hidden trait that is only used for custom NPCs. Caps PC's starting attraction to a low level regardless of other factors.",
                 opposites: []
             },
             "CUNNING": {
                 version: "0.8.9",
-                description: "The PC's partner will never discover cheating with this NPC",
+                description: "The PC's partner will never discover cheating with this NPC on his own.",
                 opposites: []
             },
             "TESTING_TRAIT": {
                 version: "0.0.0",
-                description: "Used for testing of custom scenes",
+                description: "A trait used for testing of custom scenes that has no effects in the main game. It will show up in the character browser at any level of knowledge.",
                 opposites: []
             }
         };
