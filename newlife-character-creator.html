@@ -368,6 +368,35 @@
             cursor: pointer;
         }
 
+        .faq-section {
+            margin-bottom: 25px;
+        }
+        
+        .faq-section .collapsible {
+            background-color: var(--secondary);
+            color: white;
+            font-weight: bold;
+        }
+        
+        .faq-section .collapsible:after {
+            color: white;
+        }
+        
+        .faq-inner-content {
+            padding: 15px;
+            background-color: #f8f9fa;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        
+        .faq-inner-content code {
+            background-color: #e9ecef;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+
         /* For mobile responsiveness */
         @media (max-width: 1024px) {
             .form-group-container {
@@ -395,6 +424,26 @@
             </div>
         </div>
         
+        <div class="faq-section">
+            <button type="button" class="collapsible active-collapse">How do I load custom NPCs into Newlife?</button>
+            <div class="collapsible-content" style="max-height: fit-content">
+                <div class="faq-inner-content">
+                    <p>To add custom NPCs to your Newlife game:</p>
+                    <ol>
+                        <li>Create your character using this tool and download the YAML file</li>
+                        <li>Place the YAML file in the <code>newlife_gamedata/user_created_npcs</code> folder within your Newlife game directory</li>
+                        <ul>
+                            <li>If the folder doesn't exist, create it or load the game once and it should be created automatically</li>
+                        </ul>    
+                        <li>Ensure <code>Use Custom NPCs</code> is set to 'true' in the Options menu</li>
+                        <li>Click on the <code>Test NPCs</code> button on the main menu to make sure your custom NPCs are valid</li>
+                        <li>Start a new game - your custom NPC should appear based on their configured settings</li>
+                    </ol>
+                    <p><strong>Note:</strong> Custom NPCs are only loaded when starting a new game. They won't appear in games that are already in progress.</p>
+                </div>
+            </div>
+        </div>        
+
         <div class="tab-container">
             <div class="tab-buttons">
                 <div class="tab-button active" data-tab="tab-create">Create Character</div>
