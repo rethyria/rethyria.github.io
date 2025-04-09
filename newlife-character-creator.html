@@ -125,6 +125,7 @@
         }
         
         input[type="text"],
+        input[type="search"],
         select,
         textarea {
             width: 100% !important;
@@ -132,6 +133,33 @@
             border: 1px solid var(--border);
             border-radius: 4px;
             box-sizing: border-box;
+        }
+
+        .custom-file-upload {
+            display: flex;
+            position: relative;
+        }
+
+        .race-data-text {
+            border-radius: 4px 0 0 4px !important;
+        }
+
+        .browse-button {
+            padding: 3px 16px 4px;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            border-left: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            margin: 0 !important;
+        }
+
+        input[type="file"] {
+            opacity: 0;
+            position: absolute;
+            width: 0.1px;
+            height: 0.1px;
+            z-index: -1;
         }
         
         .traits-section {
@@ -454,11 +482,13 @@
             <div class="tab-content active" id="tab-create">
                 <div class="form-group-container">             
                     <div class="form-group">
-                        <label for="character-enabled">Enabled:</label>
-                        <select id="character-enabled">
-                            <option value="TRUE">TRUE</option>
-                            <option value="FALSE">FALSE</option>
-                        </select>
+                        <label for="character-enabled">Race Data:</label>
+                        <div class="custom-file-upload">
+                            <input type="text" id="raceDataText" class="race-data-text" placeholder="Using default raceData.json" inert>
+                            <label id="raceDataBrowseButton" for="raceDataUpload" class="browse-button">Browse</label>
+                            <label id="raceDataResetButton" class="browse-button" style="display: none">Reset</label>
+                            <input type="file" id="raceDataUpload" name="raceData" accept=".json">
+                        </div>
                     </div>
 
                     <div class="form-group">
@@ -494,7 +524,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="character-name">Name (required):</label>
+                        <label for="character-name">Name:</label>
                         <input type="text" id="character-name" placeholder="Enter character name">
                     </div>
                     
@@ -591,17 +621,29 @@
                         
                     <div class="form-group">
                         <label for="eye-colour">Eye Colour:</label>
-                        <input type="text" id="eye-colour" class="compact-text" placeholder="e.g. blue">
+                        <input type="text" id="eye-colour" placeholder="Leave blank for random or enter a custom colour" list="eye-colour-list">
+                        <datalist id="eye-colour-list">
+                            <option value="blue">
+                            <option value="green">
+                        </datalist>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="hair-colour">Hair Colour:</label>
-                        <input type="text" id="hair-colour" class="compact-text" placeholder="e.g. black">
+                        <input type="text" id="hair-colour" placeholder="Leave blank for random or enter a custom colour" list="hair-colour-list">
+                        <datalist id="hair-colour-list">
+                            <option value="blue">
+                            <option value="green">
+                        </datalist>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="skin-colour">Skin Colour:</label>
-                        <input type="text" id="skin-colour" class="compact-text" placeholder="e.g. tan">
+                        <input type="text" id="skin-colour" placeholder="Leave blank for random or enter a custom colour" list="skin-colour-list">
+                        <datalist id="skin-colour-list">
+                            <option value="blue">
+                            <option value="green">
+                        </datalist>
                     </div>
 
                     <div class="row-divider"></div>
@@ -798,6 +840,9 @@
                 <button type="button" id="copy-button" class="copy-button">Copy to Clipboard</button>
                 <button type="button" id="download-button" class="download-button">Download YML File</button>
             </div>
+
+            <!--<h2>JSON Data Preview</h2>
+            <pre id="customRaceData">No data loaded yet.</pre>-->
         </div>
     </div>
 
@@ -1449,21 +1494,915 @@
             }
         };
 
+        // Race Data
+        const defaultRaceData = {
+            "raceDefs": [
+                {
+                    "race": "white",
+                    "skinColours": [
+                        "pale",
+                        "rosy",
+                        "tanned",
+                        "olive"
+                    ],
+                    "hairColours": [
+                        "black",
+                        "platinum blonde",
+                        "blonde",
+                        "sandy",
+                        "strawberry blonde",
+                        "dark brown",
+                        "chestnut",
+                        "light brown",
+                        "auburn",
+                        "red"
+                    ],
+                    "eyeColours": [
+                        "amber",
+                        "pale blue",
+                        "deep blue",
+                        "light brown",
+                        "dark brown",
+                        "green",
+                        "grey",
+                        "hazel"
+                    ],
+                    "nameLists": {
+                        "general": 80,
+                        "irish": 10,
+                        "scottish": 10
+                    }
+                },
+                {
+                    "race": "black",
+                    "skinColours": [
+                        "light brown",
+                        "dark brown",
+                        "ebony"
+                    ],
+                    "hairColours": [
+                        "black",
+                        "dark brown",
+                        "light brown"
+                    ],
+                    "eyeColours": [
+                        "light brown",
+                        "dark brown"
+                    ],
+                    "nameLists": {
+                        "general": 50,
+                        "nigerian": 30,
+                        "swahili": 20
+                    }
+                },
+                {
+                    "race": "east asian",
+                    "skinColours": [
+                        "golden-brown",
+                        "porcelain"
+                    ],
+                    "hairColours": [
+                        "black",
+                        "dark brown"
+                    ],
+                    "eyeColours": [
+                        "light brown",
+                        "dark brown"
+                    ],
+                    "nameLists": {
+                        "general": 40,
+                        "chinese": 30,
+                        "japanese": 30
+                    }
+                },
+                {
+                    "race": "south asian",
+                    "skinColours": [
+                        "light brown",
+                        "dark brown"
+                    ],
+                    "hairColours": [
+                        "black",
+                        "dark brown"
+                    ],
+                    "eyeColours": [
+                        "light brown",
+                        "dark brown",
+                        "green"
+                    ],
+                    "nameLists": {
+                        "general": 20,
+                        "arabic": 10,
+                        "indian": 70
+                    }
+                },
+                {
+                    "race": "middle-eastern",
+                    "skinColours": [
+                        "light brown",
+                        "dark brown",
+                        "olive"
+                    ],
+                    "hairColours": [
+                        "black",
+                        "dark brown",
+                        "light brown"
+                    ],
+                    "eyeColours": [
+                        "light brown",
+                        "dark brown",
+                        "hazel",
+                        "amber",
+                        "grey"
+                    ],
+                    "nameLists": {
+                        "general": 20,
+                        "arabic": 55,
+                        "turkish": 25
+                    }
+                }
+            ],
+            "nameLists": [
+                {
+                    "id": "general",
+                    "maleNames": [
+                        "Cliff",
+                        "Oliver",
+                        "Jack",
+                        "Harry",
+                        "Jacob",
+                        "Charlie",
+                        "Thomas",
+                        "Oscar",
+                        "William",
+                        "James",
+                        "George",
+                        "Alfie",
+                        "Joshua",
+                        "Ethan",
+                        "Archie",
+                        "Leo",
+                        "Henry",
+                        "Joseph",
+                        "Samuel",
+                        "Riley",
+                        "Daniel",
+                        "Alexander",
+                        "Max",
+                        "Lucas",
+                        "Mason",
+                        "Logan",
+                        "Isaac",
+                        "Benjamin",
+                        "Dylan",
+                        "Jake",
+                        "Edward",
+                        "Freddie",
+                        "Tyler",
+                        "Sebastian",
+                        "Adam",
+                        "Theo",
+                        "Jayden",
+                        "Arthur",
+                        "Toby",
+                        "Luke",
+                        "Lewis",
+                        "Matthew",
+                        "Harvey",
+                        "David",
+                        "Ryan",
+                        "Tommy",
+                        "Michael",
+                        "Reuben",
+                        "Nathan",
+                        "Blake",
+                        "Bobby",
+                        "Charles",
+                        "Frankie",
+                        "Alex",
+                        "Connor",
+                        "Liam",
+                        "Jamie",
+                        "Stanley",
+                        "Hugo",
+                        "Leon",
+                        "Louis",
+                        "Theodore",
+                        "Gabriel",
+                        "Ollie",
+                        "Aaron",
+                        "Frederick",
+                        "Evan",
+                        "Elliott",
+                        "Owen",
+                        "Cameron",
+                        "Rory",
+                        "Seth",
+                        "Robert",
+                        "Albert",
+                        "Joel",
+                        "John",
+                        "Finn",
+                        "Taylor",
+                        "Kyle",
+                        "Patrick",
+                        "Sam",
+                        "Carter",
+                        "Corey",
+                        "Roman",
+                        "Ben",
+                        "Anthony",
+                        "Andrew",
+                        "Jason",
+                        "Ralph",
+                        "Will",
+                        "Bill",
+                        "Rob",
+                        "Bob",
+                        "Ed",
+                        "Brad",
+                        "Chris",
+                        "Nick",
+                        "Cubano",
+                        "Eduardo",
+                        "Lachlan",
+                        "Noah",
+                        "Cooper",
+                        "Hayden",
+                        "Nathaniel",
+                        "Jett",
+                        "Austin",
+                        "Cohen",
+                        "Fletcher",
+                        "Zack",
+                        "Spencer",
+                        "Parker",
+                        "Chase",
+                        "Kai",
+                        "Archer",
+                        "Milo",
+                        "Cole",
+                        "Vincent",
+                        "Brandon",
+                        "Levi",
+                        "Jonathan",
+                        "Brody",
+                        "Jonah",
+                        "Xavier",
+                        "Marcus",
+                        "Beau",
+                        "Layton",
+                        "Kevin",
+                        "Myles",
+                        "Ted",
+                        "Peter",
+                        "Maximilian",
+                        "Jensen",
+                        "Alan",
+                        "Marley",
+                        "Oskar",
+                        "Arlo",
+                        "Kieran",
+                        "Ewan",
+                        "Lukas",
+                        "Joe",
+                        "Maximus",
+                        "Leonardo",
+                        "Rayyan",
+                        "Declan",
+                        "Zain",
+                        "Jay",
+                        "Adrian",
+                        "Lincoln",
+                        "Fraser",
+                        "Danny",
+                        "Oakley",
+                        "Hunter",
+                        "Barnaby",
+                        "Kye",
+                        "Rupert",
+                        "Rhys",
+                        "Idris",
+                        "Jordan",
+                        "Fabian",
+                        "Ashley",
+                        "Trent",
+                        "Jesse",
+                        "Jules",
+                        "Carlos",
+                        "Dafyyd"
+                    ],
+                    "femaleNames": [
+                        "Amelia",
+                        "Olivia",
+                        "Emily",
+                        "Poppy",
+                        "Isabella",
+                        "Jessica",
+                        "Lily",
+                        "Sophie",
+                        "Grace",
+                        "Mia",
+                        "Evie",
+                        "Ruby",
+                        "Ella",
+                        "Scarlett",
+                        "Isabelle",
+                        "Chloe",
+                        "Sienna",
+                        "Freya",
+                        "Phoebe",
+                        "Charlotte",
+                        "Daisy",
+                        "Alice",
+                        "Florence",
+                        "Eva",
+                        "Sofia",
+                        "Millie",
+                        "Lucy",
+                        "Evelyn",
+                        "Elsie",
+                        "Rosie",
+                        "Imogen",
+                        "Lola",
+                        "Matilda",
+                        "Elizabeth",
+                        "Layla",
+                        "Holly",
+                        "Lilly",
+                        "Molly",
+                        "Erin",
+                        "Ellie",
+                        "Maisie",
+                        "Maya",
+                        "Abigail",
+                        "Eliza",
+                        "Georgia",
+                        "Jasmine",
+                        "Willow",
+                        "Bella",
+                        "Annabelle",
+                        "Amber",
+                        "Emilia",
+                        "Emma",
+                        "Summer",
+                        "Hannah",
+                        "Eleanor",
+                        "Harriet",
+                        "Rose",
+                        "Amelie",
+                        "Lexi",
+                        "Megan",
+                        "Gracie",
+                        "Zara",
+                        "Lacey",
+                        "Martha",
+                        "Anna",
+                        "Violet",
+                        "Maria",
+                        "Brooke",
+                        "Katie",
+                        "Leah",
+                        "Thea",
+                        "Darcie",
+                        "Hollie",
+                        "Amy",
+                        "Mollie",
+                        "Heidi",
+                        "Lottie",
+                        "Bethany",
+                        "Francesca",
+                        "Faith",
+                        "Harper",
+                        "Nancy",
+                        "Beatrice",
+                        "Isabel",
+                        "Darcy",
+                        "Lydia",
+                        "Sarah",
+                        "Julia",
+                        "Victoria",
+                        "Zoe",
+                        "Robyn",
+                        "Penelope",
+                        "Elsa",
+                        "Paige",
+                        "Mila",
+                        "Alexandra",
+                        "Iris",
+                        "Skye",
+                        "Tilly",
+                        "Isobel",
+                        "Eloise",
+                        "Lyla",
+                        "Nevaeh",
+                        "Annie",
+                        "Lara",
+                        "Maddison",
+                        "Annabel",
+                        "Clara",
+                        "Edith",
+                        "Orla",
+                        "Keira",
+                        "Arabella",
+                        "Alexis",
+                        "Gabriella",
+                        "Lena",
+                        "Lauren",
+                        "Felicity",
+                        "Savannah",
+                        "Eden",
+                        "Rebecca",
+                        "Caitlin",
+                        "Esra",
+                        "Libby",
+                        "Lois",
+                        "Nicole",
+                        "Vanessa"
+                    ]
+                },
+                {
+                    "id": "scottish",
+                    "maleNames": [
+                        "Callum",
+                        "Lachlan",
+                        "Hamish",
+                        "Lennox",
+                        "Angus",
+                        "Malcolm",
+                        "Fergus",
+                        "Duncan",
+                        "Ross",
+                        "Lyle",
+                        "Fraser",
+                        "Gordon",
+                        "Brodie",
+                        "Murray",
+                        "Alasdair",
+                        "Tavish",
+                        "Graeme",
+                        "Dougal",
+                        "Stewart"
+                    ],
+                    "femaleNames": [
+                        "Isla",
+                        "Esme",
+                        "Elsie",
+                        "Maisie",
+                        "Arabella",
+                        "Flora",
+                        "Bonnie",
+                        "Blair",
+                        "Fiona",
+                        "Eilidh",
+                        "Alba",
+                        "Skye",
+                        "Elspeth",
+                        "Nessa",
+                        "Paisley",
+                        "Mackenzie",
+                        "Iona",
+                        "Mirren",
+                        "Morag",
+                        "Caitriona",
+                        "Morven",
+                        "Breagha",
+                        "Mhairi",
+                        "Rhona"
+                    ]
+                },
+                {
+                    "id": "irish",
+                    "maleNames": [
+                        "Finn",
+                        "Ronan",
+                        "Rory",
+                        "Kieran",
+                        "Liam",
+                        "Flynn",
+                        "Declan",
+                        "Cormac",
+                        "Quinn",
+                        "Eamon",
+                        "Seamus",
+                        "Aidan",
+                        "Niall",
+                        "Ciaran",
+                        "Blaine",
+                        "Colm",
+                        "Daragh",
+                        "Eoin",
+                        "Callum",
+                        "Donal",
+                        "Lorcan"
+                    ],
+                    "femaleNames": [
+                        "Maeve",
+                        "Nora",
+                        "Sloane",
+                        "Quinn",
+                        "Rowan",
+                        "Riley",
+                        "Niamh",
+                        "Neve",
+                        "Orla",
+                        "Bridget",
+                        "Brianna",
+                        "Siobhan",
+                        "Keira",
+                        "Fia",
+                        "Teagan",
+                        "Shea",
+                        "Roisin",
+                        "Ciara",
+                        "Bree",
+                        "Kara",
+                        "Sorcha",
+                        "Caitlin",
+                        "Sinead",
+                        "Tara",
+                        "Deirdre",
+                        "Aislinn",
+                        "Fianna"
+                    ]
+                },
+                {
+                    "id": "arabic",
+                    "maleNames": [
+                        "Muhammad",
+                        "Ali",
+                        "Amir",
+                        "Ibrahim",
+                        "Malik",
+                        "Nasir",
+                        "Omar",
+                        "Samir",
+                        "Yusuf",
+                        "Amin",
+                        "Osman",
+                        "Rahim",
+                        "Musa",
+                        "Mustafa",
+                        "Hamza",
+                        "Zayn",
+                        "Malik",
+                        "Zaid",
+                        "Zahir",
+                        "Jamal",
+                        "Khalil",
+                        "Tariq",
+                        "Khalid",
+                        "Yasir",
+                        "Ahmed",
+                        "Zaki",
+                        "Hakeem",
+                        "Hassan",
+                        "Kamil",
+                        "Kareem",
+                        "Salah",
+                        "Nadir",
+                        "Qasim",
+                        "Salman",
+                        "Abdullah",
+                        "Farouk",
+                        "Ismail",
+                        "Rafiq",
+                        "Rashad",
+                        "Faisal",
+                        "Jamil",
+                        "Latif",
+                        "Nasim",
+                        "Daoud"
+                    ],
+                    "femaleNames": [
+                        "Maryam",
+                        "Aisha",
+                        "Zainab",
+                        "Elif",
+                        "Azra",
+                        "Abrar",
+                        "Lilah",
+                        "Aaliyah",
+                        "Alia",
+                        "Aida",
+                        "Zariah",
+                        "Amina",
+                        "Noor",
+                        "Fatima",
+                        "Yasmin",
+                        "Aziza",
+                        "Samira",
+                        "Sadiya",
+                        "Amani",
+                        "Safiyya",
+                        "Anisa",
+                        "Khadija",
+                        "Amirah",
+                        "Yamina",
+                        "Anaya"
+                    ]
+                },
+                {
+                    "id": "turkish",
+                    "maleNames": [
+                        "Ayin",
+                        "Emir",
+                        "Osman",
+                        "Eren",
+                        "Deniz",
+                        "Emre",
+                        "Aslan",
+                        "Taylan",
+                        "Kaan",
+                        "Mehmet",
+                        "Selim",
+                        "Turgut",
+                        "Noyan",
+                        "Gunduz",
+                        "Ilay",
+                        "Seran",
+                        "Yaz",
+                        "Ilhan",
+                        "Zeki",
+                        "Beyram"
+                    ],
+                    "femaleNames": [
+                        "Ayla",
+                        "Ada",
+                        "Mihrimah",
+                        "Mavi",
+                        "Miral",
+                        "Xayah",
+                        "Belkis",
+                        "Aylin",
+                        "Elif",
+                        "Sila",
+                        "Kayra",
+                        "Nuray",
+                        "Harika",
+                        "Derya",
+                        "Sema"
+                    ]
+                },
+                {
+                    "id": "nigerian",
+                    "maleNames": [
+                        "Chidera",
+                        "Ayomi",
+                        "Ayomide",
+                        "Kamsi",
+                        "Yemi",
+                        "Ike",
+                        "Obie",
+                        "Obinna",
+                        "Olufemi",
+                        "Atiba",
+                        "Babatunde",
+                        "Ade",
+                        "Ayodeji",
+                        "Chidi",
+                        "Adewale",
+                        "Adebayo",
+                        "Ajani",
+                        "Iniko",
+                        "Agu",
+                        "Kehinde",
+                        "Ajamu",
+                        "Diji",
+                        "Amazu"
+                    ],
+                    "femaleNames": [
+                        "Oluchi",
+                        "Dayo",
+                        "Oba",
+                        "Adeya",
+                        "Nene",
+                        "Praise",
+                        "Ayomi",
+                        "Ola",
+                        "Amara",
+                        "Nneka",
+                        "Ajah",
+                        "Sade"
+                    ]
+                },
+                {
+                    "id": "swahili",
+                    "maleNames": [
+                        "Khari",
+                        "Nyjah",
+                        "Kion",
+                        "Amani",
+                        "Kimani",
+                        "Jelani",
+                        "Neema",
+                        "Jahari",
+                        "Riziki",
+                        "Koko",
+                        "Onaje",
+                        "Dakari",
+                        "Kobie"
+                    ],
+                    "femaleNames": [
+                        "Nala",
+                        "Nia",
+                        "Khari",
+                        "Nyjah",
+                        "Imani",
+                        "Zuri",
+                        "Ayanna",
+                        "Nya",
+                        "Nalia",
+                        "Emani",
+                        "Malaika"
+                    ]
+                },
+                {
+                    "id": "indian",
+                    "maleNames": [
+                        "Sahil",
+                        "Arjun",
+                        "Vihaan",
+                        "Reyansh",
+                        "Ravi",
+                        "Sajan",
+                        "Ishaan",
+                        "Sachin",
+                        "Ved",
+                        "Vikram",
+                        "Sanjay",
+                        "Rajah",
+                        "Varun",
+                        "Vijay",
+                        "Darshan",
+                        "Deepak",
+                        "Pranav",
+                        "Rajiv",
+                        "Ranjit",
+                        "Pradeep",
+                        "Kumar"
+                    ],
+                    "femaleNames": [
+                        "Veda",
+                        "Priya",
+                        "Indira",
+                        "Reshma",
+                        "Anjali",
+                        "Sansa",
+                        "Rani",
+                        "Savita",
+                        "Lakshmi",
+                        "Neela",
+                        "Meena",
+                        "Reva",
+                        "Chandra",
+                        "Nayana",
+                        "Anara",
+                        "Padma",
+                        "Parvati",
+                        "Bala"
+                    ]
+                },
+                {
+                    "id": "chinese",
+                    "maleNames": [
+                        "Tai",
+                        "Jun",
+                        "Chang",
+                        "Long",
+                        "Chen",
+                        "Yu",
+                        "Ushi",
+                        "Quon",
+                        "Lin",
+                        "Yan",
+                        "Han",
+                        "Cheng",
+                        "Kwan",
+                        "Jian",
+                        "Sun",
+                        "Jin"
+                    ],
+                    "femaleNames": [
+                        "Mei",
+                        "Xia",
+                        "Xin",
+                        "Min",
+                        "Lian",
+                        "Bao",
+                        "Yinuo",
+                        "Ye",
+                        "Zhen",
+                        "Baojin",
+                        "Bai",
+                        "Lue",
+                        "Jia",
+                        "Mei",
+                        "Maelin"
+                    ]
+                },
+                {
+                    "id": "japanese",
+                    "maleNames": [
+                        "Hiroshi",
+                        "Toshio",
+                        "Kazuo",
+                        "Akira",
+                        "Masao",
+                        "Kiyoshi",
+                        "Takashi",
+                        "Hideo",
+                        "Koichi",
+                        "Koji",
+                        "Takeshi",
+                        "Shoji",
+                        "Hiroyuki",
+                        "Shigeo",
+                        "Susumu",
+                        "Akio",
+                        "Isamu",
+                        "Masahiro",
+                        "Shinichi",
+                        "Osamu",
+                        "Takeo",
+                        "Yuji",
+                        "Haruo",
+                        "Kunio",
+                        "Sadao",
+                        "Seiichi",
+                        "Satoshi"
+                    ],
+                    "femaleNames": [
+                        "Honoka",
+                        "Akari",
+                        "Himari",
+                        "Ichika",
+                        "Sachiko",
+                        "Katsumi",
+                        "Yoko",
+                        "Michiko",
+                        "Hiromi",
+                        "Yoshiko",
+                        "Hiroko",
+                        "Keiko",
+                        "Fumiko",
+                        "Reiko",
+                        "Takako",
+                        "Miyoko",
+                        "Tomiko",
+                        "Nobuko",
+                        "Etsuko",
+                        "Tomoko",
+                        "Yuki",
+                        "Kimie",
+                        "Kaoru",
+                        "Kiyomi",
+                        "Maki"
+                    ]
+                }
+            ],
+            "maleRaceWeights": {
+                "middle-eastern": 5,
+                "south asian": 10,
+                "white": 65,
+                "black": 15,
+                "east asian": 5
+            },
+            "femaleRaceWeights": {
+                "middle-eastern": 5,
+                "south asian": 10,
+                "white": 65,
+                "black": 15,
+                "east asian": 5
+            },
+            "defaultNameList": "general"
+        }
+
         // DOM elements
         const version = document.getElementById('version-select');
+
+        const raceDataUpload = document.getElementById('raceDataUpload');
+        const raceDataBrowse = document.getElementById('raceDataBrowseButton');
+        const raceDataReset = document.getElementById('raceDataResetButton');
+        const raceDataText = document.getElementById('raceDataText');
+        const customRaceData = document.getElementById('customRaceData');
+        let raceData = defaultRaceData
+
         const characterType = document.getElementById('character-type');
         const traitsContainer = document.getElementById('traits-container');
         const selectedTraitsContainer = document.getElementById('selected-traits');
         const blockedTraitsContainer = document.getElementById('blocked-traits-container');
         const selectedBlockedTraitsContainer = document.getElementById('selected-blocked-traits');
+        const traitFilter = document.getElementById('trait-filter');
+        const blockedTraitFilter = document.getElementById('blocked-trait-filter');
+
         const generateButton = document.getElementById('generate-button');
         const resetButton = document.getElementById('reset-button');
+
         const yamlOutput = document.getElementById('yaml-output');
         const copyButton = document.getElementById('copy-button');
         const downloadButton = document.getElementById('download-button');
         const backButton = document.getElementById('back-button');
-        const traitFilter = document.getElementById('trait-filter');
-        const blockedTraitFilter = document.getElementById('blocked-trait-filter');
 
         // Version handler
         version.addEventListener('change', updateTraitsForCharacterType);
@@ -1484,6 +2423,128 @@
             });
         });
         
+        raceDataReset.addEventListener('click', function() {
+            raceDataText.value = '';
+            raceDataBrowse.style.display = "inline"
+            raceDataReset.style.display = "none"
+            raceData = defaultRaceData
+            updateRaceOptions(raceData.raceDefs);
+        });
+
+        // Race data change handler
+        // Update filename display when file is selected
+        raceDataUpload.addEventListener('change', function() {
+            if (this.files.length == 0) {
+                raceDataText.value = '';
+                raceDataBrowse.style.display = "inline";
+                raceDataReset.style.display = "none";
+                return;
+            }
+
+            const file = this.files[0];
+
+            if (!file) {
+                raceDataText.value = '';
+                raceDataBrowse.style.display = "inline";
+                raceDataReset.style.display = "none";
+                alert('Please select a JSON file first.');
+                return;
+            }
+
+            if (!validateJsonFile(file)) {
+                raceDataText.value = '';
+                raceDataBrowse.style.display = "inline";
+                raceDataReset.style.display = "none";
+                return; // Stop if validation fails
+            }
+
+            raceDataBrowse.style.display = "none";
+            raceDataReset.style.display = "inline";
+            raceDataText.value = "Using custom " + file.name;
+
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                try {
+                    raceData = JSON.parse(e.target.result);
+                    
+                    // Basic validation of the parsed data
+                    if (!raceData.raceDefs || !Array.isArray(raceData.raceDefs)) {
+                        throw new Error("Invalid JSON format: missing raceDefs array");
+                    }
+                    
+                    // Process the data (update UI based on the loaded data)
+                    displayJsonData(raceData);
+                    
+                    console.log('Successfully loaded JSON data:', raceData);
+                } catch (error) {
+                    console.error('Error parsing JSON:', error);
+                    alert('Error loading JSON: ' + error.message);
+                    
+                    // Reset UI elements
+                    raceDataText.value = '';
+                    raceDataBrowse.style.display = "inline";
+                    raceDataReset.style.display = "none";
+                }
+            };
+            
+            reader.onerror = function(error) {
+                console.error('Error reading file:', error);
+                alert('Error reading file');
+                
+                // Reset UI elements
+                raceDataText.value = '';
+                raceDataBrowse.style.display = "inline";
+                raceDataReset.style.display = "none";
+            };
+            
+            // Read the file as text
+            reader.readAsText(file);
+        });
+
+        function validateJsonFile(file) {
+            // Check file extension
+            if (!file.name.toLowerCase().endsWith('.json')) {
+                alert('Please select a JSON file (.json)');
+                return false;
+            }
+            
+            // Optional: Check MIME type (though this can be unreliable)
+            if (file.type && file.type !== 'application/json') {
+                console.warn('File MIME type is not application/json, but continuing anyway');
+            }
+            
+            return true;
+        }
+
+        // Display JSON data in the preview area
+        function displayJsonData(raceData) {
+            // customRaceData.textContent = JSON.stringify(raceData, null, 2);
+            
+            // Here you can also do something with the data
+            // For example:
+            processJsonData(raceData);
+        }
+
+        // Example function to process the JSON data
+        function processJsonData(raceData) {
+            // Access specific parts of the data
+            if (raceData.raceDefs) {
+                console.log(`Found ${raceData.raceDefs.length} race definitions`);
+            }
+            
+            if (raceData.nameLists) {
+                console.log(`Found ${raceData.nameLists.length} name lists`);
+            }
+            
+            // You can process the data further as needed
+            if (raceData.raceDefs && Array.isArray(raceData.raceDefs)) {
+                // Update the race options based on the loaded data
+                updateRaceOptions(raceData.raceDefs);
+                console.log(`Found ${raceData.raceDefs.length} race definitions`);
+            }
+        }
+
         // Character type change handler
         characterType.addEventListener('change', updateTraitsForCharacterType);
         
@@ -1497,7 +2558,220 @@
             } else {
                 customRaceFields.style.display = 'none';
             }
+
+            updateAttributesByRace(raceSelect.value, raceData)
         });
+
+        function updateRaceOptions(raceDefs) {            
+            // Clear existing options (except the first "Random" option)
+            while (raceSelect.options.length > 1) {
+                raceSelect.remove(1);
+            }
+            
+            // Add new options based on the raceDefs
+            raceDefs.forEach(raceDef => {
+                const option = document.createElement('option');
+                option.value = raceDef.race;
+                option.textContent = raceDef.race.replace(/\b[a-z]/g, char => char.toUpperCase());
+                raceSelect.appendChild(option);
+            });
+            
+            // Add the "custom" option at the end
+            const customOption = document.createElement('option');
+            customOption.value = "custom";
+            customOption.textContent = "Custom (enter below)";
+            raceSelect.appendChild(customOption);
+
+            updateAttributesByRace(raceSelect.value, raceData)
+        }
+
+        function updateAttributesByRace(raceName, raceData) {
+            updateAttributeOptions('eyeColours', raceName, raceData, 'eye-colour-list');
+            updateAttributeOptions('hairColours', raceName, raceData, 'hair-colour-list');
+            updateAttributeOptions('skinColours', raceName, raceData, 'skin-colour-list');
+            updateNamelistSelect(raceName, raceData, 'namelist-id')
+        }
+
+        /**
+         * Updates a datalist with attribute options based on selected race
+         * @param {string} attributeType - The type of attribute ('eyeColours', 'hairColours', 'skinColours', etc.)
+         * @param {string} raceName - The currently selected race
+         * @param {Object} raceData - The full race data object
+         * @param {string} datalistId - The HTML ID of the datalist to update
+         */
+        function updateAttributeOptions(attributeType, raceName, raceData, datalistId) {
+            // Get the datalist element
+            const datalist = document.getElementById(datalistId);
+            
+            // Get first and last option values from race dropdown
+            const firstOptionValue = raceSelect.options[0].value;
+            const lastOptionValue = raceSelect.options[raceSelect.options.length - 1].value;
+            
+            // Clear existing options
+            datalist.innerHTML = '';
+            
+            // If race is random or custom, show all unique attribute values
+            if (raceName === firstOptionValue || raceName === lastOptionValue) {
+                // Get all unique attribute values across all races
+                const allValues = new Set();
+                
+                raceData.raceDefs.forEach(raceDef => {
+                    if (raceDef[attributeType] && Array.isArray(raceDef[attributeType])) {
+                        raceDef[attributeType].forEach(value => allValues.add(value));
+                    }
+                });
+                
+                // Add each unique value to the datalist
+                allValues.forEach(value => {
+                    const option = document.createElement('option');
+                    option.value = value.replace(/\b[a-z]/g, char => char.toUpperCase());
+                    datalist.appendChild(option);
+                });
+            } 
+            // Otherwise show only the attribute values for the selected race
+            else {
+                const raceDef = raceData.raceDefs.find(def => def.race === raceName);
+                
+                if (raceDef && raceDef[attributeType]) {
+                    raceDef[attributeType].forEach(value => {
+                        const option = document.createElement('option');
+                        option.value = value.replace(/\b[a-z]/g, char => char.toUpperCase());
+                        datalist.appendChild(option);
+                    });
+                }
+            }
+        }
+
+        /**
+         * Updates a namelist select element based on selected race
+         * @param {string} raceName - The currently selected race
+         * @param {Object} raceData - The full race data object
+         * @param {string} selectId - The HTML ID of the select element to update
+         */
+         function updateNamelistSelect(raceName, raceData, selectId) {
+            // Get the select element
+            const selectElement = document.getElementById(selectId);
+            
+            // Store the current selected value before clearing options
+            const currentSelectedValue = selectElement.value;
+            
+            // Get first and last option values from race dropdown
+            const firstOptionValue = raceSelect.options[0].value;
+            const lastOptionValue = raceSelect.options[raceSelect.options.length - 1].value;
+            
+            // Clear existing options
+            selectElement.innerHTML = '';
+            
+            // Add a default "Random" option
+            const randomOption = document.createElement('option');
+            randomOption.value = '';
+            randomOption.textContent = 'Random (based on race)';
+            selectElement.appendChild(randomOption);
+            
+            // If race is random or custom, show all namelists without grouping
+            if (raceName === firstOptionValue || raceName === lastOptionValue) {
+                // Add all namelist IDs
+                const allNamelistOptions = [];
+                
+                raceData.nameLists.forEach(nameList => {
+                    if (nameList.id) {
+                        allNamelistOptions.push({
+                            id: nameList.id,
+                            weight: 0
+                        });
+                    }
+                });
+                
+                // Sort alphabetically
+                allNamelistOptions.sort((a, b) => a.id.localeCompare(b.id));
+                
+                // Add all options
+                allNamelistOptions.forEach(option => {
+                    const optionElement = document.createElement('option');
+                    optionElement.value = option.id;
+                    optionElement.textContent = option.id.replace(/\b[a-z]/g, char => char.toUpperCase());
+                    selectElement.appendChild(optionElement);
+                });
+            } 
+            // Otherwise show associated and other namelists in separate groups
+            else {
+                const raceDef = raceData.raceDefs.find(def => def.race === raceName);
+                
+                if (raceDef && raceDef.nameLists) {
+                    // Create associated namelists group
+                    const associatedNames = Object.entries(raceDef.nameLists);
+                    
+                    if (associatedNames.length > 0) {
+                        // Create an array of associated options
+                        const associatedOptions = associatedNames.map(([id, weight]) => ({
+                            id: id
+                        }));
+                        
+                        // Sort alphabetically
+                        associatedOptions.sort((a, b) => a.id.localeCompare(b.id));
+                        
+                        // Create an optgroup for associated namelists
+                        const associatedGroup = document.createElement('optgroup');
+                        associatedGroup.label = raceName.replace(/\b[a-z]/g, char => char.toUpperCase()) + " Namelists";
+                        
+                        // Add associated options to the group
+                        associatedOptions.forEach(option => {
+                            const optionElement = document.createElement('option');
+                            optionElement.value = option.id;
+                            optionElement.textContent = option.id.replace(/\b[a-z]/g, char => char.toUpperCase());
+                            associatedGroup.appendChild(optionElement);
+                        });
+                        
+                        // Add the associated group to the select
+                        selectElement.appendChild(associatedGroup);
+                        
+                        // Create a set of associated namelist IDs for quick lookup
+                        const associatedIds = new Set(Object.keys(raceDef.nameLists));
+                        
+                        // Get other namelists not associated with this race
+                        const otherOptions = [];
+                        raceData.nameLists.forEach(nameList => {
+                            if (nameList.id && !associatedIds.has(nameList.id)) {
+                                otherOptions.push({
+                                    id: nameList.id
+                                });
+                            }
+                        });
+                        
+                        // If there are other options, add them under a group
+                        if (otherOptions.length > 0) {
+                            // Sort other options alphabetically
+                            otherOptions.sort((a, b) => a.id.localeCompare(b.id));
+                            
+                            // Create an optgroup for other namelists
+                            const overrideGroup = document.createElement('optgroup');
+                            overrideGroup.label = "Other Namelists";
+                            
+                            // Add other options to the group
+                            otherOptions.forEach(option => {
+                                const optionElement = document.createElement('option');
+                                optionElement.value = option.id;
+                                optionElement.textContent = option.id.replace(/\b[a-z]/g, char => char.toUpperCase());
+                                overrideGroup.appendChild(optionElement);
+                            });
+                            
+                            // Add the override group to the select
+                            selectElement.appendChild(overrideGroup);
+                        }
+                    }
+                }
+            }
+            
+            // Restore previously selected value if it exists in the new options
+            if (currentSelectedValue) {
+                // Check if the value exists in the new options
+                const optionExists = Array.from(selectElement.options).some(option => option.value === currentSelectedValue);
+                
+                if (optionExists) {
+                    selectElement.value = currentSelectedValue;
+                }
+            }
+        }
         
         // Collapsible sections
         const coll = document.getElementsByClassName("collapsible");
@@ -1856,7 +3130,7 @@
             
             yaml += '---\n';
             yaml += `type: ${characterType.value}\n`;
-            yaml += `enabled: ${document.getElementById('character-enabled').value}\n`;
+            yaml += `enabled: TRUE\n`;
             
             const priority = document.getElementById('character-priority').value;
             yaml += `priority: ${priority}\n`;
@@ -1887,16 +3161,14 @@
             // Always include race, even if empty
             yaml += `race: ${race}\n`;
             
-            if (race === 'custom' || document.getElementById('character-race').value === 'custom') {
-                const eyeColour = document.getElementById('eye-colour').value;
-                const hairColour = document.getElementById('hair-colour').value;
-                const skinColour = document.getElementById('skin-colour').value;
-                
-                // Always include these fields, even if empty
-                yaml += `eye colour: ${eyeColour}\n`;
-                yaml += `hair colour: ${hairColour}\n`;
-                yaml += `skin colour: ${skinColour}\n`;
-            }
+            const eyeColour = document.getElementById('eye-colour').value;
+            const hairColour = document.getElementById('hair-colour').value;
+            const skinColour = document.getElementById('skin-colour').value;
+            
+            // Always include these fields, even if empty
+            yaml += `eye colour: ${eyeColour}\n`;
+            yaml += `hair colour: ${hairColour}\n`;
+            yaml += `skin colour: ${skinColour}\n`;
             
             const bodyTypeId = isMale ? 'male-figure' : 'female-figure';
             const bodyType = document.getElementById(bodyTypeId).value;
@@ -2016,7 +3288,6 @@
         // Reset form
         resetButton.addEventListener('click', () => {
             if (confirm('Are you sure you want to reset the form? All your selections will be lost.')) {
-                document.getElementById('character-enabled').value = 'TRUE';
                 document.getElementById('character-priority').value = '0';
                 document.getElementById('character-name').value = '';
                 document.getElementById('character-type-female').value = 'PARTY_GIRL';
@@ -2058,6 +3329,9 @@
             }
         });
         
+        // Load default race data
+        updateRaceOptions(raceData.raceDefs);
+
         // Initialize the form
         updateTraitsForCharacterType();
         
