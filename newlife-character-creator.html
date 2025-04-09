@@ -3330,6 +3330,10 @@
         });
         
         // Load default race data
+        raceDataText.value = '';
+        raceDataBrowse.style.display = "inline"
+        raceDataReset.style.display = "none"
+        raceData = defaultRaceData
         updateRaceOptions(raceData.raceDefs);
 
         // Initialize the form
