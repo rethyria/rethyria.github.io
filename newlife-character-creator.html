@@ -471,6 +471,12 @@
                     <p><strong>Note:</strong> Custom NPCs are only loaded when starting a new game. They won't appear in games that are already in progress.</p>
                 </div>
             </div>
+            <button type="button" class="collapsible active-collapse">How do I upload custom race data settings?</button>
+            <div class="collapsible-content" style="max-height: fit-content">
+                <div class="faq-inner-content">
+                    <p>I'll explain tomorrow... tired now... zzz...</p>
+                </div>
+            </div>
         </div>        
 
         <div class="tab-container">
@@ -3341,6 +3347,8 @@
         
         // Open trait section by default
         document.getElementsByClassName("collapsible")[0].click();
+        document.getElementsByClassName("collapsible")[1].click();
+        document.getElementsByClassName("collapsible")[2].click(); // this is horrible lol
 
         // Get all trait cards
         const traitCards = document.querySelectorAll('.trait-card');
