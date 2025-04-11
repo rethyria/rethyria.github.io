@@ -2596,7 +2596,8 @@
                 return; // Stop if validation fails
             }
 
-            loadCharacterText.value = "Loaded " + file.name;
+            const filenameWithoutExtension = file.name.split('.').slice(0, -1).join('.');
+            loadCharacterText.value = filenameWithoutExtension;
 
             const reader = new FileReader();
             
