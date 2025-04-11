@@ -2765,11 +2765,16 @@
             updateAttributesByRace(raceSelect.value, raceData)
         });
 
-        function updateRaceOptions(raceDefs) {            
+        function updateRaceOptions(raceDefs) {           
+            let currentValue = raceSelect.value
+            
             // Clear existing options (except the first "Random" option)
             while (raceSelect.options.length > 1) {
                 raceSelect.remove(1);
             }
+
+            raceSelect.value = ''
+            customRaceFields.style.display = 'none';
             
             // Add new options based on the raceDefs
             raceDefs.forEach(raceDef => {
@@ -2777,6 +2782,12 @@
                 option.value = raceDef.race;
                 option.textContent = raceDef.race.replace(/\b[a-z]/g, char => char.toUpperCase());
                 raceSelect.appendChild(option);
+
+                if (currentValue === raceDef.race) {
+                    raceSelect.value = raceDef.race
+                    document.getElementById('custom-race').value = '';
+                    customRaceFields.style.display = 'none';
+                }
             });
             
             // Add the "custom" option at the end
@@ -2784,6 +2795,12 @@
             customOption.value = "custom";
             customOption.textContent = "Custom (enter below)";
             raceSelect.appendChild(customOption);
+
+            if (currentValue != raceSelect.value) {
+                raceSelect.value = "custom";
+                document.getElementById('custom-race').value = currentValue;
+                customRaceFields.style.display = 'block';
+            }
 
             updateAttributesByRace(raceSelect.value, raceData)
         }
