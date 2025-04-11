@@ -194,8 +194,13 @@
             background-color: #d6eaf8;
         }
         
-        .trait-card.selected {
+        #traits-container .trait-card.selected {
             background-color: var(--primary);
+            color: white;
+        }
+
+        #blocked-traits-container .trait-card.selected {
+            background-color: var(--danger);
             color: white;
         }
         
@@ -236,15 +241,22 @@
             min-height: 40px;
             display: contents;
         }
-        
+
         .selected-trait {
             display: inline-block;
-            background-color: var(--primary);
             color: white;
             padding: 3px 8px;
             border-radius: 3px;
             margin-right: 5px;
             margin-bottom: 5px;
+        }
+
+        #selected-traits .selected-trait {
+            background-color: var(--primary);
+        }
+
+        #selected-blocked-traits .selected-trait {
+            background-color: var(--danger);
         }
         
         .selected-trait .remove {
@@ -2740,12 +2752,24 @@
                 card.classList.remove('disabled');
             });
 
+            updateTraitsForCharacterType();
+
             selectedTraits = yml_traits;
             selectedBlockedTraits = yml_blockedTraits;
-            
+
             updateSelectedTraits();
             updateSelectedBlockedTraits();
             updateTraitAvailability();
+
+            selectedTraits.forEach(function(trait) {
+                const traitCard = document.querySelector('#traits-container .trait-card[data-trait="' + trait + '"]');
+                if (traitCard) traitCard.classList.add("selected")
+            })
+
+            selectedBlockedTraits.forEach(function(trait) {
+                const traitCard = document.querySelector('#blocked-traits-container .trait-card[data-trait="' + trait + '"]');
+                if (traitCard) traitCard.classList.add("selected")
+            })
         }
 
         // Character type change handler
