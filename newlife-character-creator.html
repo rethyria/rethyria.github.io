@@ -2766,7 +2766,7 @@
         });
 
         function updateRaceOptions(raceDefs) {           
-            let currentValue = raceSelect.value
+            let currentValue = raceSelect.value === "custom" ? document.getElementById('custom-race').value : raceSelect.value
             
             // Clear existing options (except the first "Random" option)
             while (raceSelect.options.length > 1) {
