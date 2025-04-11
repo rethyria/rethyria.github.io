@@ -140,7 +140,7 @@
             position: relative;
         }
 
-        .race-data-text {
+        .load-file-text {
             border-radius: 4px 0 0 4px !important;
         }
 
@@ -438,6 +438,8 @@
         }
 
     </style>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
 </head>
 <body>
     <div class="container">
@@ -454,7 +456,7 @@
         </div>
         
         <div class="faq-section">
-            <button type="button" class="collapsible active-collapse">How do I load custom NPCs into Newlife?</button>
+            <button type="button" class="faq collapsible active-collapse">How do I load custom NPCs into Newlife?</button>
             <div class="collapsible-content" style="max-height: fit-content">
                 <div class="faq-inner-content">
                     <p>To add custom NPCs to your Newlife game:</p>
@@ -471,7 +473,7 @@
                     <p><strong>Note:</strong> Custom NPCs are only loaded when starting a new game. They won't appear in games that are already in progress.</p>
                 </div>
             </div>
-            <button type="button" class="collapsible active-collapse">How do I upload custom race data settings?</button>
+            <button type="button" class="faq collapsible active-collapse">How do I upload custom race data settings?</button>
             <div class="collapsible-content" style="max-height: fit-content">
                 <div class="faq-inner-content">
                     <p>I'll explain tomorrow... tired now... zzz...</p>
@@ -488,13 +490,32 @@
             <div class="tab-content active" id="tab-create">
                 <div class="form-group-container">             
                     <div class="form-group">
-                        <label for="character-enabled">Race Data:</label>
+                        <label for="raceDataText">Race Data:</label>
                         <div class="custom-file-upload">
-                            <input type="text" id="raceDataText" class="race-data-text" placeholder="Using default raceData.json" inert>
+                            <input type="text" id="raceDataText" class="load-file-text" placeholder="Using default raceData.json" inert>
                             <label id="raceDataBrowseButton" for="raceDataUpload" class="browse-button">Browse</label>
                             <label id="raceDataResetButton" class="browse-button" style="display: none">Reset</label>
                             <input type="file" id="raceDataUpload" name="raceData" accept=".json">
                         </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="loadCharacterText">Load Character:</label>
+                        <div class="custom-file-upload">
+                            <input type="text" id="loadCharacterText" class="load-file-text" placeholder="No character loaded" inert>
+                            <label id="loadCharacterBrowseButton" for="loadCharacterUpload" class="browse-button">Browse</label>
+                            <input type="file" id="loadCharacterUpload" name="loadCharacter" accept=".yml">
+                        </div>
+                    </div>
+
+                    <div class="row-divider"></div>
+
+                    <div class="form-group">
+                        <label for="character-enabled">Enabled:</label>
+                        <select id="character-enabled">
+                            <option value="TRUE">TRUE</option>
+                            <option value="FALSE">FALSE</option>
+                        </select>
                     </div>
 
                     <div class="form-group">
@@ -516,7 +537,7 @@
                            
                     <div class="form-group">
                         <label for="character-priority">Priority:</label>
-                        <input type="number" id="character-priority" value="0">
+                        <input type="number" id="character-priority" style="height: 28px" value="0">
                     </div>
 
                     <div class="row-divider"></div>
@@ -561,7 +582,7 @@
                     </div>
                                     
                     <div class="form-group male-only">
-                        <label for="male-figure">Body Type:</label>
+                        <label for="male-figure">Figure:</label>
                         <select id="male-figure">
                             <option value="">Random (influenced by age)</option>
                             <option value="AVERAGE">AVERAGE</option>
@@ -575,7 +596,7 @@
                     </div>
                     
                     <div class="form-group female-only" style="display:none">
-                        <label for="female-figure">Body Type:</label>
+                        <label for="female-figure">Figure:</label>
                         <select id="female-figure">
                             <option value="">Random</option>
                             <option value="TONED">TONED</option>
@@ -658,11 +679,11 @@
                     <div class="form-group">
                         <label for="character-personality">Personality:</label>
                         <select id="character-personality">
-                            <option value="JERK">JERK</option>
-                            <option value="SELFISH">SELFISH</option>
-                            <option value="AVERAGE">AVERAGE</option>
-                            <option value="ROMANTIC">ROMANTIC</option>
-                            <option value="CARING">CARING</option>
+                            <option value="AVERAGE">Average</option>
+                            <option value="CARING">Caring</option>
+                            <option value="JERK">Jerk</option>
+                            <option value="ROMANTIC">Romantic</option>
+                            <option value="SELFISH">Selfish</option>
                         </select>
                     </div>
 
@@ -671,14 +692,14 @@
                         <label for="career">Career:</label>
                         <select id="career">
                             <option value="">Random</option>
-                            <option value="UNEMPLOYED">UNEMPLOYED</option>
-                            <option value="BUSINESS">BUSINESS</option>
-                            <option value="ACCOUNTANT">ACCOUNTANT</option>
-                            <option value="CIVIL_SERVANT">CIVIL_SERVANT</option>
-                            <option value="WAREHOUSE">WAREHOUSE</option>
-                            <option value="LIBRARY">LIBRARY</option>
-                            <option value="SUPERMARKET_STAFF">SUPERMARKET_STAFF</option>
-                            <option value="BARSTAFF">BARSTAFF</option>
+                            <option value="ACCOUNTANT">Accountant</option>
+                            <option value="BARSTAFF">Barstaff</option>
+                            <option value="BUSINESS">Business</option>
+                            <option value="CIVIL_SERVANT">Civil Servant</option>
+                            <option value="LIBRARY">Library</option>
+                            <option value="SUPERMARKET_STAFF">Supermarket Staff</option>
+                            <option value="UNEMPLOYED">Unemployed</option>
+                            <option value="WAREHOUSE">Warehouse</option>
                         </select>
                     </div>
 
@@ -686,23 +707,23 @@
                         <label for="friend-effect">Friend Effect:</label>
                         <select id="friend-effect">
                             <option value="">Random (influenced by traits and personality)</option>
-                            <option value="NEEDY_FRIEND">NEEDY_FRIEND</option>
-                            <option value="PARTY_FRIEND">PARTY_FRIEND</option>
-                            <option value="CALMING_FRIEND">CALMING_FRIEND</option>
-                            <option value="DANCE_NUT">DANCE_NUT</option>
-                            <option value="GENEROUS_FRIEND">GENEROUS_FRIEND</option>
-                            <option value="FASHION_GURU">FASHION_GURU</option>
-                            <option value="MOOCHER">MOOCHER</option>
-                            <option value="EXPLOITATIVE_FRIEND">EXPLOITATIVE_FRIEND</option>
-                            <option value="WITTY_FRIEND">WITTY_FRIEND</option>
-                            <option value="MISANTHROPIC_FRIEND">MISANTHROPIC_FRIEND</option>
-                            <option class="female-effect" value="SCAREDY_CAT">SCAREDY_CAT</option>
-                            <option class="female-effect" value="NAIVE_FRIEND">NAIVE_FRIEND</option>
-                            <option class="female-effect" value="VULNERABLE_FRIEND">VULNERABLE_FRIEND</option>
-                            <option class="female-effect" value="IMPULSIVE_FRIEND">IMPULSIVE_FRIEND</option>
-                            <option class="female-effect" value="GRACEFUL_FRIEND">GRACEFUL_FRIEND</option>
-                            <option class="female-effect" value="WORLDLY_FRIEND">WORLDLY_FRIEND</option>
-                            <option class="female-effect" value="CRAZY_DRUNK_FRIEND">CRAZY_DRUNK_FRIEND</option>
+                            <option value="NEEDY_FRIEND">Needy</option>
+                            <option value="PARTY_FRIEND">Party</option>
+                            <option value="CALMING_FRIEND">Calming</option>
+                            <option value="DANCE_NUT">Dance Nut</option>
+                            <option value="GENEROUS_FRIEND">Generous</option>
+                            <option value="FASHION_GURU">Fashion Guru</option>
+                            <option value="MOOCHER">Moocher</option>
+                            <option value="EXPLOITATIVE_FRIEND">Exploitive</option>
+                            <option value="WITTY_FRIEND">Witty</option>
+                            <option value="MISANTHROPIC_FRIEND">Misanthropic</option>
+                            <option class="female-effect" value="SCAREDY_CAT">Scaredy Cat</option>
+                            <option class="female-effect" value="NAIVE_FRIEND">Naive</option>
+                            <option class="female-effect" value="VULNERABLE_FRIEND">Vulnerable</option>
+                            <option class="female-effect" value="IMPULSIVE_FRIEND">Impulsive</option>
+                            <option class="female-effect" value="GRACEFUL_FRIEND">Graceful</option>
+                            <option class="female-effect" value="WORLDLY_FRIEND">Worldly</option>
+                            <option class="female-effect" value="CRAZY_DRUNK_FRIEND">Crazy Drunk</option>
                         </select>
                     </div>
                     
@@ -710,16 +731,16 @@
                         <label for="partner-effect">Partner Effect:</label>
                         <select id="partner-effect">
                             <option value="">Random (influenced by personality)</option>
-                            <option value="CARING_PARTNER">CARING_PARTNER</option>
-                            <option value="FASCINATING_PARTNER">FASCINATING_PARTNER</option>
-                            <option value="PEDANTIC_PARTNER">PEDANTIC_PARTNER</option>
-                            <option value="EXPLOITATIVE_PARTNER">EXPLOITATIVE_PARTNER</option>
-                            <option value="ANGRY_PARTNER">ANGRY_PARTNER</option>
-                            <option value="COLD_PARTNER">COLD_PARTNER</option>
-                            <option value="PLEASANT_PARTNER">PLEASANT_PARTNER</option>
-                            <option value="AMBITIOUS_PARTNER">AMBITIOUS_PARTNER</option>
-                            <option value="FEEBLE_PARTNER">FEEBLE_PARTNER</option>
-                            <option class="male-effect" value="CHAUVINISTIC_PARTNER">CHAUVINISTIC_PARTNER</option>
+                            <option value="CARING_PARTNER">Caring</option>
+                            <option value="FASCINATING_PARTNER">Fascinating</option>
+                            <option value="PEDANTIC_PARTNER">Pedantic</option>
+                            <option value="EXPLOITATIVE_PARTNER">Exploitive</option>
+                            <option value="ANGRY_PARTNER">Angry</option>
+                            <option value="COLD_PARTNER">Cold</option>
+                            <option value="PLEASANT_PARTNER">Pleasant</option>
+                            <option value="AMBITIOUS_PARTNER">Ambitious</option>
+                            <option value="FEEBLE_PARTNER">Feeble</option>
+                            <option class="male-effect" value="CHAUVINISTIC_PARTNER">Chauvinistic</option>
                         </select>
                     </div>                               
                     
@@ -727,10 +748,10 @@
                         <label for="boss-partner-effect">Boss Partner Effect:</label>
                         <select id="boss-partner-effect">
                             <option value="">Random (influenced by personality)</option>
-                            <option value="BOSS_PARTNER_SLAVEDRIVER">BOSS_PARTNER_SLAVEDRIVER</option>
-                            <option value="BOSS_PARTNER_UNPROFESSIONAL">BOSS_PARTNER_UNPROFESSIONAL</option>
-                            <option value="BOSS_PARTNER_SUPPORTIVE">BOSS_PARTNER_SUPPORTIVE</option>
-                            <option value="BOSS_PARTNER_GENEROUS">BOSS_PARTNER_GENEROUS</option>
+                            <option value="BOSS_PARTNER_SLAVEDRIVER">Slave Driver</option>
+                            <option value="BOSS_PARTNER_UNPROFESSIONAL">Unprofessional</option>
+                            <option value="BOSS_PARTNER_SUPPORTIVE">Supportive</option>
+                            <option value="BOSS_PARTNER_GENEROUS">Generous</option>
                         </select>
                         <div class="field-info">Only used if the NPC is the boss in a career track (see traits)</div>
                     </div>
@@ -741,10 +762,10 @@
                         <label for="breast-size">Breast Size:</label>
                         <select id="breast-size">
                             <option value="">Random</option>
-                            <option value="SMALL">SMALL</option>
-                            <option value="MEDIUM_SMALL">MEDIUM_SMALL</option>
-                            <option value="MEDIUM_LARGE">MEDIUM_LARGE</option>
-                            <option value="LARGE">LARGE</option>
+                            <option value="SMALL">Small</option>
+                            <option value="MEDIUM_SMALL">Medium Small</option>
+                            <option value="MEDIUM_LARGE">Medium Large</option>
+                            <option value="LARGE">Large</option>
                         </select>
                     </div>
                     
@@ -752,8 +773,8 @@
                         <label for="female-virgin">Virgin:</label>
                         <select id="female-virgin">
                             <option value="">Random (based on character type)</option>
-                            <option value="TRUE">TRUE</option>
-                            <option value="FALSE">FALSE</option>
+                            <option value="TRUE">True</option>
+                            <option value="FALSE">False</option>
                         </select>
                     </div>
                     
@@ -761,21 +782,21 @@
                         <label for="female-lesbian-virgin">Lesbian Virgin:</label>
                         <select id="female-lesbian-virgin">
                             <option value="">Random (influenced by character type)</option>
-                            <option value="TRUE">TRUE</option>
-                            <option value="FALSE">FALSE</option>
+                            <option value="TRUE">True</option>
+                            <option value="FALSE">False</option>
                         </select>
                     </div>
                     <div class="form-group female-only" style="display:none">
                         <label for="clothing-style">Clothing Style:</label>
                         <select id="clothing-style">
-                            <option value="CUTE">CUTE</option>
-                            <option value="PROVOCATIVE">PROVOCATIVE</option>
-                            <option value="ELEGANT">ELEGANT</option>
-                            <option value="CHEERFUL">CHEERFUL</option>
-                            <option value="SCRUFFY">SCRUFFY</option>
-                            <option value="WHOLESOME">WHOLESOME</option>
-                            <option value="BUSINESSLIKE">BUSINESSLIKE</option>
-                            <option value="NONE">NONE (Not recommended)</option>
+                            <option value="CUTE">Cute</option>
+                            <option value="PROVOCATIVE">Provocative</option>
+                            <option value="ELEGANT">Elegant</option>
+                            <option value="CHEERFUL">Cheerful</option>
+                            <option value="SCRUFFY">Scruffy</option>
+                            <option value="WHOLESOME">Wholesome</option>
+                            <option value="BUSINESSLIKE">Businesslike</option>
+                            <option value="NONE">None (not recommended)</option>
                         </select>
                     </div>
 
@@ -783,9 +804,9 @@
                     <div class="form-group female-only" style="display:none">
                         <label for="character-type-female">Character Type:</label>
                         <select id="character-type-female">
-                            <option value="PARTY_GIRL">PARTY_GIRL</option>
-                            <option value="INNOCENT">INNOCENT</option>
-                            <option value="SOPHISTICATED">SOPHISTICATED</option>
+                            <option value="PARTY_GIRL">Party Girl</option>
+                            <option value="INNOCENT">Innocent</option>
+                            <option value="SOPHISTICATED">Sophisticated</option>
                         </select>
                         <div class="field-info">Affects how the NPC behaves</div>
                     </div>
@@ -795,14 +816,14 @@
                     <div class="form-group">
                         <label for="allow-additional-traits">Allow Additional Traits:</label>
                         <select id="allow-additional-traits">
-                            <option value="TRUE">TRUE</option>
-                            <option value="FALSE">FALSE</option>
+                            <option value="TRUE">True</option>
+                            <option value="FALSE">False</option>
                         </select>
                         <div class="field-info">If TRUE, the game may auto-add additional non-conflicting traits</div>
                     </div>
                     
                     <div class="traits-section">
-                        <button type="button" class="collapsible">Traits</button>
+                        <button type="button" id="traits-accordian" class="collapsible">Traits</button>
                         <div class="collapsible-content">
                             <div class="form-group" id="trait-filter-container">
                                 <input type="text" id="trait-filter" placeholder="Filter traits...">
@@ -818,7 +839,7 @@
                     </div>
                     
                     <div class="traits-section">
-                        <button type="button" class="collapsible">Blocked Traits</button>
+                        <button type="button" id="blocked-traits-accordian" class="collapsible">Blocked Traits</button>
                         <div class="collapsible-content">
                             <div class="form-group" id="blocked-trait-filter-container">
                                 <input type="text" id="blocked-trait-filter" placeholder="Filter blocked traits...">
@@ -1118,7 +1139,7 @@
             "REPAIRMAN": {
                 version: "0.8.9",
                 description: "Allows the NPC to show up as the repairman if one of your appliances breaks. There can be more than one repairman and if so then one will be picked randomly when needed.\n\nIf you don't create a custom repairman then the game will add exactly one. Non-custom NPC repairmen always have the Magic Fingers trait (because they're \"good with their hands\") but are otherwise the same as other NPCs and can show up in the nightclub and similar places before appearing to make repairs.\n\nOther than letting him show up in the relevant scene, the repairman trait has no effects whatsoever.",
-                opposites: ["LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD", "PLEASANT_HOME_LANDLORD", "CHEAP_HOME_LANDLORD"]
+                opposites: ["PIMP_LANDLORD", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD", "PLEASANT_HOME_LANDLORD", "CHEAP_HOME_LANDLORD"]
             },
             "LOWLIFE": {
                 version: "0.8.9",
@@ -1128,72 +1149,72 @@
             "SALES_BOSS": {
                 version: "0.8.9",
                 description: "This custom NPC will replace the usual boss for the sales career. There can only be one sales boss in a game. The sales boss will not be randomly picked for scenes like the nightclub. It is possible for a boss to become dateable through events though.\n\nIf you don't create a boss, one will be generated by the game.",
-                opposites: ["REPAIRMAN", "LOWLIFE", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD", "PLEASANT_HOME_LANDLORD", "CHEAP_HOME_LANDLORD"]
+                opposites: ["PIMP_LANDLORD", "REPAIRMAN", "LOWLIFE", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD", "PLEASANT_HOME_LANDLORD", "CHEAP_HOME_LANDLORD"]
             },
             "OFFICE_BOSS": {
                 version: "0.8.9",
                 description: "Similar to the sales boss, but for the office career. The default sales boss is always selfish or a jerk, so picking a different personality may result in odd behaviour during his special scenes.",
-                opposites: ["REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD", "PLEASANT_HOME_LANDLORD", "CHEAP_HOME_LANDLORD"]
+                opposites: ["PIMP_LANDLORD", "REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD", "PLEASANT_HOME_LANDLORD", "CHEAP_HOME_LANDLORD"]
             },
             "OFFICE_HUNK": {
                 version: "0.8.9",
                 description: "A handsome colleague for the office career.\n\nWill always be given a CARING personality and the HANDSOME trait, overriding any values set here.\n\nWill also never be dull although he is not guaranteed to be INTERESTING.",
-                opposites: ["DULL","REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD", "PLEASANT_HOME_LANDLORD", "CHEAP_HOME_LANDLORD"]
+                opposites: ["PIMP_LANDLORD", "DULL","REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD", "PLEASANT_HOME_LANDLORD", "CHEAP_HOME_LANDLORD"]
             },
             "SLEAZY_OFFICE_WORKER": {
                 version: "0.8.9",
                 description: "A jerk NPC that can appear in the office party. There are always 2 of these, normally the same age as each other but this is not enforced if they are both custom NPCs.\n\nThe game will ensure that these characters are sleazy jerks, overriding any conflicting values.",
-                opposites: ["CHARMING", "TRADITIONAL", "REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD", "PLEASANT_HOME_LANDLORD", "CHEAP_HOME_LANDLORD"]
+                opposites: ["PIMP_LANDLORD", "CHARMING", "TRADITIONAL", "REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD", "PLEASANT_HOME_LANDLORD", "CHEAP_HOME_LANDLORD"]
             },
             "GYM_JERK": {
                 version: "0.8.9",
                 description: "This custom NPC can appear normally in nightclubs etc and is also the jerk that can lead the player-character into changing-room hanky-panky.\n\nThere are a lot of special requirements for this NPC, and the game will override the relevant values if they aren't set. Specifically, he must have the Jerk personality, the Sleazy, Cold-hearted and Misanthrope traits and either Toned, Thickset or Muscular body type.\n\nThere can only be one gym jerk in a game, so if you create several then only the highest priority one will be used.",
-                opposites: ["CHARMING", "REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD", "PLEASANT_HOME_LANDLORD", "CHEAP_HOME_LANDLORD"]
+                opposites: ["PIMP_LANDLORD", "CHARMING", "REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD", "PLEASANT_HOME_LANDLORD", "CHEAP_HOME_LANDLORD"]
             },
             "BOYFRIENDS_JERK_FRIEND": {
                 version: "0.8.9",
                 description: "This NPC will be used for the jerk-friend storyline. They won't be present at the start but will be created if the NPC is needed.\n\nThe jerk-friend NPC has a lot of fixed traits that will override any conflicting ones set here.",
-                opposites: ["REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD", "PLEASANT_HOME_LANDLORD", "CHEAP_HOME_LANDLORD"]
+                opposites: ["PIMP_LANDLORD", "REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD", "PLEASANT_HOME_LANDLORD", "CHEAP_HOME_LANDLORD"]
             },
             "PROSTITUTION_CLIENT": {
                 version: "0.8.9",
                 description: "This one may try to pay you for sex. He won't appear in the club or similar random encounters. This NPC is always SLEAZY (the game will add it if you don't).\n\nIf his age is left blank then he'll tend to be an older man, but if it's set then the game will use whatever you put in there.",
-                opposites: ["CHARMING", "TRADITIONAL", "REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD", "PLEASANT_HOME_LANDLORD", "CHEAP_HOME_LANDLORD"]
+                opposites: ["PIMP_LANDLORD", "CHARMING", "TRADITIONAL", "REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD", "PLEASANT_HOME_LANDLORD", "CHEAP_HOME_LANDLORD"]
             },
             "DANCE_JUDGE": {
                 version: "0.8.9",
                 description: "The judge for the dance competition. This NPC can appear randomly but will always be chosen to judge dance contests.\n\nAlways has the GOOD_DANCER trait (this will be added when the NPC is loaded if you don't set it here). Default judges will be older men, but you can override this by setting a younger age.",
-                opposites: ["BAD_DANCER", "REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD", "PLEASANT_HOME_LANDLORD", "CHEAP_HOME_LANDLORD"]
+                opposites: ["PIMP_LANDLORD", "BAD_DANCER", "REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD", "PLEASANT_HOME_LANDLORD", "CHEAP_HOME_LANDLORD"]
             },
             "DANCE_TEACHER": {
                 version: "0.8.9",
                 description: "Always has GOOD_DANCER, FASHIONABLE and the TONED body type: these will be set automatically and will override any conflicting values that you set. The teacher is hidden until you take a dance class and meet him for the first time.",
-                opposites: ["BAD_DANCER", "REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD", "PLEASANT_HOME_LANDLORD", "CHEAP_HOME_LANDLORD"]
+                opposites: ["PIMP_LANDLORD", "BAD_DANCER", "REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD", "PLEASANT_HOME_LANDLORD", "CHEAP_HOME_LANDLORD"]
             },
             "DANCE_STUDENT": {
                 version: "0.8.9",
                 description: "Always have the GOOD_DANCER trait. Will be hidden until you take a dance class. You can create multiple students and all will be loaded every time with no limits - very large numbers might cause issues in the game so don't go nuts. The minimum is 3. The game will create students up to that number if there are fewer custom ones.\n\nAll dance students will appear and be met in the first dance class. Thereafter the normal dance class event includes two, chosen at random. Like the dance teacher, students can appear in random events like the club, but only after meeting them in the first class.",
-                opposites: ["BAD_DANCER", "REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD", "PLEASANT_HOME_LANDLORD", "CHEAP_HOME_LANDLORD"]
+                opposites: ["PIMP_LANDLORD", "BAD_DANCER", "REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD", "PLEASANT_HOME_LANDLORD", "CHEAP_HOME_LANDLORD"]
             },
             "COOKING_TEACHER": {
                 version: "0.8.9",
                 description: "This NPC can teach cooking classes. Should always have the LIKES_COOKING trait - the game will add this if it isn't set.",
-                opposites: ["REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD", "PLEASANT_HOME_LANDLORD", "CHEAP_HOME_LANDLORD"]
+                opposites: ["PIMP_LANDLORD", "REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "PORN_ACTOR", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD", "PLEASANT_HOME_LANDLORD", "CHEAP_HOME_LANDLORD"]
             },
             "PORN_ACTOR": {
                 version: "0.8.9",
                 description: "This NPC can appear as a co-star if the PC ends up performing in a porn video. There's no other restriction on these NPCs but the game will prevent them from appearing in scenes other than their own special ones.",
-                opposites: ["REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD", "PLEASANT_HOME_LANDLORD", "CHEAP_HOME_LANDLORD"]
+                opposites: ["PIMP_LANDLORD", "REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "EVIL_HYPNOTIST", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD", "PLEASANT_HOME_LANDLORD", "CHEAP_HOME_LANDLORD"]
             },
             "EVIL_HYPNOTIST": {
                 version: "0.8.9",
                 description: "Must have Jerk personality. Will be set to no-random-appearances until the PC has been hypnotised by him at least once.",
-                opposites: ["REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD", "PLEASANT_HOME_LANDLORD", "CHEAP_HOME_LANDLORD"]
+                opposites: ["PIMP_LANDLORD", "REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "GOOD_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD", "PLEASANT_HOME_LANDLORD", "CHEAP_HOME_LANDLORD"]
             },
             "GOOD_HYPNOTIST": {
                 version: "0.8.9",
                 description: "Should have Average, Romantic or Caring personality. Will be set to no-random-appearances until the PC has been hypnotised by him at least once.",
-                opposites: ["REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD", "PLEASANT_HOME_LANDLORD", "CHEAP_HOME_LANDLORD"]
+                opposites: ["PIMP_LANDLORD", "REPAIRMAN", "LOWLIFE", "SALES_BOSS", "OFFICE_BOSS", "OFFICE_HUNK", "SLEAZY_OFFICE_WORKER", "GYM_JERK", "BOYFRIENDS_JERK_FRIEND", "PROSTITUTION_CLIENT", "DANCE_JUDGE", "DANCE_TEACHER", "DANCE_STUDENT", "COOKING_TEACHER", "PORN_ACTOR", "EVIL_HYPNOTIST", "SLEAZY_LANDLORD", "SILVER_SPOON_LANDLORD", "PLEASANT_HOME_LANDLORD", "CHEAP_HOME_LANDLORD"]
             },
             "HYPNOTIST": {
                 version: "0.8.9",
@@ -2514,8 +2535,13 @@
                 alert('Please select a JSON file (.json)');
                 return false;
             }
+
+            if (file.size > 5 * 1024 * 1024) { // 5MB limit
+                alert('File is too large. Maximum file size is 5MB.');
+                return false;
+            }
             
-            // Optional: Check MIME type (though this can be unreliable)
+            // Check MIME type (though this can be unreliable)
             if (file.type && file.type !== 'application/json') {
                 console.warn('File MIME type is not application/json, but continuing anyway');
             }
@@ -2549,6 +2575,176 @@
                 updateRaceOptions(raceData.raceDefs);
                 console.log(`Found ${raceData.raceDefs.length} race definitions`);
             }
+        }
+
+        loadCharacterUpload.addEventListener('change', function() {
+            if (this.files.length == 0) {
+                loadCharacterText.value = '';
+                return;
+            }
+
+            const file = this.files[0];
+
+            if (!file) {
+                loadCharacterText.value = '';
+                alert('Please select a .yml file first.');
+                return;
+            }
+
+            if (!validateYamlFile(file)) {
+                loadCharacterText.value = "Failed to load " + file.name;
+                return; // Stop if validation fails
+            }
+
+            loadCharacterText.value = "Loaded " + file.name;
+
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                try {
+                     // Use js-yaml to parse YAML content
+                    const characterData = jsyaml.load(e.target.result);
+                    
+                    // Basic validation of the character data
+                    if (!characterData || typeof characterData !== 'object') {
+                        throw new Error("Invalid YAML format: could not parse character data");
+                    }
+                    
+                    // Check for required fields - adjust based on your actual requirements
+                    if (!characterData.name || !characterData.type) {
+                        throw new Error("Invalid character data: missing required fields");
+                    }
+                    
+                    // Process the data (update UI based on the loaded data)
+                    updateCharacterData(characterData);
+                    
+                    //console.log('Successfully loaded YAML data: ', characterData);
+                } catch (error) {
+                    console.error('Error parsing YAML:', error);
+                    alert('Error loading YAML: ' + error.message);
+                    
+                    // Reset UI elements
+                    loadCharacterText.value = "Failed to load " + file.name;
+                }
+            };
+            
+            reader.onerror = function(error) {
+                console.error('Error reading file:', error);
+                alert('Error reading file');
+                
+                // Reset UI elements
+                loadCharacterText.value = "Failed to load " + file.name;
+            };
+            
+            // Read the file as text
+            reader.readAsText(file);
+
+        });
+
+        function validateYamlFile(file) {
+            // Check file extension
+            if (!file.name.toLowerCase().endsWith('.yml')) {
+                alert('Please select a .yml file (.yaml is not supported by Newlife)');
+                return false;
+            }
+
+            if (file.size > 5 * 1024 * 1024) { // 5MB limit
+                alert('File is too large. Maximum file size is 5MB.');
+                return false;
+            }
+            
+            // Check MIME type (though this can be unreliable)
+            // YAML files don't have a standardized MIME type, but often use text/yaml, application/yaml, or text/plain
+            if (file.type && !['text/yaml', 'application/yaml', 'text/plain', 'application/x-yaml'].includes(file.type)) {
+                console.warn('File MIME type is not a standard YAML type, but continuing anyway');
+            }
+            
+            return true;
+        }
+
+        function updateCharacterData(characterData) {
+            const yml_type = characterData.type ?? 'MALE';
+            const yml_priority = characterData.priority ?? '0';
+            const yml_name = characterData.name ?? '';
+            const yml_characterType = characterData['character type'] ?? 'INNOCENT';
+            const yml_clothingStyle = characterData['clothing style'] ?? 'CUTE';
+            const yml_age = characterData.age ?? 'TWENTIES';
+            const yml_namelistId = characterData.nameListId ?? '';
+            const yml_race = characterData.race ?? '';
+            const yml_eyeColour = characterData['eye colour'] ?? '';
+            const yml_hairColour = characterData['hair colour'] ?? '';
+            const yml_skinColour = characterData['skin colour'] ?? '';
+            const yml_figure = characterData.figure ?? '';
+            const yml_personality = characterData.personality ?? 'AVERAGE';
+            const yml_breasts = characterData.breasts ?? '';
+            const yml_virgin = characterData.virgin ?? '';
+            const yml_lesbianVirgin = characterData['lesbian virgin'] ?? '';
+            const yml_hairstyle = characterData.hairstyle ?? '';
+            const yml_friendEffect = characterData['friend effect'] ?? '';
+            const yml_partnerEffect = characterData['partner effect'] ?? '';
+            const yml_bossPartnerEffect = characterData['boss partner effect'] ?? '';
+            const yml_career = characterData.career ?? '';
+            const yml_allowAdditionalTraits = characterData['allow additional traits'] ?? 'TRUE';
+            const yml_traits = characterData.traits ?? [];
+            const yml_blockedTraits = characterData['blocked traits'] ?? [];
+
+
+            document.getElementById('character-type').value = yml_type;
+            document.getElementById('character-priority').value = yml_priority;
+            document.getElementById('character-name').value = yml_name;
+            document.getElementById('character-type-female').value = yml_characterType;
+            document.getElementById('clothing-style').value = yml_clothingStyle;
+            document.getElementById('character-age').value = yml_age;
+            document.getElementById('namelist-id').value = yml_namelistId;
+
+            // Extract a list of all valid races from the raceData JSON
+            const validRaces = raceData.raceDefs.map(raceDef => raceDef.race);
+            if (yml_race === '' || validRaces.includes(yml_race)) {
+                document.getElementById('character-race').value = yml_race;
+                document.getElementById('custom-race').value = '';
+                customRaceFields.style.display = 'none';
+            } else {
+                document.getElementById('character-race').value = 'custom';
+                document.getElementById('custom-race').value = yml_race;
+                customRaceFields.style.display = 'block';
+            }
+
+            document.getElementById('eye-colour').value = yml_eyeColour;
+            document.getElementById('hair-colour').value = yml_hairColour;
+            document.getElementById('skin-colour').value = yml_skinColour;
+
+            if (yml_type === 'MALE') {
+                document.getElementById('male-figure').value = yml_figure;
+                document.getElementById('female-figure').value = '';
+            } else {
+                document.getElementById('male-figure').value = '';
+                document.getElementById('female-figure').value = yml_figure;
+            }
+
+            document.getElementById('character-personality').value = yml_personality;
+            document.getElementById('breast-size').value = yml_breasts;
+            document.getElementById('female-virgin').value = String(yml_virgin).toUpperCase();
+            document.getElementById('female-lesbian-virgin').value = String(yml_lesbianVirgin).toUpperCase();
+            document.getElementById('hairstyle').value = yml_hairstyle;
+            document.getElementById('friend-effect').value = yml_friendEffect;
+            document.getElementById('partner-effect').value = yml_partnerEffect;
+            document.getElementById('boss-partner-effect').value = yml_bossPartnerEffect;
+            document.getElementById('career').value = yml_career;
+            document.getElementById('allow-additional-traits').value = String(yml_allowAdditionalTraits).toUpperCase();
+            
+            // Reset trait cards
+            const traitCards = document.querySelectorAll('.trait-card');
+            traitCards.forEach(card => {
+                card.classList.remove('selected');
+                card.classList.remove('disabled');
+            });
+
+            selectedTraits = yml_traits;
+            selectedBlockedTraits = yml_blockedTraits;
+            
+            updateSelectedTraits();
+            updateSelectedBlockedTraits();
+            updateTraitAvailability();
         }
 
         // Character type change handler
@@ -2822,6 +3018,13 @@
         // Selected traits and blocked traits
         let selectedTraits = [];
         let selectedBlockedTraits = [];
+
+        function formatTraitName(trait) {
+            return trait
+                .replace(/_/g, ' ')                           // Replace underscores with spaces
+                .toLowerCase()                                // Convert everything to lowercase
+                .replace(/\b[a-z]/g, char => char.toUpperCase()); // Capitalize first letter of each word
+        }
         
         // Update UI based on character type
         function updateTraitsForCharacterType() {
@@ -2860,14 +3063,14 @@
             
             for (const [trait, info] of Object.entries(traits)) {
 
-                console.log("version:", info.version, " vs ", version.value, " is ", compareVersions(info.version, version.value) );
+                //console.log("version:", info.version, " vs ", version.value, " is ", compareVersions(info.version, version.value) );
                 if (compareVersions(info.version, version.value) > 0) continue;
                 
 
                 // Create trait card for selection
                 const traitCard = document.createElement('div');
                 traitCard.className = 'trait-card';
-                traitCard.textContent = trait;
+                traitCard.textContent = formatTraitName(trait);
                 traitCard.setAttribute('data-trait', trait);
                 
                 // Add tooltip
@@ -2922,7 +3125,7 @@
                 // Create blocked trait card
                 const blockedTraitCard = document.createElement('div');
                 blockedTraitCard.className = 'trait-card';
-                blockedTraitCard.textContent = trait;
+                blockedTraitCard.textContent = formatTraitName(trait);
                 blockedTraitCard.setAttribute('data-trait', trait);
                 
                 // Add tooltip
@@ -3015,7 +3218,7 @@
             selectedTraits.forEach(trait => {
                 const traitElement = document.createElement('div');
                 traitElement.className = 'selected-trait';
-                traitElement.innerHTML = `${trait} <span class="remove">×</span>`;
+                traitElement.innerHTML = `${formatTraitName(trait)} <span class="remove">×</span>`;
                 
                 traitElement.querySelector('.remove').addEventListener('click', () => {
                     selectedTraits = selectedTraits.filter(t => t !== trait);
@@ -3034,6 +3237,9 @@
                 selectedTraitsContainer.appendChild(traitElement);
             });
 
+            let accordianText = "Traits"
+            if (selectedTraits.length > 0) {accordianText += " (" + selectedTraits.length + ")"}
+            document.getElementById('traits-accordian').textContent = accordianText;
             
             updateTraitAvailability();
             updateBlockedTraitAvailability();
@@ -3046,7 +3252,7 @@
             selectedBlockedTraits.forEach(trait => {
                 const traitElement = document.createElement('div');
                 traitElement.className = 'selected-trait';
-                traitElement.innerHTML = `${trait} <span class="remove">×</span>`;
+                traitElement.innerHTML = `${formatTraitName(trait)} <span class="remove">×</span>`;
                 
                 traitElement.querySelector('.remove').addEventListener('click', () => {
                     selectedBlockedTraits = selectedBlockedTraits.filter(t => t !== trait);
@@ -3064,6 +3270,10 @@
                 
                 selectedBlockedTraitsContainer.appendChild(traitElement);
             });
+
+            let accordianText = "Blocked Traits"
+            if (selectedBlockedTraits.length > 0) {accordianText += " (" + selectedBlockedTraits.length + ")"}
+            document.getElementById('blocked-traits-accordian').textContent = accordianText;
             
             updateTraitAvailability();
             updateBlockedTraitAvailability();
@@ -3136,7 +3346,7 @@
             
             yaml += '---\n';
             yaml += `type: ${characterType.value}\n`;
-            yaml += `enabled: TRUE\n`;
+            yaml += `enabled: ${document.getElementById('character-enabled').value}\n`;
             
             const priority = document.getElementById('character-priority').value;
             yaml += `priority: ${priority}\n`;
@@ -3294,9 +3504,11 @@
         // Reset form
         resetButton.addEventListener('click', () => {
             if (confirm('Are you sure you want to reset the form? All your selections will be lost.')) {
+                document.getElementById('loadCharacterText').value = '';
+                document.getElementById('character-type').value = 'MALE';
                 document.getElementById('character-priority').value = '0';
                 document.getElementById('character-name').value = '';
-                document.getElementById('character-type-female').value = 'PARTY_GIRL';
+                document.getElementById('character-type-female').value = 'INNOCENT';
                 document.getElementById('clothing-style').value = 'CUTE';
                 document.getElementById('character-age').value = 'TWENTIES';
                 document.getElementById('namelist-id').value = '';
@@ -3307,7 +3519,7 @@
                 document.getElementById('skin-colour').value = '';
                 document.getElementById('male-figure').value = '';
                 document.getElementById('female-figure').value = '';
-                document.getElementById('character-personality').value = '';
+                document.getElementById('character-personality').value = 'AVERAGE';
                 document.getElementById('breast-size').value = '';
                 document.getElementById('female-virgin').value = '';
                 document.getElementById('female-lesbian-virgin').value = '';
@@ -3346,9 +3558,9 @@
         updateTraitsForCharacterType();
         
         // Open trait section by default
-        document.getElementsByClassName("collapsible")[0].click();
-        document.getElementsByClassName("collapsible")[1].click();
-        document.getElementsByClassName("collapsible")[2].click(); // this is horrible lol
+        document.getElementsByClassName("faq")[0].click();
+        document.getElementsByClassName("faq")[1].click(); // this is horrible lol
+        document.getElementById("traits-accordian").click(); 
 
         // Get all trait cards
         const traitCards = document.querySelectorAll('.trait-card');
