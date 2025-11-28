@@ -3514,6 +3514,7 @@ Apache3-Untouched5-Erasable7-Broaden7-Pebbly3
         // Download yaml
         downloadButton.addEventListener('click', () => {
             // Create a Blob with the content
+            if (yamlOutput.value.trim() === '') generateYAML();
             const blob = new Blob([yamlOutput.value], { type: 'application/x-yaml' });
             
             // Create a URL for the Blob
@@ -3521,11 +3522,7 @@ Apache3-Untouched5-Erasable7-Broaden7-Pebbly3
 
             // Create a temporary anchor element
             const a = document.createElement('a');
-            const name = document.getElementById('character-name').value;
-            if (name === '') {
-                alert('Please enter a character name');
-                return;
-            }
+            const name = document.getElementById('character-name').value || "newlife-character";
 
             a.href = url;
             a.download = name + '.yml'; // Set the filename
