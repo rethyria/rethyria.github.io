@@ -714,7 +714,7 @@
                             <option value="WAREHOUSE">Warehouse</option>
                         </select>
                     </div>
-
+Apache3-Untouched5-Erasable7-Broaden7-Pebbly3
                     <div class="form-group">
                         <label for="friend-effect">Friend Effect:</label>
                         <select id="friend-effect">
@@ -3522,7 +3522,10 @@
             // Create a temporary anchor element
             const a = document.createElement('a');
             const name = document.getElementById('character-name').value;
-            if (name == '') name = "newlife-character"
+            if (name === '') {
+                alert('Please enter a character name');
+                return;
+            }
 
             a.href = url;
             a.download = name + '.yml'; // Set the filename
